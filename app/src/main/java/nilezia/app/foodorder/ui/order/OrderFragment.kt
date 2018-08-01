@@ -1,7 +1,6 @@
 package nilezia.app.foodorder.ui.order
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.Toast
@@ -9,6 +8,7 @@ import kotlinx.android.synthetic.main.fragment_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.adapter.MyHolder
 import nilezia.app.foodorder.ui.adapter.OrderAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
@@ -52,24 +52,29 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
 
     }
 
-    private fun onOrderItemClick(): MyHolder.OrderClickListener = object : MyHolder.OrderClickListener {
+    private fun onOrderItemClick(): MyHolder.OrderClickListener =
+            object : MyHolder.OrderClickListener {
 
-        override fun onClickAdded(order: OrderItem, position: Int) {
-            Toast.makeText(context, "Item remove from cart", Toast.LENGTH_SHORT).show()
-            mPresenter.removeOrderFromCart(order, position)
-        }
+                override fun onClickAdded(order: OrderItem, position: Int) {
+                    val listener = activity as (MainActivityContract.View)
+                    listener.onRemoveOrderFromCartEvent(order)
+                    mPresenter.removeOrderFromCart(order, position)
+                }
 
-        override fun onClickOder(order: OrderItem, position: Int) {
-            Toast.makeText(context, "Item ${order.name}", Toast.LENGTH_SHORT).show()
-        }
+                override fun onClickOder(order: OrderItem, position: Int) {
+                    Toast.makeText(context, "Item ${order.name}", Toast.LENGTH_SHORT).show()
+                }
 
-        override fun onClickOrderToCart(order: OrderItem, position: Int) {
-            Toast.makeText(context, "Item Added to cart", Toast.LENGTH_SHORT).show()
-            mPresenter.addOrderItemToCart(order, position)
-        }
+                override fun onClickOrderToCart(order: OrderItem, position: Int) {
+                    mPresenter.addOrderItemToCart(order, position)
+                    val listener = activity as (MainActivityContract.View)
+                    listener.onAddOrderToCartEvent(order)
+                }
 
-        override fun onItemEmpty() {
-            Toast.makeText(context, "Item not enough", Toast.LENGTH_SHORT).show()
-        }
-    }
+                override fun onItemEmpty() {
+                    Toast.makeText(context, "Item not enough", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
 }

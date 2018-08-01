@@ -1,13 +1,14 @@
 package nilezia.app.foodorder.ui.adapter
 
 import android.annotation.SuppressLint
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
+import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.OrderItem
 
 class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -23,7 +24,7 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         tvOrderDescription?.text = order?.description
         tvOrderAmount?.text = "จำนวน ${order?.amount.toString()}"
         tvOrderPrice?.text = "${order?.price.toString()}฿"
-      //  Glide.with(itemView.context).load(order?.image).into(imgView!!)
+
         Glide.with(this).load(order?.image).into(imgView!!)
 
         btnAdd?.setOnClickListener {
@@ -32,11 +33,15 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
+
     private fun onItemClick(order: OrderItem?, position: Int, listener: MyHolder.OrderClickListener) {
 
         if (!order?.isAdded!!) {
             if (order.amount > 0) {
-                btnAdd?.text = "Added"
+                btnAdd?.apply {
+                    text = context.getString(R.string.item_added)
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+                }
                 order.isAdded = true
                 listener.onClickOrderToCart(order, position)
             } else {
@@ -44,7 +49,10 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
             }
         } else {
             order.isAdded = false
-            btnAdd?.text = "Add"
+            btnAdd?.apply {
+                text = context.getString(R.string.item_add)
+                setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            }
             listener.onClickAdded(order, position)
         }
     }
