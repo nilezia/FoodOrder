@@ -9,7 +9,9 @@ interface OrderContract {
 
 
     interface View : BaseMvpView {
+        fun onAddOrderToCartEvent(order: OrderItem)
 
+        fun onRemoveOrderFromCartEvent(order: OrderItem)
     }
 
     interface Presenter : BaseMvpPresenter<View> {

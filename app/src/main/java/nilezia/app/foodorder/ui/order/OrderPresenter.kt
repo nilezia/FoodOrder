@@ -15,14 +15,13 @@ class OrderPresenter : BaseMvpPresenterImp<OrderContract.View>(), OrderContract.
 
     override fun getOrders(): MutableList<OrderItem>? = mRepository.getOrders()!!
 
-
-
     override fun addOrderItemToCart(orderItem: OrderItem, position: Int) {
 
+        mView?.onAddOrderToCartEvent(orderItem)
     }
 
     override fun removeOrderFromCart(orderItem: OrderItem, position: Int) {
-
+        mView?.onRemoveOrderFromCartEvent(orderItem)
     }
 
 }

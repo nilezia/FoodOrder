@@ -15,6 +15,7 @@ import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presenter>(), OrderContract.View {
 
+
     private lateinit var orderAdapter: OrderAdapter
     override var mPresenter: OrderContract.Presenter = OrderPresenter()
 
@@ -52,12 +53,23 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
 
     }
 
+    override fun onAddOrderToCartEvent(order: OrderItem) {
+        val listener = activity as (MainActivityContract.View)
+        listener.onAddOrderToCartEvent(order)
+
+    }
+
+    override fun onRemoveOrderFromCartEvent(order: OrderItem) {
+
+        val listener = activity as (MainActivityContract.View)
+        listener.onRemoveOrderFromCartEvent(order)
+    }
+
     private fun onOrderItemClick(): MyHolder.OrderClickListener =
             object : MyHolder.OrderClickListener {
 
                 override fun onClickAdded(order: OrderItem, position: Int) {
-                    val listener = activity as (MainActivityContract.View)
-                    listener.onRemoveOrderFromCartEvent(order)
+
                     mPresenter.removeOrderFromCart(order, position)
                 }
 
@@ -67,8 +79,7 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
 
                 override fun onClickOrderToCart(order: OrderItem, position: Int) {
                     mPresenter.addOrderItemToCart(order, position)
-                    val listener = activity as (MainActivityContract.View)
-                    listener.onAddOrderToCartEvent(order)
+
                 }
 
                 override fun onItemEmpty() {
