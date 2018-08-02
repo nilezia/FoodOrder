@@ -8,13 +8,24 @@ interface MainActivityContract {
 
     interface View : BaseMvpView {
 
-         fun onAddOrderToCartEvent(order: OrderItem)
+        fun onAddOrderToCartEvent(order: OrderItem)
 
-         fun onRemoveOrderFromCartEvent(order: OrderItem)
+        fun onRemoveOrderFromCartEvent(order: OrderItem)
+
+        fun goToCartActivity()
     }
 
     interface Presenter : BaseMvpPresenter<View> {
 
+        fun onClickMenuCart()
+
+        fun addOrderToCart(order: OrderItem)
+
+        fun removeOrderFromCart(order: OrderItem)
+
+        fun getOrderFromCart(): MutableList<OrderItem>
+
+        fun getOrderCount(): Int
 
     }
 }

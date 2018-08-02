@@ -1,4 +1,4 @@
-package nilezia.app.foodorder.ui.adapter
+package nilezia.app.foodorder.ui.order.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

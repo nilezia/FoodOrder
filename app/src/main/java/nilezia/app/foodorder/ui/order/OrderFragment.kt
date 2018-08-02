@@ -9,12 +9,11 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.model.OrderItem
 import nilezia.app.foodorder.ui.MainActivityContract
-import nilezia.app.foodorder.ui.adapter.MyHolder
-import nilezia.app.foodorder.ui.adapter.OrderAdapter
+import nilezia.app.foodorder.ui.order.adapter.MyHolder
+import nilezia.app.foodorder.ui.order.adapter.OrderAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presenter>(), OrderContract.View {
-
 
     private lateinit var orderAdapter: OrderAdapter
     override var mPresenter: OrderContract.Presenter = OrderPresenter()

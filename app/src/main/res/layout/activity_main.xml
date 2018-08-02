@@ -47,6 +47,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:contentDescription="@string/description"
+                    android:focusable="true"
                     android:src="@drawable/ic_baseline_shopping_cart_24px" />
 
                 <TextView
@@ -55,8 +57,8 @@
                     android:layout_height="@dimen/default_icon_size_small"
                     android:layout_gravity="bottom|end"
                     android:background="@drawable/background_red_oval"
-                    android:gravity="center"
-                    android:textColor="#ffffff"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/default_text_body_normal"
                     android:visibility="gone"
                     tools:text="10"
@@ -71,11 +73,14 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_below="@+id/toolbar"
         android:background="@color/colorPrimary"
-        android:layout_below="@+id/toolbar" />
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <FrameLayout
-        android:id="@+id/container"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tabLayout" />

@@ -1,21 +1,53 @@
 package nilezia.app.foodorder.ui
 
-import android.opengl.Visibility
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.ui.cart.CartOrderActivity
 import nilezia.app.foodorder.ui.order.OrderFragment
+import nilezia.app.foodorder.ui.pager.MainPagerAdapter
+import org.parceler.Parcels
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
 
+    companion object {
+        const val ORDER_INTENT_KEY = "order_to_cart"
+
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupTab()
+        setupViewPager()
+    }
+
+    private fun setupTab() {
+
+        tabLayout.apply {
+            addTab(tabLayout.newTab().setText("Order"))
+            addTab(tabLayout.newTab().setText("History"))
+            tabGravity = TabLayout.GRAVITY_FILL
+        }
+    }
+
+    private fun setupViewPager() {
+        val adapter = MainPagerAdapter(supportFragmentManager)
+        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        tabLayout.addOnTabSelectedListener(tabSelectedListener)
+        viewPager.adapter = adapter
+
+    }
 
     override fun initial() {
 
-        supportFragmentManager.beginTransaction().replace(R.id.container, OrderFragment.newInstance(), null).commit()
+        //  supportFragmentManager.beginTransaction().replace(R.id.container, OrderFragment.newInstance(), null).commit()
     }
 
     override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
@@ -26,15 +58,13 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun setupView() {
 
+        toolbar_cart.setOnClickListener {
+
+            mPresenter.onClickMenuCart()
+        }
     }
 
     override fun setupInstance() {
-
-        setupCart()
-    }
-
-    private fun setupCart() {
-
 
     }
 
@@ -42,27 +72,48 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     }
 
-    var orders: MutableList<OrderItem> = mutableListOf()
     override fun onAddOrderToCartEvent(order: OrderItem) {
-        orders.add(order)
+        mPresenter.addOrderToCart(order)
         updateCartNotification()
         Toast.makeText(applicationContext, "${order.name} Add to cart", Toast.LENGTH_SHORT).show()
 
     }
 
     override fun onRemoveOrderFromCartEvent(order: OrderItem) {
-        orders.remove(order)
+        mPresenter.removeOrderFromCart(order)
         updateCartNotification()
         Toast.makeText(applicationContext, "${order.name} Remove to cart", Toast.LENGTH_SHORT).show()
     }
 
     private fun updateCartNotification() {
-        val count = orders.size
+        val count = mPresenter.getOrderCount()
         tv_product_count.apply {
             visibility = if (count == 0) View.GONE else View.VISIBLE
             text = "$count"
         }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+
+    override fun goToCartActivity() = startActivity(Intent(this@MainActivity, CartOrderActivity::class.java).apply {
+        putExtra(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
+    })
+
+    private var tabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            viewPager.currentItem = tab.position
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) {
+
+        }
+
+        override fun onTabReselected(tab: TabLayout.Tab) {
+
+        }
     }
 
 }

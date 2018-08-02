@@ -1,4 +1,4 @@
-package nilezia.app.foodorder.ui.adapter
+package nilezia.app.foodorder.ui.order.adapter
 
 import android.annotation.SuppressLint
 import android.support.v4.content.ContextCompat
