@@ -10,7 +10,6 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.model.OrderItem
 import nilezia.app.foodorder.ui.cart.CartOrderActivity
-import nilezia.app.foodorder.ui.order.OrderFragment
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
 
@@ -52,9 +51,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
 
-
     override fun setupLayout(): Int = R.layout.activity_main
-
 
     override fun setupView() {
 
@@ -63,6 +60,11 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
             mPresenter.onClickMenuCart()
         }
     }
+
+    override fun bindView() {
+
+    }
+
 
     override fun setupInstance() {
 

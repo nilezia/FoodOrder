@@ -23,6 +23,8 @@ abstract class BaseMvpActivity<V : BaseMvpView, T : BaseMvpPresenter<V>> : AppCo
 
     protected abstract fun setupLayout(): Int
 
+    protected abstract fun bindView()
+
     protected abstract fun setupView()
 
     protected abstract fun setupInstance()

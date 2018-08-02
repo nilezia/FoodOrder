@@ -22,7 +22,7 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     fun bindView(order: OrderItem?, position: Int, listener: MyHolder.OrderClickListener) = with(itemView) {
         tvOrderName?.text = order?.name
         tvOrderDescription?.text = order?.description
-        tvOrderAmount?.text = "จำนวน ${order?.amount.toString()}"
+        tvOrderAmount?.text = "เหลือ ${order?.quantity.toString()}"
         tvOrderPrice?.text = "${order?.price.toString()}฿"
 
         Glide.with(this).load(order?.image).into(imgView!!)
@@ -37,7 +37,7 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     private fun onItemClick(order: OrderItem?, position: Int, listener: MyHolder.OrderClickListener) {
 
         if (!order?.isAdded!!) {
-            if (order.amount > 0) {
+            if (order.quantity > 0) {
                 btnAdd?.apply {
                     text = context.getString(R.string.item_added)
                     setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))

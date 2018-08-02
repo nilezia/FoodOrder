@@ -24,16 +24,18 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView(view)
+        bindView(view)
         setupInstance()
 
     }
 
     protected abstract fun setupLayout(): Int
 
-    protected abstract fun setupView(v: View)
+    protected abstract fun setupView()
 
     protected abstract fun setupInstance()
+
+    protected abstract fun bindView(view: View)
 
     abstract fun onRestoreInstanceState(bundle: Bundle)
 

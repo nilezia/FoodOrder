@@ -6,6 +6,7 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 
 class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHistoryContract.Presenter>(), OrderHistoryContract.View {
+
     override var mPresenter: OrderHistoryContract.Presenter = OrderHistoryPresenter()
 
 
@@ -20,7 +21,12 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
 
     override fun setupLayout(): Int = R.layout.fragment_order
 
-    override fun setupView(v: View) {
+    override fun bindView(view: View) {
+
+    }
+
+    override fun setupView() {
+
 
     }
 

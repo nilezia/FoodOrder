@@ -28,7 +28,12 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
 
     override fun setupLayout(): Int = R.layout.fragment_order
 
-    override fun setupView(v: View) {
+    override fun bindView(view: View) {
+
+
+    }
+
+    override fun setupView() {
 
 
     }
