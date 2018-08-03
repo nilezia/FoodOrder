@@ -27,6 +27,17 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         Glide.with(this).load(order?.image).into(imgView!!)
 
+        if (order?.isAdded!!) {
+            btnAdd?.apply {
+                text = context.getString(R.string.item_added)
+                setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+            }
+        } else {
+            btnAdd?.apply {
+                text = context.getString(R.string.item_add)
+                setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            }
+        }
         btnAdd?.setOnClickListener {
 
             onItemClick(order, position, listener)

@@ -2,8 +2,10 @@ package nilezia.app.foodorder.ui.order
 
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
@@ -91,5 +93,20 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
                 }
             }
 
+    override fun updateOrderItemFromCart(orders: MutableList<OrderItem>) {
 
+        val ordersItem = mPresenter.getOrders()
+
+        ordersItem?.forEach {
+            orders.forEach { it2 ->
+                it.isAdded = it._id == it2._id
+            }
+        }
+        Log.d("forEach", Gson().toJson(ordersItem))
+        orderAdapter.orders?.clear()
+        orderAdapter.orders = ordersItem
+        orderAdapter.notifyDataSetChanged()
+
+
+    }
 }

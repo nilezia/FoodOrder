@@ -27,5 +27,7 @@ interface MainActivityContract {
 
         fun getOrderCount(): Int
 
+        fun updateOrderFromCart(orders: MutableList<OrderItem>)
+
     }
 }

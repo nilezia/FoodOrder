@@ -1,5 +1,6 @@
 package nilezia.app.foodorder.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -10,14 +11,18 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.model.OrderItem
 import nilezia.app.foodorder.ui.cart.CartOrderActivity
+import nilezia.app.foodorder.ui.order.OrderFragment
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
 
+
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
+
+    override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
 
     companion object {
         const val ORDER_INTENT_KEY = "order_to_cart"
-
+        const val ORDER_REQUEST_CODE = 100
 
     }
 
@@ -49,8 +54,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         //  supportFragmentManager.beginTransaction().replace(R.id.container, OrderFragment.newInstance(), null).commit()
     }
 
-    override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
-
     override fun setupLayout(): Int = R.layout.activity_main
 
     override fun setupView() {
@@ -64,7 +67,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     override fun bindView() {
 
     }
-
 
     override fun setupInstance() {
 
@@ -97,12 +99,26 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ORDER_REQUEST_CODE) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                val cartOrder = Parcels.unwrap<MutableList<OrderItem>>(data?.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
+                val page = supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.currentItem)
+                mPresenter.updateOrderFromCart(cartOrder)
+                updateCartNotification()
+                if (viewPager.currentItem == 0 && page != null) {
+                    (page as OrderFragment).updateOrderItemFromCart(cartOrder)
+                }
+            }
+        }
+
+
     }
 
-
-    override fun goToCartActivity() = startActivity(Intent(this@MainActivity, CartOrderActivity::class.java).apply {
+    override fun goToCartActivity() = startActivityForResult(Intent(this@MainActivity, CartOrderActivity::class.java).apply {
         putExtra(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
-    })
+    }, 100)
 
     private var tabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab) {
@@ -117,5 +133,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
         }
     }
+
 
 }

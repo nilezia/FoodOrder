@@ -16,7 +16,7 @@ class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     var tvOrderQuantity: TextView? = null
     var btnMinus: ImageView? = null
     var btnPlus: ImageView? = null
-    var btnRemove: ImageView? = null
+    var btnDelete: ImageView? = null
 
     @SuppressLint("SetTextI18n")
     fun bindView(order: OrderItem?, position: Int) = with(itemView) {
@@ -24,6 +24,7 @@ class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         tvOrderName?.text = order?.name
         tvOrderPrice?.text = "${order?.price}"
         tvOrderQuantity?.text = "เหลือ ${order?.quantity}"
+        tvOrderAmount?.text = "${order?.amount}"
     }
 
     interface CartClickListener {
@@ -32,6 +33,6 @@ class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         fun onClickDecreaseOrder(order: OrderItem, position: Int)
 
-        fun onClickRemoveOrder(order: OrderItem, position: Int)
+        fun onClickDeleteOrder(order: OrderItem, position: Int)
     }
 }

@@ -12,6 +12,8 @@ interface OrderContract {
         fun onAddOrderToCartEvent(order: OrderItem)
 
         fun onRemoveOrderFromCartEvent(order: OrderItem)
+
+        fun updateOrderItemFromCart(orders: MutableList<OrderItem>)
     }
 
     interface Presenter : BaseMvpPresenter<View> {
