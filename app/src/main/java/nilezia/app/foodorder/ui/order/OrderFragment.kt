@@ -43,18 +43,23 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
     }
 
     override fun setupInstance() {
-        val layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        setupAdapter()
+        setupRecyclerView()
         mPresenter.registerRepository(OrderRepository(context!!))
-        orderAdapter = OrderAdapter(onOrderItemClick())
-        recyclerView.apply {
-
-            layoutManager = layout
-            adapter = orderAdapter
-
-        }
         mPresenter.requestOrders()
 
+    }
 
+    private fun setupRecyclerView() {
+        val layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.apply {
+            layoutManager = layout
+            adapter = orderAdapter
+        }
+    }
+
+    private fun setupAdapter() {
+        orderAdapter = OrderAdapter(onOrderItemClick())
     }
 
     override fun onRestoreInstanceState(bundle: Bundle) {
@@ -96,10 +101,7 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
             }
 
     override fun updateOrderItemFromCart() {
-
-
         mPresenter.requestOrders()
-
 
     }
 

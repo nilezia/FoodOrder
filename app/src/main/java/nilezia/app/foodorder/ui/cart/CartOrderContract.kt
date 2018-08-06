@@ -1,4 +1,4 @@
-package nilezia.app.foodorder.ui.cart;
+package nilezia.app.foodorder.ui.cart
 
 import nilezia.app.foodorder.base.BaseMvpPresenter
 import nilezia.app.foodorder.base.BaseMvpView
@@ -8,7 +8,19 @@ import nilezia.app.foodorder.ui.repository.CartRepository
 interface CartOrderContract {
 
     interface View : BaseMvpView {
-        fun updateTotalPrice()
+
+
+
+        fun onUpdateCartAdapter(cartOrders: MutableList<OrderItem>?)
+
+        fun onPaymentSuccess()
+
+        fun showOrderInCart()
+
+        fun hideOrderInCart()
+
+        fun hasItem(): Boolean?
+
     }
 
     interface Presenter : BaseMvpPresenter<View> {
@@ -20,6 +32,8 @@ interface CartOrderContract {
         fun updateCardOrder(cartOrders: MutableList<OrderItem>?)
 
         fun confirmCartOrder(cartOrders: MutableList<OrderItem>?)
+
+        fun updateCartView()
     }
 
 }

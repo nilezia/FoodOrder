@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "300431152139",
+    "firebase_url": "https://foodorder-f2003.firebaseio.com",
+    "project_id": "foodorder-f2003",
+    "storage_bucket": "foodorder-f2003.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300431152139:android:3a7dda5ad0a3b47f",
+        "android_client_info": {
+          "package_name": "nilezia.app.foodorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300431152139-a0mrd766enjqf5hha6qgvtnhifhh5kav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nilezia.app.foodorder",
+            "certificate_hash": "d3b0e427222debf8cb3e0702909e25f26b718d79"
+          }
+        },
+        {
+          "client_id": "300431152139-vub38aeqfqkdl2bv8ds3pqomkln6t8c1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nilezia.app.foodorder",
+            "certificate_hash": "a0d0813c8354fd55a005f92f6d16ffee6825477e"
+          }
+        },
+        {
+          "client_id": "300431152139-k9q2t20o0cu9h5v3otefg2ov61udtd3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAk4BGaJZSc9rhkAX_sFkkzRVmFL_rzKs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300431152139-k9q2t20o0cu9h5v3otefg2ov61udtd3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -70,4 +70,6 @@ class CartAdapter(onClickListener: CartViewHolder.CartClickListener) : RecyclerV
     fun getTotal(): Double = orders?.sumByDouble {
         it.price * it.amount
     }!!
+
+    fun hasItem(): Boolean = orders?.size!! > 0
 }

@@ -103,21 +103,12 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         if (requestCode == ORDER_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
-                val cartOrder = Parcels.unwrap<MutableList<OrderItem>>(data?.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
-                val page = supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.currentItem)
-              mPresenter.updateOrderFromCart(mutableListOf())
-                updateCartNotification()
-                if (viewPager.currentItem == 0 && page != null) {
-                    (page as OrderFragment).updateOrderItemFromCart()
-                }
-            }else if(resultCode == Activity.RESULT_CANCELED){
                 val page = supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.currentItem)
                 mPresenter.updateOrderFromCart(mutableListOf())
                 updateCartNotification()
                 if (viewPager.currentItem == 0 && page != null) {
                     (page as OrderFragment).updateOrderItemFromCart()
                 }
-
             }
         }
     }

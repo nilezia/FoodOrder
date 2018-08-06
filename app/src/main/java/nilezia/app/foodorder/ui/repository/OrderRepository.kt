@@ -37,9 +37,9 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
                 dataSnapshot.children.forEach {
 
                     val value = it.getValue(OrderItem::class.java)
-
+                    value?.amount = 1
                     Log.d("FirebaseRead", "Value is: ${value?.name}")
-                   orders.add(value!!)
+                    orders.add(value!!)
 
                 }
 
@@ -74,14 +74,6 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
 //            orders.add(order!!)
 //        }
 //        callbackHttp.onSuccess(orders)
-
-    }
-
-    override fun updateAddedOrderToFirebase(orderItem: OrderItem) {
-
-       // myRef?.child(orderItem._id.toString())?.child("isAdded")?.setValue(orderItem.isAddedInt)
-        // myRef?.setValue(orderItem)
-
 
     }
 

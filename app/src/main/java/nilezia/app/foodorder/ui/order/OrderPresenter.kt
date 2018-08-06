@@ -21,12 +21,12 @@ class OrderPresenter : BaseMvpPresenterImp<OrderContract.View>(), OrderContract.
     override fun addOrderItemToCart(orderItem: OrderItem, position: Int) {
 
         mView?.onAddOrderToCartEvent(orderItem)
-        mRepository.updateAddedOrderToFirebase(orderItem)
+
     }
 
     override fun removeOrderFromCart(orderItem: OrderItem, position: Int) {
         mView?.onRemoveOrderFromCartEvent(orderItem)
-        mRepository.updateAddedOrderToFirebase(orderItem)
+
     }
 
     override fun requestOrders() {

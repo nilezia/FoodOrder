@@ -13,6 +13,5 @@ interface OrderRepositoryContract {
 
     fun requestOrderFromLocal(callbackHttp: CallbackHttp<MutableList<OrderItem>>)
 
-    fun updateAddedOrderToFirebase(orderItem: OrderItem)
 
 }
