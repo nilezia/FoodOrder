@@ -13,11 +13,15 @@ interface OrderContract {
 
         fun onRemoveOrderFromCartEvent(order: OrderItem)
 
-        fun updateOrderItemFromCart(orders: MutableList<OrderItem>)
+        fun updateOrderItemFromCart()
+
+        fun updateOrderItemRequest(orders: MutableList<OrderItem>)
     }
 
     interface Presenter : BaseMvpPresenter<View> {
         fun registerRepository(repository: OrderRepository)
+
+        fun requestOrders()
 
         fun addOrderItemToCart(orderItem: OrderItem, position: Int)
 

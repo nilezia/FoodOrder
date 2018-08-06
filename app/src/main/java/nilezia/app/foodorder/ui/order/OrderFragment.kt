@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
@@ -16,6 +17,7 @@ import nilezia.app.foodorder.ui.order.adapter.OrderAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presenter>(), OrderContract.View {
+
 
     private lateinit var orderAdapter: OrderAdapter
     override var mPresenter: OrderContract.Presenter = OrderPresenter()
@@ -50,9 +52,9 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
             adapter = orderAdapter
 
         }
+        mPresenter.requestOrders()
 
-        orderAdapter.orders = mPresenter.getOrders()
-        orderAdapter.notifyDataSetChanged()
+
     }
 
     override fun onRestoreInstanceState(bundle: Bundle) {
@@ -93,20 +95,16 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
                 }
             }
 
-    override fun updateOrderItemFromCart(orders: MutableList<OrderItem>) {
+    override fun updateOrderItemFromCart() {
 
-        val ordersItem = mPresenter.getOrders()
 
-        ordersItem?.forEach {
-            orders.forEach { it2 ->
-                it.isAdded = it._id == it2._id
-            }
-        }
-        Log.d("forEach", Gson().toJson(ordersItem))
-        orderAdapter.orders?.clear()
-        orderAdapter.orders = ordersItem
+        mPresenter.requestOrders()
+
+
+    }
+
+    override fun updateOrderItemRequest(orders: MutableList<OrderItem>) {
+        orderAdapter.orders = orders
         orderAdapter.notifyDataSetChanged()
-
-
     }
 }

@@ -2,18 +2,20 @@ package nilezia.app.foodorder.ui.cart
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import kotlinx.android.synthetic.main.cart_order_activity.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
+import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.model.OrderItem
 import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.cart.adapter.CartAdapter
 import nilezia.app.foodorder.ui.cart.adapter.CartViewHolder
+import nilezia.app.foodorder.ui.repository.CartRepository
 import org.parceler.Parcels
+
 
 class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContract.Presenter>(), CartOrderContract.View {
     private lateinit var cardOrders: MutableList<OrderItem>
@@ -41,22 +43,15 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
         }
 
         btnConfirm.setOnClickListener {
-
-
-            setResult(Activity.RESULT_OK, Intent().apply {
-
-                putExtra(MainActivity.ORDER_INTENT_KEY, Parcels.wrap(mAdapter.orders))
-
-            })
-            finish()
-
+            onConfirmClick()
         }
     }
+
 
     override fun setupInstance() {
         cardOrders = Parcels.unwrap<MutableList<OrderItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
         if (cardOrders.isEmpty()) cardOrders = mutableListOf()
-        mPresenter.registerRepository(cardOrders)
+        mPresenter.registerRepository(cardOrders, CartRepository(this@CartOrderActivity))
         mAdapter.orders = mPresenter.getCardOrder()
         mAdapter.notifyDataSetChanged()
         updateTotalPrice()
@@ -73,11 +68,13 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
     }
 
+
     private fun onClickCartItem(): CartViewHolder.CartClickListener = object : CartViewHolder.CartClickListener {
         override fun onClickIncreaseOrder(order: OrderItem, position: Int) {
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
 
             updateTotalPrice()
+
         }
 
         override fun onClickDecreaseOrder(order: OrderItem, position: Int) {
@@ -92,4 +89,29 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
         }
     }
+
+
+    private fun onConfirmClick() {
+
+        mPresenter.confirmCartOrder(mAdapter.orders)
+
+
+    }
+
+    override fun onBackPressed() {
+
+
+        DialogManager.showQuestionDialog(this@CartOrderActivity).apply {
+
+            setMessage("Discard shipping?")
+            this.setPositiveButton("ОК") { _, _ ->
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }
+            this.setNegativeButton("CANCEL") { dialog, _ -> dialog.dismiss() }
+            show()
+        }
+
+    }
+
 }
