@@ -2,6 +2,7 @@ package nilezia.app.foodorder.ui.cart
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -13,9 +14,8 @@ import nilezia.app.foodorder.model.OrderItem
 import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.cart.adapter.CartAdapter
 import nilezia.app.foodorder.ui.cart.adapter.CartViewHolder
-import nilezia.app.foodorder.ui.repository.CartRepository
+import nilezia.app.foodorder.ui.repository.OrderRepository
 import org.parceler.Parcels
-import android.app.ProgressDialog
 
 
 class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContract.Presenter>(), CartOrderContract.View {
@@ -46,7 +46,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     override fun setupInstance() {
         cardOrders = Parcels.unwrap<MutableList<OrderItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
         if (cardOrders.isEmpty()) cardOrders = mutableListOf()
-        mPresenter.registerRepository(cardOrders, CartRepository(this@CartOrderActivity))
+        mPresenter.registerRepository(cardOrders, OrderRepository(this@CartOrderActivity))
         mPresenter.updateCardOrder(mPresenter.getCardOrder())
         mPresenter.updateCartView()
         updateTotalPrice()
@@ -89,7 +89,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
                 show()
             }
         } else {
-            setResult(Activity.RESULT_OK)
+            setResult(Activity.RESULT_CANCELED)
             finish()
         }
 
@@ -113,7 +113,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     @SuppressLint("SetTextI18n")
     private fun updateTotalPrice() {
 
-        tvTotalPrice.text = "${mAdapter.getTotal()} ฿"
+        tvTotalPrice.text = "${mAdapter.getPriceTotal()} ฿"
 
     }
 
@@ -134,7 +134,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
         }
 
         override fun onClickDeleteOrder(order: OrderItem, position: Int) {
-            mAdapter.deleteOrder(order, position)
+            mAdapter.removeOrder(order, position)
             mPresenter.updateCartView()
             updateTotalPrice()
 

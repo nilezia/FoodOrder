@@ -16,6 +16,8 @@ interface OrderContract {
         fun updateOrderItemFromCart()
 
         fun updateOrderItemRequest(orders: MutableList<OrderItem>)
+
+        fun onShowErrorDialog(message: String?)
     }
 
     interface Presenter : BaseMvpPresenter<View> {

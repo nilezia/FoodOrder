@@ -2,14 +2,12 @@ package nilezia.app.foodorder.ui.order
 
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
+import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.model.OrderItem
 import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.order.adapter.MyHolder
@@ -17,8 +15,6 @@ import nilezia.app.foodorder.ui.order.adapter.OrderAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presenter>(), OrderContract.View {
-
-
     private lateinit var orderAdapter: OrderAdapter
     override var mPresenter: OrderContract.Presenter = OrderPresenter()
 
@@ -76,6 +72,10 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
 
         val listener = activity as (MainActivityContract.View)
         listener.onRemoveOrderFromCartEvent(order)
+    }
+
+    override fun onShowErrorDialog(message: String?) {
+        DialogManager.showAlertDialog(context!!, message!!).show()
     }
 
     private fun onOrderItemClick(): MyHolder.OrderClickListener =

@@ -3,12 +3,11 @@ package nilezia.app.foodorder.ui.cart
 import nilezia.app.foodorder.base.BaseMvpPresenter
 import nilezia.app.foodorder.base.BaseMvpView
 import nilezia.app.foodorder.model.OrderItem
-import nilezia.app.foodorder.ui.repository.CartRepository
+import nilezia.app.foodorder.ui.repository.OrderRepository
 
 interface CartOrderContract {
 
     interface View : BaseMvpView {
-
 
 
         fun onUpdateCartAdapter(cartOrders: MutableList<OrderItem>?)
@@ -25,7 +24,7 @@ interface CartOrderContract {
 
     interface Presenter : BaseMvpPresenter<View> {
 
-        fun registerRepository(cartOrders: MutableList<OrderItem>?, cartRepository: CartRepository)
+        fun registerRepository(cartOrders: MutableList<OrderItem>?, repository: OrderRepository)
 
         fun getCardOrder(): MutableList<OrderItem>?
 

@@ -8,12 +8,21 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.OrderItem
 
 
-class CartAdapter(onClickListener: CartViewHolder.CartClickListener) : RecyclerView.Adapter<CartViewHolder>() {
-    var orders: MutableList<OrderItem>? = mutableListOf()
-    val listener = onClickListener
+class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
+
+
+    private val listener = cartClickListener
+    private val mPresenter = CartAdapterPresenter(this)
+    var orders: MutableList<OrderItem>?
+        get() = mPresenter.getOrderItem()
+        set(orders) {
+            mPresenter.setOrderItem(orders)
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_cart, parent, false)
+        mPresenter.attachView(this)
         return CartViewHolder(view).apply {
             tvOrderName = view.findViewById(R.id.tvOrderName)
             tvOrderAmount = view.findViewById(R.id.tvAmount)
@@ -25,51 +34,33 @@ class CartAdapter(onClickListener: CartViewHolder.CartClickListener) : RecyclerV
         }
     }
 
-    override fun getItemCount(): Int = orders?.size!!
+    override fun getItemCount(): Int = mPresenter.getOrderItem()?.size!!
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+
         holder.bindView(orders?.get(position), position)
-
         holder.btnPlus?.setOnClickListener {
-
-            val amount = orders?.get(position)?.amount
-            val quantity = orders?.get(position)?.quantity
-            if (amount!! < quantity!!) {
-                orders?.get(position)?.amount = amount + 1
-            }
-
-
-            holder.tvOrderAmount?.text = "${orders?.get(position)?.amount}"
+            mPresenter.increaseOrder(orders?.get(position)!!, position)
             listener.onClickIncreaseOrder(orders?.get(position)!!, position)
         }
-
-
         holder.btnMinus?.setOnClickListener {
-
-            val amount = orders?.get(position)?.amount
-            if (amount!! > 1) {
-                orders?.get(position)?.amount = amount - 1
-            }
-            holder.tvOrderAmount?.text = "${orders?.get(position)?.amount}"
+            mPresenter.decreaseOrder(orders?.get(position)!!, position)
             listener.onClickDecreaseOrder(orders?.get(position)!!, position)
         }
-
         holder.btnDelete?.setOnClickListener {
             listener.onClickDeleteOrder(orders?.get(position)!!, position)
-
         }
     }
 
-    fun deleteOrder(order: OrderItem, position: Int) {
+    fun removeOrder(order: OrderItem, position: Int) {
         Log.d("itemClick", "${order.name} Remove")
-        orders?.remove(orders?.get(position)!!)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, orders?.size!!)
+        mPresenter.deleteOrder(order, position)
+
     }
 
-    fun getTotal(): Double = orders?.sumByDouble {
-        it.price * it.amount
-    }!!
+    fun getPriceTotal(): Double = mPresenter.getPriceTotal()
 
-    fun hasItem(): Boolean = orders?.size!! > 0
+    fun hasItem(): Boolean = mPresenter.getOrderItem()?.size!! > 0
+
+
 }

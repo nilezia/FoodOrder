@@ -38,11 +38,8 @@ class OrderPresenter : BaseMvpPresenterImp<OrderContract.View>(), OrderContract.
             }
 
             override fun onFailed(txt: String) {
-
+                mView?.onShowErrorDialog(txt)
             }
         })
-
     }
-
-
 }
