@@ -7,8 +7,8 @@ import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOrderContract.Presenter {
 
-
     private lateinit var mRepository: OrderRepository
+
     private var mOrderItem: MutableList<OrderItem> = mutableListOf()
 
     override fun registerRepository(cartOrders: MutableList<OrderItem>?, repository: OrderRepository) {

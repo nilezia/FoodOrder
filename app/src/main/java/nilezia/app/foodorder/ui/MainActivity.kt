@@ -18,13 +18,13 @@ import org.parceler.Parcels
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
 
-    override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
-
     companion object {
         const val ORDER_INTENT_KEY = "order_to_cart"
         const val ORDER_REQUEST_CODE = 100
 
     }
+
+    override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,14 +89,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         Toast.makeText(applicationContext, "${order.name} Remove to cart", Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateCartNotification() {
-        val count = mPresenter.getOrderCount()
-        tv_product_count.apply {
-            visibility = if (count == 0) View.GONE else View.VISIBLE
-            text = "$count"
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -109,7 +101,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
                 if (viewPager.currentItem == 0 && page != null) {
                     (page as OrderFragment).updateOrderItemFromCart()
                 }
-            }else{
+            } else {
 
             }
         }
@@ -118,6 +110,14 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     override fun goToCartActivity() = startActivityForResult(Intent(this@MainActivity, CartOrderActivity::class.java).apply {
         putExtra(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
     }, 100)
+
+    private fun updateCartNotification() {
+        val count = mPresenter.getOrderCount()
+        tv_product_count.apply {
+            visibility = if (count == 0) View.GONE else View.VISIBLE
+            text = "$count"
+        }
+    }
 
     private var tabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab) {

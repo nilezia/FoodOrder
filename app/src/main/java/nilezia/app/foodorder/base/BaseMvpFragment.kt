@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+@Suppress("UNCHECKED_CAST")
 abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragment(), BaseMvpView {
 
 

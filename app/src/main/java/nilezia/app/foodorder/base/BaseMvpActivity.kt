@@ -3,6 +3,7 @@ package nilezia.app.foodorder.base
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 
+@Suppress("UNCHECKED_CAST")
 abstract class BaseMvpActivity<V : BaseMvpView, T : BaseMvpPresenter<V>> : AppCompatActivity(), BaseMvpView {
 
     protected abstract var mPresenter: T
