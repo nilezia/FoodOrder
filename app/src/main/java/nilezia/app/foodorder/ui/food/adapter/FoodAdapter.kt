@@ -11,7 +11,7 @@ class FoodAdapter(private val listener: ViewHolder.OrderClickListener) : Recycle
     var foodOrders: MutableList<FoodItem>? = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_order, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_food, parent, false)
         return ViewHolder(view).apply {
             tvOrderName = view.findViewById(R.id.order_name)
             tvOrderDescription = view.findViewById(R.id.order_description)

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="Confirm Order"
-        android:background="@color/colorAccent"
+        android:background="@drawable/selector_btn_add"
         android:enabled="false"
         android:layout_margin="@dimen/default_margin_padding_normal"
         />
