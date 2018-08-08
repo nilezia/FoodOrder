@@ -22,7 +22,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
     private lateinit var cardOrders: MutableList<FoodItem>
     private lateinit var loadingDialog: ProgressDialog
-    lateinit var mAdapter: CartAdapter
+    private lateinit var mAdapter: CartAdapter
 
     override var mPresenter: CartOrderContract.Presenter = CartOrderPresenter()
 
