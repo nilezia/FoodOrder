@@ -1,14 +1,14 @@
-package nilezia.app.foodorder.ui.order.adapter
+package nilezia.app.foodorder.ui.food.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import nilezia.app.foodorder.R
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 
-class OrderAdapter(private val listener: MyHolder.OrderClickListener) : RecyclerView.Adapter<MyHolder>() {
+class FoodAdapter(private val listener: MyHolder.OrderClickListener) : RecyclerView.Adapter<MyHolder>() {
 
-    var orders: MutableList<OrderItem>? = mutableListOf()
+    var orders: MutableList<FoodItem>? = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_order, parent, false)

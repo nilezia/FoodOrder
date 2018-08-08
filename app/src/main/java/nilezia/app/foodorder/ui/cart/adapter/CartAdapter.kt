@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import nilezia.app.foodorder.R
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 
 
 class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
@@ -13,7 +13,7 @@ class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : Recycle
 
     private val listener = cartClickListener
     private val mPresenter = CartAdapterPresenter(this)
-    var orders: MutableList<OrderItem>?
+    var orders: MutableList<FoodItem>?
         get() = mPresenter.getOrderItem()
         set(orders) {
             mPresenter.setOrderItem(orders)
@@ -52,7 +52,7 @@ class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : Recycle
         }
     }
 
-    fun removeOrder(order: OrderItem, position: Int) {
+    fun removeOrder(order: FoodItem, position: Int) {
         Log.d("itemClick", "${order.name} Remove")
         mPresenter.deleteOrder(order, position)
 

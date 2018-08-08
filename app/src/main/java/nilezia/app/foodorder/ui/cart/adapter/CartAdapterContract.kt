@@ -1,7 +1,7 @@
 package nilezia.app.foodorder.ui.cart.adapter
 
 import nilezia.app.foodorder.base.BaseMvpView
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 
 interface CartAdapterContract {
 
@@ -9,17 +9,16 @@ interface CartAdapterContract {
 
     interface Presenter {
 
-        fun getOrderItem(): MutableList<OrderItem>?
+        fun getOrderItem(): MutableList<FoodItem>?
 
-        fun setOrderItem(orderItems: MutableList<OrderItem>?)
+        fun setOrderItem(orderItems: MutableList<FoodItem>?)
 
-        fun increaseOrder(order: OrderItem, position: Int)
+        fun increaseOrder(order: FoodItem, position: Int)
 
-        fun decreaseOrder(order: OrderItem, position: Int)
+        fun decreaseOrder(order: FoodItem, position: Int)
 
-        fun deleteOrder(order: OrderItem, position: Int)
+        fun deleteOrder(order: FoodItem, position: Int)
 
         fun getPriceTotal(): Double
-
     }
 }

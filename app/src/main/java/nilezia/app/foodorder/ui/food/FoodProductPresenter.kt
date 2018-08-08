@@ -1,38 +1,38 @@
-package nilezia.app.foodorder.ui.order
+package nilezia.app.foodorder.ui.food
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
 import nilezia.app.foodorder.http.CallbackHttp
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
-class OrderPresenter : BaseMvpPresenterImp<OrderContract.View>(), OrderContract.Presenter {
+class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), FoodProductContract.Presenter {
 
 
     private lateinit var mRepository: OrderRepository
-    private var orderItems: MutableList<OrderItem>? = null
+    private var orderItems: MutableList<FoodItem>? = null
 
 
     override fun registerRepository(repository: OrderRepository) {
         this.mRepository = repository
     }
 
-    override fun getOrders(): MutableList<OrderItem>? = orderItems
+    override fun getOrders(): MutableList<FoodItem>? = orderItems
 
-    override fun addOrderItemToCart(orderItem: OrderItem, position: Int) {
+    override fun addOrderItemToCart(orderItem: FoodItem, position: Int) {
 
         mView?.onAddOrderToCartEvent(orderItem)
 
     }
 
-    override fun removeOrderFromCart(orderItem: OrderItem, position: Int) {
+    override fun removeOrderFromCart(orderItem: FoodItem, position: Int) {
         mView?.onRemoveOrderFromCartEvent(orderItem)
 
     }
 
     override fun requestOrders() {
 
-        mRepository.requestOrders(object : CallbackHttp<MutableList<OrderItem>> {
-            override fun onSuccess(response: MutableList<OrderItem>) {
+        mRepository.requestOrders(object : CallbackHttp<MutableList<FoodItem>> {
+            override fun onSuccess(response: MutableList<FoodItem>) {
                 mView?.updateOrderItemRequest(response)
                 orderItems = response
             }

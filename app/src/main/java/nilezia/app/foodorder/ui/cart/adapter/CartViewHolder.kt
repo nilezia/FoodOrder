@@ -3,10 +3,9 @@ package nilezia.app.foodorder.ui.cart.adapter
 import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 
 class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
@@ -19,20 +18,20 @@ class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     var btnDelete: ImageView? = null
 
     @SuppressLint("SetTextI18n")
-    fun bindView(order: OrderItem?, position: Int) = with(itemView) {
+    fun bindView(order: FoodItem?, position: Int) = with(itemView) {
 
         tvOrderName?.text = order?.name
         tvOrderPrice?.text = "${order?.price}"
-        tvOrderQuantity?.text = "เหลือ ${order?.quantity}"
+        tvOrderQuantity?.text = "มีอยู่ ${order?.quantity}"
         tvOrderAmount?.text = "${order?.amount}"
     }
 
     interface CartClickListener {
 
-        fun onClickIncreaseOrder(order: OrderItem, position: Int)
+        fun onClickIncreaseOrder(order: FoodItem, position: Int)
 
-        fun onClickDecreaseOrder(order: OrderItem, position: Int)
+        fun onClickDecreaseOrder(order: FoodItem, position: Int)
 
-        fun onClickDeleteOrder(order: OrderItem, position: Int)
+        fun onClickDeleteOrder(order: FoodItem, position: Int)
     }
 }

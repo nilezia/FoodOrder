@@ -1,4 +1,4 @@
-package nilezia.app.foodorder.ui.order
+package nilezia.app.foodorder.ui.food
 
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -8,18 +8,18 @@ import kotlinx.android.synthetic.main.fragment_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.dialog.DialogManager
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.ui.MainActivityContract
-import nilezia.app.foodorder.ui.order.adapter.MyHolder
-import nilezia.app.foodorder.ui.order.adapter.OrderAdapter
+import nilezia.app.foodorder.ui.food.adapter.MyHolder
+import nilezia.app.foodorder.ui.food.adapter.FoodAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
-class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presenter>(), OrderContract.View {
-    private lateinit var orderAdapter: OrderAdapter
-    override var mPresenter: OrderContract.Presenter = OrderPresenter()
+class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProductContract.Presenter>(), FoodProductContract.View {
+    private lateinit var orderAdapter: FoodAdapter
+    override var mPresenter: FoodProductContract.Presenter = FoodProductPresenter()
 
     companion object {
-        fun newInstance() = OrderFragment().apply {
+        fun newInstance() = FoodProductFragment().apply {
             arguments = Bundle().apply {
 
             }
@@ -41,8 +41,18 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
     override fun setupInstance() {
         setupAdapter()
         setupRecyclerView()
+        setupSwiftRefresh()
         mPresenter.registerRepository(OrderRepository(context!!))
         mPresenter.requestOrders()
+
+    }
+
+    private fun setupSwiftRefresh() {
+        swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = true
+            mPresenter.requestOrders()
+
+        }
 
     }
 
@@ -55,20 +65,20 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
     }
 
     private fun setupAdapter() {
-        orderAdapter = OrderAdapter(onOrderItemClick())
+        orderAdapter = FoodAdapter(onOrderItemClick())
     }
 
     override fun onRestoreInstanceState(bundle: Bundle) {
 
     }
 
-    override fun onAddOrderToCartEvent(order: OrderItem) {
+    override fun onAddOrderToCartEvent(order: FoodItem) {
         val listener = activity as (MainActivityContract.View)
         listener.onAddOrderToCartEvent(order)
 
     }
 
-    override fun onRemoveOrderFromCartEvent(order: OrderItem) {
+    override fun onRemoveOrderFromCartEvent(order: FoodItem) {
 
         val listener = activity as (MainActivityContract.View)
         listener.onRemoveOrderFromCartEvent(order)
@@ -81,16 +91,16 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
     private fun onOrderItemClick(): MyHolder.OrderClickListener =
             object : MyHolder.OrderClickListener {
 
-                override fun onClickAdded(order: OrderItem, position: Int) {
+                override fun onClickAdded(order: FoodItem, position: Int) {
 
                     mPresenter.removeOrderFromCart(order, position)
                 }
 
-                override fun onClickOder(order: OrderItem, position: Int) {
+                override fun onClickOder(order: FoodItem, position: Int) {
                     Toast.makeText(context, "Item ${order.name}", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onClickOrderToCart(order: OrderItem, position: Int) {
+                override fun onClickOrderToCart(order: FoodItem, position: Int) {
                     mPresenter.addOrderItemToCart(order, position)
 
                 }
@@ -105,8 +115,10 @@ class OrderFragment : BaseMvpFragment<OrderContract.View, OrderContract.Presente
 
     }
 
-    override fun updateOrderItemRequest(orders: MutableList<OrderItem>) {
+    override fun updateOrderItemRequest(orders: MutableList<FoodItem>) {
+        swipeRefresh.isRefreshing = false
         orderAdapter.orders = orders
         orderAdapter.notifyDataSetChanged()
+
     }
 }

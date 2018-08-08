@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.cart_order_activity.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.cart.adapter.CartAdapter
 import nilezia.app.foodorder.ui.cart.adapter.CartViewHolder
@@ -20,7 +20,7 @@ import org.parceler.Parcels
 
 class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContract.Presenter>(), CartOrderContract.View {
 
-    private lateinit var cardOrders: MutableList<OrderItem>
+    private lateinit var cardOrders: MutableList<FoodItem>
     private lateinit var loadingDialog: ProgressDialog
     lateinit var mAdapter: CartAdapter
 
@@ -44,7 +44,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     }
 
     override fun setupInstance() {
-        cardOrders = Parcels.unwrap<MutableList<OrderItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
+        cardOrders = Parcels.unwrap<MutableList<FoodItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
         if (cardOrders.isEmpty()) cardOrders = mutableListOf()
         mPresenter.registerRepository(cardOrders, OrderRepository(this@CartOrderActivity))
         mPresenter.updateCardOrder(mPresenter.getCardOrder())
@@ -52,7 +52,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
         updateTotalPrice()
     }
 
-    override fun onUpdateCartAdapter(cartOrders: MutableList<OrderItem>?) {
+    override fun onUpdateCartAdapter(cartOrders: MutableList<FoodItem>?) {
         mAdapter.orders = cartOrders
         mAdapter.notifyDataSetChanged()
     }
@@ -118,7 +118,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     }
 
     private fun onClickCartItem(): CartViewHolder.CartClickListener = object : CartViewHolder.CartClickListener {
-        override fun onClickIncreaseOrder(order: OrderItem, position: Int) {
+        override fun onClickIncreaseOrder(order: FoodItem, position: Int) {
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
             mPresenter.updateCartView()
             updateTotalPrice()
@@ -126,14 +126,14 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
         }
 
-        override fun onClickDecreaseOrder(order: OrderItem, position: Int) {
+        override fun onClickDecreaseOrder(order: FoodItem, position: Int) {
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
             mPresenter.updateCartView()
             updateTotalPrice()
 
         }
 
-        override fun onClickDeleteOrder(order: OrderItem, position: Int) {
+        override fun onClickDeleteOrder(order: FoodItem, position: Int) {
             mAdapter.removeOrder(order, position)
             mPresenter.updateCartView()
             updateTotalPrice()
@@ -144,6 +144,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     private fun onConfirmClick() {
         loadingDialog = ProgressDialog.show(this, "", "Loading...", true, false);
         mPresenter.confirmCartOrder(mAdapter.orders)
+
 
 
     }

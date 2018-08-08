@@ -9,9 +9,9 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
-import nilezia.app.foodorder.model.OrderItem
+import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.ui.cart.CartOrderActivity
-import nilezia.app.foodorder.ui.order.OrderFragment
+import nilezia.app.foodorder.ui.food.FoodProductFragment
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
 
@@ -58,7 +58,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun setupView() {
 
-        toolbar_cart.setOnClickListener {
+        imgCartMenu.setOnClickListener {
 
             mPresenter.onClickMenuCart()
         }
@@ -76,14 +76,14 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     }
 
-    override fun onAddOrderToCartEvent(order: OrderItem) {
+    override fun onAddOrderToCartEvent(order: FoodItem) {
         mPresenter.addOrderToCart(order)
         updateCartNotification()
         Toast.makeText(applicationContext, "${order.name} Add to cart", Toast.LENGTH_SHORT).show()
 
     }
 
-    override fun onRemoveOrderFromCartEvent(order: OrderItem) {
+    override fun onRemoveOrderFromCartEvent(order: FoodItem) {
         mPresenter.removeOrderFromCart(order)
         updateCartNotification()
         Toast.makeText(applicationContext, "${order.name} Remove to cart", Toast.LENGTH_SHORT).show()
@@ -99,7 +99,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
                 mPresenter.updateOrderFromCart(mutableListOf())
                 updateCartNotification()
                 if (viewPager.currentItem == 0 && page != null) {
-                    (page as OrderFragment).updateOrderItemFromCart()
+                    (page as FoodProductFragment).updateOrderItemFromCart()
                 }
             } else {
 
@@ -113,7 +113,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     private fun updateCartNotification() {
         val count = mPresenter.getOrderCount()
-        tv_product_count.apply {
+        tvOrderCount.apply {
             visibility = if (count == 0) View.GONE else View.VISIBLE
             text = "$count"
         }
@@ -122,6 +122,13 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     private var tabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab) {
             viewPager.currentItem = tab.position
+
+            if (viewPager.currentItem == 1) {
+                toolbarCart.visibility = View.GONE
+            } else {
+                toolbarCart.visibility = View.VISIBLE
+            }
+
         }
 
         override fun onTabUnselected(tab: TabLayout.Tab) {
