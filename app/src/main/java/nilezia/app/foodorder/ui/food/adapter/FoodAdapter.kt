@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.FoodItem
 
-class FoodAdapter(private val listener: MyHolder.OrderClickListener) : RecyclerView.Adapter<MyHolder>() {
+class FoodAdapter(private val listener: ViewHolder.OrderClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
-    var orders: MutableList<FoodItem>? = mutableListOf()
+    var foodOrders: MutableList<FoodItem>? = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_order, parent, false)
-        return MyHolder(view).apply {
+        return ViewHolder(view).apply {
             tvOrderName = view.findViewById(R.id.order_name)
             tvOrderDescription = view.findViewById(R.id.order_description)
             tvOrderAmount = view.findViewById(R.id.order_amount)
@@ -22,13 +22,12 @@ class FoodAdapter(private val listener: MyHolder.OrderClickListener) : RecyclerV
         }
     }
 
-    override fun getItemCount(): Int = orders?.size!!
+    override fun getItemCount(): Int = foodOrders?.size!!
 
-    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bindView(orders?.get(position)!!, position, listener)
+        holder.bindView(foodOrders?.get(position)!!, listener)
 
     }
-
 
 }

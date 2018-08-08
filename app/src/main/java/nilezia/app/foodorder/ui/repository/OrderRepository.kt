@@ -56,7 +56,7 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
 
     }
 
-    override fun requestHistoryFromFirebase(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
+    override fun requestHistoryFromFirebase(callbackHttp: CallbackHttp<MutableList<HistoryItem>>) {
         hisRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.w("FirebaseRead", "Failed to read value.", p0.toException())
@@ -68,34 +68,34 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
                 p0.children.forEach {
 
                     val value = it.getValue(HistoryItem::class.java)
-                    Log.d("FirebaseRead", "Value is: ${value?.orders?.get(0)?.name}")
                     history.add(value!!)
 
                 }
+
+                callbackHttp.onSuccess(history)
             }
         })
-
     }
 
     override fun requestOrderFromLocal(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
-        val orders = mutableListOf<FoodItem>()
-        for (i in 0..6) {
-            val order: FoodItem? = when (i) {
-                0 -> FoodItem()
-                1 -> FoodItem()
-                2 -> FoodItem()
-                3 -> FoodItem()
-                4 -> FoodItem()
-                5 -> FoodItem()
-                else -> {
-                    FoodItem()
-                }
-
-            }
-            orders.add(order!!)
-        }
-        callbackHttp.onSuccess(orders)
+//        val orders = mutableListOf<FoodItem>()
+//        for (i in 0..6) {
+//            val order: FoodItem? = when (i) {
+//                0 -> FoodItem()
+//                1 -> FoodItem()
+//                2 -> FoodItem()
+//                3 -> FoodItem()
+//                4 -> FoodItem()
+//                5 -> FoodItem()
+//                else -> {
+//                    FoodItem()
+//                }
+//
+//            }
+//            orders.add(order!!)
+//        }
+//        callbackHttp.onSuccess(orders)
 
     }
 

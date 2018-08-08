@@ -10,7 +10,7 @@ import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.ui.MainActivityContract
-import nilezia.app.foodorder.ui.food.adapter.MyHolder
+import nilezia.app.foodorder.ui.food.adapter.ViewHolder
 import nilezia.app.foodorder.ui.food.adapter.FoodAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
@@ -41,20 +41,12 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     override fun setupInstance() {
         setupAdapter()
         setupRecyclerView()
-        setupSwiftRefresh()
+
         mPresenter.registerRepository(OrderRepository(context!!))
         mPresenter.requestOrders()
 
     }
 
-    private fun setupSwiftRefresh() {
-        swipeRefresh.setOnRefreshListener {
-            swipeRefresh.isRefreshing = true
-            mPresenter.requestOrders()
-
-        }
-
-    }
 
     private fun setupRecyclerView() {
         val layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -88,21 +80,19 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
         DialogManager.showAlertDialog(context!!, message!!).show()
     }
 
-    private fun onOrderItemClick(): MyHolder.OrderClickListener =
-            object : MyHolder.OrderClickListener {
+    private fun onOrderItemClick(): ViewHolder.OrderClickListener =
+            object : ViewHolder.OrderClickListener {
 
-                override fun onClickAdded(order: FoodItem, position: Int) {
-
-                    mPresenter.removeOrderFromCart(order, position)
+                override fun onClickAdded(item: FoodItem, position: Int) {
+                    mPresenter.removeOrderFromCart(item, position)
                 }
 
-                override fun onClickOder(order: FoodItem, position: Int) {
-                    Toast.makeText(context, "Item ${order.name}", Toast.LENGTH_SHORT).show()
+                override fun onClickOder(item: FoodItem, position: Int) {
+                    Toast.makeText(context, "Item ${item.name}", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onClickOrderToCart(order: FoodItem, position: Int) {
-                    mPresenter.addOrderItemToCart(order, position)
-
+                override fun onClickOrderToCart(item: FoodItem, position: Int) {
+                    mPresenter.addOrderItemToCart(item, position)
                 }
 
                 override fun onItemEmpty() {
@@ -116,8 +106,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     }
 
     override fun updateOrderItemRequest(orders: MutableList<FoodItem>) {
-        swipeRefresh.isRefreshing = false
-        orderAdapter.orders = orders
+        orderAdapter.foodOrders = orders
         orderAdapter.notifyDataSetChanged()
 
     }

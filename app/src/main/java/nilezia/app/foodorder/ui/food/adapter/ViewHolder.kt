@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.FoodItem
 
-class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     var tvOrderName: TextView? = null
     var tvOrderPrice: TextView? = null
     var tvOrderAmount: TextView? = null
@@ -19,11 +19,11 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     var btnAdd: Button? = null
     var imgView: ImageView? = null
     @SuppressLint("SetTextI18n")
-    fun bindView(order: FoodItem?, position: Int, listener: MyHolder.OrderClickListener) = with(itemView) {
-        tvOrderName?.text = order?.name
-        tvOrderDescription?.text = order?.description
+    fun bindView(item: FoodItem?, listener: ViewHolder.OrderClickListener) = with(itemView) {
+        tvOrderName?.text = item?.name
+        tvOrderDescription?.text = item?.description
 
-        if (order?.quantity == 0) {
+        if (item?.quantity == 0) {
             tvOrderAmount?.apply {
                 setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
                 text = "สินค้าหมดแล้ว"
@@ -31,16 +31,16 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         } else {
             tvOrderAmount?.apply {
-                text = "มีอยู่ ${order?.quantity.toString()}"
+                text = "มีอยู่ ${item?.quantity.toString()}"
             }
         }
 
 
-        tvOrderPrice?.text = "${order?.price.toString()}฿"
+        tvOrderPrice?.text = "${item?.price.toString()}฿"
 
-        Glide.with(this).load(order?.image).into(imgView!!)
+        Glide.with(this).load(item?.image).into(imgView!!)
 
-        if (order?.isAdded!!) {
+        if (item?.isAdded!!) {
             btnAdd?.apply {
                 text = context.getString(R.string.item_added)
                 setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
@@ -53,41 +53,40 @@ class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         }
         btnAdd?.setOnClickListener {
 
-            onItemClick(order, position, listener)
+            onItemClick(item, adapterPosition, listener)
         }
     }
 
+    private fun onItemClick(item: FoodItem?, position: Int, listener: ViewHolder.OrderClickListener) {
 
-    private fun onItemClick(order: FoodItem?, position: Int, listener: MyHolder.OrderClickListener) {
-
-        if (!order?.isAdded!!) {
-            if (order.quantity > 0) {
+        if (!item?.isAdded!!) {
+            if (item.quantity > 0) {
                 btnAdd?.apply {
                     text = context.getString(R.string.item_added)
                     setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
                 }
-                order.isAdded = true
-                listener.onClickOrderToCart(order, position)
+                item.isAdded = true
+                listener.onClickOrderToCart(item, position)
             } else {
                 listener.onItemEmpty()
             }
         } else {
-            order.isAdded = false
+            item.isAdded = false
             btnAdd?.apply {
                 text = context.getString(R.string.item_add)
                 setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
             }
-            listener.onClickAdded(order, position)
+            listener.onClickAdded(item, position)
         }
     }
 
     interface OrderClickListener {
 
-        fun onClickAdded(order: FoodItem, position: Int)
+        fun onClickAdded(item: FoodItem, position: Int)
 
-        fun onClickOder(order: FoodItem, position: Int)
+        fun onClickOder(item: FoodItem, position: Int)
 
-        fun onClickOrderToCart(order: FoodItem, position: Int)
+        fun onClickOrderToCart(item: FoodItem, position: Int)
 
         fun onItemEmpty()
     }

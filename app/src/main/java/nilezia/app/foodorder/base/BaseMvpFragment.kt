@@ -27,6 +27,7 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
         super.onViewCreated(view, savedInstanceState)
         bindView(view)
         setupInstance()
+        setupView()
 
     }
 
