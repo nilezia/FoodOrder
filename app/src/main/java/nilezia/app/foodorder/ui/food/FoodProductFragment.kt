@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_order.*
+import kotlinx.android.synthetic.main.fragment_food.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.dialog.DialogManager
@@ -26,7 +26,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
         }
     }
 
-    override fun setupLayout(): Int = R.layout.fragment_order
+    override fun setupLayout(): Int = R.layout.fragment_food
 
     override fun bindView(view: View) {
 
