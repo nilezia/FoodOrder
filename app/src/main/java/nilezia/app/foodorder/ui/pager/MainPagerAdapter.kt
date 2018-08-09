@@ -3,8 +3,8 @@ package nilezia.app.foodorder.ui.pager
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import nilezia.app.foodorder.ui.history.OrderHistoryFragment
 import nilezia.app.foodorder.ui.food.FoodProductFragment
+import nilezia.app.foodorder.ui.history.OrderHistoryFragment
 
 class MainPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     val NUM_ITEMS = 2

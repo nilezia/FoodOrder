@@ -8,14 +8,15 @@ import nilezia.app.foodorder.model.HistoryItem
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-     var tvDate: TextView? = null
-     var tvTotalPrice: TextView? = null
+    var tvDate: TextView? = null
+    var tvTotalPrice: TextView? = null
 
     @SuppressLint("SetTextI18n")
-    fun bindView(item: HistoryItem) = with(itemView) {
-        tvDate?.text = item.date
+    fun bindView(item: HistoryItem, itemSelectListener: (HistoryItem) -> Unit) = with(itemView) {
+        tvDate?.text = item.date.toString()
         tvTotalPrice?.text = "${item.totalPrice}฿"
-
+        setOnClickListener {
+            itemSelectListener.invoke(item)
+        }
     }
-
 }

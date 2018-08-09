@@ -2,12 +2,12 @@ package nilezia.app.foodorder.ui.history
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_history.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.history.adapter.OrderHistoryAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
@@ -25,7 +25,6 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
         }
     }
 
-
     override fun setupLayout(): Int = R.layout.fragment_history
 
     override fun bindView(view: View) {
@@ -40,7 +39,6 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
     }
 
     private fun setupRecyclerView() {
-        mAdapter = OrderHistoryAdapter()
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
                     .apply {
@@ -51,7 +49,7 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
     }
 
     private fun setupAdapter() {
-        mAdapter = OrderHistoryAdapter()
+        mAdapter = OrderHistoryAdapter(onItemOrderHistorySelect())
 
     }
 
@@ -67,7 +65,6 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
         }
     }
 
-
     override fun onRestoreInstanceState(bundle: Bundle) {
 
     }
@@ -76,6 +73,14 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
         swipeRefresh.isRefreshing = false
         mAdapter.historyItems = items
         mAdapter.notifyDataSetChanged()
+    }
+
+    private fun onItemOrderHistorySelect(): (HistoryItem) -> Unit = {
+
+        val listener = activity as MainActivityContract.View
+        listener.goToDetail(it)
+
+
     }
 
 

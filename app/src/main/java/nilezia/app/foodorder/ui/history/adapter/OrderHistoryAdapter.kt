@@ -7,8 +7,7 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.HistoryItem
 
 
-class OrderHistoryAdapter : RecyclerView.Adapter<ViewHolder>() {
-
+class OrderHistoryAdapter(private val itemSelectListener: (HistoryItem) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
     var historyItems: MutableList<HistoryItem>? = mutableListOf<HistoryItem>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_history_order, parent, false)
@@ -22,6 +21,6 @@ class OrderHistoryAdapter : RecyclerView.Adapter<ViewHolder>() {
     override fun getItemCount(): Int = historyItems?.size!!
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(historyItems?.get(position)!!)
+        holder.bindView(historyItems?.get(position)!!, itemSelectListener)
     }
 }

@@ -10,7 +10,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.model.HistoryItem
 import nilezia.app.foodorder.ui.cart.CartOrderActivity
+import nilezia.app.foodorder.ui.detail.HistoryDetailActivity
 import nilezia.app.foodorder.ui.food.FoodProductFragment
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
@@ -21,8 +23,10 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     companion object {
         const val ORDER_INTENT_KEY = "order_to_cart"
         const val ORDER_REQUEST_CODE = 100
-
+        const val CURRENT_PAGE = "current_page"
     }
+
+    private lateinit var adapter: MainPagerAdapter
 
     override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
 
@@ -42,7 +46,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     }
 
     private fun setupViewPager() {
-        val adapter = MainPagerAdapter(supportFragmentManager)
+        adapter = MainPagerAdapter(supportFragmentManager)
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         tabLayout.addOnTabSelectedListener(tabSelectedListener)
         viewPager.adapter = adapter
@@ -51,7 +55,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun initial() {
 
-        //  supportFragmentManager.beginTransaction().replace(R.id.container, OrderFragment.newInstance(), null).commit()
     }
 
     override fun setupLayout(): Int = R.layout.activity_main
@@ -72,8 +75,20 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle) {
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelable(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
+        outState?.putInt(CURRENT_PAGE, viewPager.currentItem)
 
+    }
+
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        val cartOrder = Parcels.unwrap<MutableList<FoodItem>>(bundle.getParcelable(ORDER_INTENT_KEY))
+        val currentPage = bundle.getInt(CURRENT_PAGE, 0)
+        viewPager.currentItem = currentPage
+        mPresenter.updateOrderFromCart(cartOrder)
+
+        updateCartNotification()
     }
 
     override fun onAddOrderToCartEvent(order: FoodItem) {
@@ -110,6 +125,10 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     override fun goToCartActivity() = startActivityForResult(Intent(this@MainActivity, CartOrderActivity::class.java).apply {
         putExtra(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
     }, 100)
+
+    override fun goToDetail(historyItem: HistoryItem) = startActivity(Intent(this@MainActivity, HistoryDetailActivity::class.java).apply {
+        putExtra("history_detail", Parcels.wrap(historyItem))
+    })
 
     private fun updateCartNotification() {
         val count = mPresenter.getOrderCount()

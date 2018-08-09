@@ -9,6 +9,9 @@ import com.google.firebase.database.ValueEventListener
 import nilezia.app.foodorder.http.CallbackHttp
 import nilezia.app.foodorder.model.HistoryItem
 import nilezia.app.foodorder.model.FoodItem
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -25,8 +28,8 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
 
     override fun requestOrders(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
-         requestOrderFromFirebase(callbackHttp)
-       // requestHistoryFromFirebase(callbackHttp)
+        requestOrderFromFirebase(callbackHttp)
+        // requestHistoryFromFirebase(callbackHttp)
     }
 
     override fun requestOrderFromFirebase(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
@@ -72,6 +75,9 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
 
                 }
 
+                history.sortByDescending {
+                    it.date
+                }
                 callbackHttp.onSuccess(history)
             }
         })

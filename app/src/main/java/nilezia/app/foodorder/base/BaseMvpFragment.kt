@@ -14,9 +14,7 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPresenter.attachView(this as V)
-        if (savedInstanceState != null) {
-            onRestoreInstanceState(savedInstanceState)
-        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -28,7 +26,9 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
         bindView(view)
         setupInstance()
         setupView()
-
+        if (savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState)
+        }
     }
 
     protected abstract fun setupLayout(): Int

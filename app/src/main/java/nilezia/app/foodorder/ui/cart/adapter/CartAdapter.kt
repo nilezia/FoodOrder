@@ -38,7 +38,7 @@ class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : Recycle
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-        holder.bindView(orders?.get(position), position)
+        holder.bindView(orders?.get(position))
         holder.btnPlus?.setOnClickListener {
             mPresenter.increaseOrder(orders?.get(position)!!, position)
             listener.onClickIncreaseOrder(orders?.get(position)!!, position)

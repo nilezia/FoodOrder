@@ -9,10 +9,12 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.food.adapter.ViewHolder
 import nilezia.app.foodorder.ui.food.adapter.FoodAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
+import org.parceler.Parcels
 
 class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProductContract.Presenter>(), FoodProductContract.View {
     private lateinit var orderAdapter: FoodAdapter
@@ -41,12 +43,28 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     override fun setupInstance() {
         setupAdapter()
         setupRecyclerView()
-
-        mPresenter.registerRepository(OrderRepository(context!!))
-        mPresenter.requestOrders()
-
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mPresenter.registerRepository(OrderRepository(context!!))
+        if (orderAdapter.foodOrders?.size == 0) {
+            mPresenter.requestOrders()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(MainActivity.ORDER_INTENT_KEY, Parcels.wrap(orderAdapter.foodOrders))
+    }
+
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        val foodOrders = Parcels.unwrap<MutableList<FoodItem>>(bundle.getParcelable(MainActivity.ORDER_INTENT_KEY))
+        orderAdapter.foodOrders = foodOrders
+        orderAdapter.notifyDataSetChanged()
+
+
+    }
 
     private fun setupRecyclerView() {
         val layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -58,10 +76,6 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
 
     private fun setupAdapter() {
         orderAdapter = FoodAdapter(onOrderItemClick())
-    }
-
-    override fun onRestoreInstanceState(bundle: Bundle) {
-
     }
 
     override fun onAddOrderToCartEvent(order: FoodItem) {

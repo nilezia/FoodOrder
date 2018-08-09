@@ -18,7 +18,7 @@ class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     var btnDelete: ImageView? = null
 
     @SuppressLint("SetTextI18n")
-    fun bindView(order: FoodItem?, position: Int) = with(itemView) {
+    fun bindView(order: FoodItem?) = with(itemView) {
 
         tvOrderName?.text = order?.name
         tvOrderPrice?.text = "${order?.price}"

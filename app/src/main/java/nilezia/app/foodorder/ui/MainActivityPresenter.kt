@@ -22,8 +22,10 @@ class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), 
     override fun onClickMenuCart() {
         mView?.goToCartActivity()
     }
+
     override fun updateOrderFromCart(orders: MutableList<FoodItem>) {
         this.cartOrder = orders
     }
+
 
 }

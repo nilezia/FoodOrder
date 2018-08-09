@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.cart.CartOrderActivity" />
+        <activity android:name=".ui.detail.HistoryDetailActivity" />
     </application>
 
 </manifest>
