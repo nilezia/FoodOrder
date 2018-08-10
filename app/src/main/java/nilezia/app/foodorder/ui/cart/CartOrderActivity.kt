@@ -102,7 +102,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     override fun hasItem(): Boolean = mAdapter.hasItem()
 
     private fun setupAdapter() {
-        mAdapter = CartAdapter(onClickCartItem())
+        mAdapter = CartAdapter( onClickCartItem())
         rvCart.apply {
             layoutManager = LinearLayoutManager(this@CartOrderActivity)
                     .apply {
@@ -120,29 +120,65 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
     }
 
-    private fun onClickCartItem(): CartViewHolder.CartClickListener = object : CartViewHolder.CartClickListener {
+/*    private fun onClickCartItem(): CartViewHolder.CartClickListener = object : CartViewHolder.CartClickListener {
         override fun onClickIncreaseOrder(order: FoodItem, position: Int) {
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
             mPresenter.updateCartView()
             updateTotalPrice()
-
-
         }
 
         override fun onClickDecreaseOrder(order: FoodItem, position: Int) {
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
             mPresenter.updateCartView()
             updateTotalPrice()
-
         }
 
         override fun onClickDeleteOrder(order: FoodItem, position: Int) {
             mAdapter.removeOrder(order, position)
             mPresenter.updateCartView()
             updateTotalPrice()
+        }
+    }*/
+
+    private fun onClickCartItem(): CartViewHolder.CartClickListener = object : CartViewHolder.CartClickListener {
+        override fun onClickIncreaseOrder(): (FoodItem, Int) -> Unit = { order, _ ->
+            Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
+            mPresenter.updateCartView()
+            updateTotalPrice()
 
         }
+
+        override fun onClickDecreaseOrder(): (FoodItem, Int) -> Unit = { order, _ ->
+            Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
+            mPresenter.updateCartView()
+            updateTotalPrice()
+        }
+
+        override fun onClickDeleteOrder(): (FoodItem, Int) -> Unit = { order, position ->
+            mAdapter.removeOrder(order, position)
+            mPresenter.updateCartView()
+            updateTotalPrice()
+        }
+
     }
+
+//    private fun onClickIncreaseOrder(): (FoodItem, Int) -> Unit = { order, _ ->
+//        Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
+//        mPresenter.updateCartView()
+//        updateTotalPrice()
+//    }
+//
+//    private fun onClickDecreaseOrder(): (FoodItem, Int) -> Unit = { orders, _ ->
+//        Log.d("itemClick", "${orders.name} : ราคารวม ${orders.amount * orders.price}")
+//        mPresenter.updateCartView()
+//        updateTotalPrice()
+//    }
+//
+//    private fun onClickDeleteOrder(): (FoodItem, Int) -> Unit = { orders, position ->
+//        mAdapter.removeOrder(orders, position)
+//        mPresenter.updateCartView()
+//        updateTotalPrice()
+//    }
 
     private fun onConfirmClick() {
         loadingDialog = ProgressDialog.show(this, "", "Loading...", true, false);

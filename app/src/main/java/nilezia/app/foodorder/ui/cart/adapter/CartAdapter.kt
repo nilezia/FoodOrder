@@ -8,10 +8,9 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.FoodItem
 
 
-class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
+class CartAdapter(private var listener: CartViewHolder.CartClickListener) : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
 
 
-    private val listener = cartClickListener
     private val mPresenter = CartAdapterPresenter(this)
     var orders: MutableList<FoodItem>?
         get() = mPresenter.getOrderItem()
@@ -38,17 +37,20 @@ class CartAdapter(cartClickListener: CartViewHolder.CartClickListener) : Recycle
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-        holder.bindView(orders?.get(position))
+        holder.bindView(orders!![position])
         holder.btnPlus?.setOnClickListener {
-            mPresenter.increaseOrder(orders?.get(position)!!, position)
-            listener.onClickIncreaseOrder(orders?.get(position)!!, position)
+            mPresenter.increaseOrder(orders!![position], position)
+            listener.onClickIncreaseOrder().invoke(orders!![position], position)
+
         }
         holder.btnMinus?.setOnClickListener {
-            mPresenter.decreaseOrder(orders?.get(position)!!, position)
-            listener.onClickDecreaseOrder(orders?.get(position)!!, position)
+            mPresenter.decreaseOrder(orders!![position], position)
+            listener.onClickDecreaseOrder().invoke(orders!![position], position)
+
         }
         holder.btnDelete?.setOnClickListener {
-            listener.onClickDeleteOrder(orders?.get(position)!!, position)
+            listener.onClickDeleteOrder().invoke(orders!![position], position)
+
         }
     }
 

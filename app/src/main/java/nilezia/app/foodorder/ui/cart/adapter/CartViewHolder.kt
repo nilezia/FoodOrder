@@ -28,10 +28,10 @@ class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
     interface CartClickListener {
 
-        fun onClickIncreaseOrder(order: FoodItem, position: Int)
+        fun onClickIncreaseOrder(): (FoodItem, Int) -> Unit
 
-        fun onClickDecreaseOrder(order: FoodItem, position: Int)
+        fun onClickDecreaseOrder(): (FoodItem, Int) -> Unit
 
-        fun onClickDeleteOrder(order: FoodItem, position: Int)
+        fun onClickDeleteOrder(): (FoodItem, Int) -> Unit
     }
 }
