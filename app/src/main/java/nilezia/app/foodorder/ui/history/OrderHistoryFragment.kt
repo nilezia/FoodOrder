@@ -8,8 +8,10 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.model.HistoryItem
 import nilezia.app.foodorder.ui.MainActivityContract
+import nilezia.app.foodorder.ui.detail.HistoryDetailActivity.Companion.HISTORY_DETAIL_KEY
 import nilezia.app.foodorder.ui.history.adapter.OrderHistoryAdapter
 import nilezia.app.foodorder.ui.repository.OrderRepository
+import org.parceler.Parcels
 
 
 class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHistoryContract.Presenter>(), OrderHistoryContract.View {
@@ -68,8 +70,15 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(HISTORY_DETAIL_KEY, Parcels.wrap(mAdapter.historyItems))
+    }
+
     override fun onRestoreInstanceState(bundle: Bundle) {
 
+        mAdapter.historyItems = Parcels.unwrap<MutableList<HistoryItem>>(bundle.getParcelable(HISTORY_DETAIL_KEY))
+        mAdapter.notifyDataSetChanged()
     }
 
     override fun onUpdateHistoryList(items: MutableList<HistoryItem>) {

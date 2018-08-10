@@ -32,8 +32,6 @@ interface CartOrderContract {
 
         fun confirmCartOrder(cartOrders: MutableList<FoodItem>?)
 
-        fun createHistory()
-
         fun updateCartView()
     }
 

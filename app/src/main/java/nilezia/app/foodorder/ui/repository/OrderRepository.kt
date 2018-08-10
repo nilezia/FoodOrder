@@ -7,11 +7,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import nilezia.app.foodorder.http.CallbackHttp
-import nilezia.app.foodorder.model.HistoryItem
 import nilezia.app.foodorder.model.FoodItem
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import nilezia.app.foodorder.model.HistoryItem
 import java.util.*
 
 
@@ -27,9 +24,7 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
     }
 
     override fun requestOrders(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
-
         requestOrderFromFirebase(callbackHttp)
-        // requestHistoryFromFirebase(callbackHttp)
     }
 
     override fun requestOrderFromFirebase(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
@@ -38,12 +33,11 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val orders = mutableListOf<FoodItem>()
 
-                dataSnapshot.children.forEach {
-
-                    val value = it.getValue(FoodItem::class.java)
-                    value?.amount = 1
-                    Log.d("FirebaseRead", "Value is: ${value?.name}")
-                    orders.add(value!!)
+                dataSnapshot.children.mapNotNullTo(orders) {
+                    it.getValue(FoodItem::class.java)
+                }.forEach {
+                    it.amount = 1
+                    Log.d("FirebaseRead", "Value is: ${it.name}")
 
                 }
 
@@ -68,14 +62,15 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val history = mutableListOf<HistoryItem>()
-                p0.children.forEach {
 
-                    val value = it.getValue(HistoryItem::class.java)
-                    history.add(value!!)
-
+                p0.children.mapNotNullTo(history) {
+                    it.getValue<HistoryItem>(HistoryItem::class.java)
                 }
                 callbackHttp.onSuccess(history)
+
             }
+
+
         })
     }
 

@@ -19,8 +19,6 @@ import org.parceler.Parcels
 
 
 class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContract.Presenter>(), CartOrderContract.View {
-
-    private lateinit var cardOrders: MutableList<FoodItem>
     private lateinit var loadingDialog: ProgressDialog
     private lateinit var mAdapter: CartAdapter
 
@@ -44,7 +42,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     }
 
     override fun setupInstance() {
-        cardOrders = Parcels.unwrap<MutableList<FoodItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
+        var cardOrders = Parcels.unwrap<MutableList<FoodItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
         if (cardOrders.isEmpty()) cardOrders = mutableListOf()
         mPresenter.registerRepository(cardOrders, OrderRepository(this@CartOrderActivity))
         mPresenter.updateCardOrder(mPresenter.getCardOrder())
@@ -57,8 +55,13 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
         mAdapter.notifyDataSetChanged()
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle) {
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelable(MainActivity.ORDER_INTENT_KEY, Parcels.wrap(mAdapter.orders))
+    }
 
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        mAdapter.orders = Parcels.unwrap(bundle.getParcelable(MainActivity.ORDER_INTENT_KEY))
     }
 
     override fun showOrderInCart() {
@@ -144,8 +147,6 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     private fun onConfirmClick() {
         loadingDialog = ProgressDialog.show(this, "", "Loading...", true, false);
         mPresenter.confirmCartOrder(mAdapter.orders)
-
-
 
     }
 }

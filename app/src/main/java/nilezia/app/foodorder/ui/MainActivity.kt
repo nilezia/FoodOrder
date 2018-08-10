@@ -108,16 +108,15 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == ORDER_REQUEST_CODE) {
-
+            mPresenter.updateOrderFromCart(mutableListOf())
             if (resultCode == Activity.RESULT_OK) {
                 val page = supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.currentItem)
-                mPresenter.updateOrderFromCart(mutableListOf())
                 updateCartNotification()
                 if (viewPager.currentItem == 0 && page != null) {
                     (page as FoodProductFragment).updateOrderItemFromCart()
                 }
             } else {
-
+                updateCartNotification()
             }
         }
     }

@@ -26,12 +26,6 @@ class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOr
         mRepository.updateCartOrderToFirebase(updateRepo(), cartOrders)
     }
 
-    override fun createHistory() {
-
-
-    }
-
-
     override fun updateCartView() {
 
         if (mView?.hasItem()!!) {
