@@ -39,10 +39,13 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
     }
 
     private fun setupRecyclerView() {
+
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
                     .apply {
                         orientation = LinearLayoutManager.VERTICAL
+                        reverseLayout = true
+                        stackFromEnd = true
                     }
             adapter = mAdapter
         }

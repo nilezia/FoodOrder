@@ -8,12 +8,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvTotalPrice"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_margin_padding_large"
-            android:textSize="@dimen/default_text_body_large" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTotalPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1
+"
+                android:padding="@dimen/default_margin_padding_large"
+                android:textSize="@dimen/default_text_body_large" />
+
+            <ImageView
+                android:id="@+id/imgClose"
+                android:layout_margin="@dimen/default_margin_padding_normal"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/default_icon_size"
+                android:layout_height="@dimen/default_icon_size"
+                android:src="@drawable/ic_baseline_black_close_24px"
+                android:contentDescription="@string/description" />
+
+        </LinearLayout>
+
 
     </android.support.v7.widget.CardView>
 

@@ -74,10 +74,6 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
                     history.add(value!!)
 
                 }
-
-                history.sortByDescending {
-                    it.date
-                }
                 callbackHttp.onSuccess(history)
             }
         })

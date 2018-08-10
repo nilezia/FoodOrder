@@ -26,6 +26,9 @@ class HistoryDetailActivity : BaseMvpActivity<HistoryDetailContract.View, Histor
     override fun setupView() {
         setupAdapter()
         setupRecyclerView()
+        imgClose.setOnClickListener{
+            finish()
+        }
     }
 
     private fun setupRecyclerView() {
