@@ -1,2 +1,7 @@
 # FoodOrder
-![20180807_151739](https://user-images.githubusercontent.com/11191444/43763794-e274c2fc-9a55-11e8-8fc1-07687a4f1cbe.gif)
+
+![20180814_110255](https://user-images.githubusercontent.com/11191444/44071230-1a634f60-9fb2-11e8-98aa-b69e5c87e8f3.gif)
+
+Technology
+ - use Kotlin Language
+ - use Firebase Realtime Database to feed data  
