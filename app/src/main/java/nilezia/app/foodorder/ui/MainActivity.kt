@@ -115,8 +115,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
                 if (viewPager.currentItem == 0 && page != null) {
                     (page as FoodProductFragment).updateOrderItemFromCart()
                 }
-            } else {
-                updateCartNotification()
             }
         }
     }

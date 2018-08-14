@@ -115,6 +115,9 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
             }
 
     override fun updateOrderItemFromCart() {
+
+
+
         mPresenter.requestOrders()
 
     }

@@ -11,7 +11,6 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
     private lateinit var mRepository: OrderRepository
     private var orderItems: MutableList<FoodItem>? = null
 
-
     override fun registerRepository(repository: OrderRepository) {
         this.mRepository = repository
     }

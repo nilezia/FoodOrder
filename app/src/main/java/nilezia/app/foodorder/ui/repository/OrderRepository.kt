@@ -49,8 +49,6 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
                 Log.w("FirebaseRead", "Failed to read value.", error.toException()!!)
             }
         })
-
-
     }
 
     override fun requestHistoryFromFirebase(callbackHttp: CallbackHttp<MutableList<HistoryItem>>) {
@@ -69,8 +67,6 @@ class OrderRepository(context: Context) : OrderRepositoryContract {
                 callbackHttp.onSuccess(history)
 
             }
-
-
         })
     }
 
