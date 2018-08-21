@@ -44,7 +44,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     override fun setupInstance() {
         var cardOrders = Parcels.unwrap<MutableList<FoodItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
         if (cardOrders.isEmpty()) cardOrders = mutableListOf()
-        mPresenter.registerRepository(cardOrders, OrderRepository(this@CartOrderActivity))
+        mPresenter.registerRepository(cardOrders, OrderRepository())
         mPresenter.updateCardOrder(mPresenter.getCardOrder())
         mPresenter.updateCartView()
         updateTotalPrice()
@@ -102,7 +102,8 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     override fun hasItem(): Boolean = mAdapter.hasItem()
 
     private fun setupAdapter() {
-        mAdapter = CartAdapter( onClickCartItem())
+        mAdapter = CartAdapter()
+        mAdapter.listener = onClickCartItem()
         rvCart.apply {
             layoutManager = LinearLayoutManager(this@CartOrderActivity)
                     .apply {

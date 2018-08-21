@@ -15,7 +15,7 @@ class CartAdapterPresenter(cartAdapter: CartAdapter) : CartAdapterPresenterImp()
             }
         }
 
-        mCartAdapter.notifyDataSetChanged()
+//        mCartAdapter.notifyDataSetChanged()
     }
 
     override fun decreaseOrder(order: FoodItem, position: Int) {
@@ -26,15 +26,13 @@ class CartAdapterPresenter(cartAdapter: CartAdapter) : CartAdapterPresenterImp()
             }
         }
 
-        mCartAdapter.notifyDataSetChanged()
+       // mCartAdapter.notifyDataSetChanged()
     }
 
     override fun deleteOrder(order: FoodItem, position: Int) {
         items.apply {
             this?.remove(order)
         }
-        mCartAdapter.notifyItemRemoved(position)
-        mCartAdapter.notifyItemRangeChanged(position, items?.size!!)
     }
 
     override fun getOrderItem(): MutableList<FoodItem>? = items

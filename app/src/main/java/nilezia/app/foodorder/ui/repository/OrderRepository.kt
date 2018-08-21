@@ -1,6 +1,5 @@
 package nilezia.app.foodorder.ui.repository
-
-import android.content.Context
+//
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -12,7 +11,7 @@ import nilezia.app.foodorder.model.HistoryItem
 import java.util.*
 
 
-class OrderRepository(context: Context) : OrderRepositoryContract {
+class OrderRepository : OrderRepositoryContract {
 
     private var database = FirebaseDatabase.getInstance()
     private var myRef = database.getReference("food-order")

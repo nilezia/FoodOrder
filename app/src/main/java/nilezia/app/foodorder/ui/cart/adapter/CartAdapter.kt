@@ -8,10 +8,10 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.FoodItem
 
 
-class CartAdapter(private var listener: CartViewHolder.CartClickListener) : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
-
+class CartAdapter : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
 
     private val mPresenter = CartAdapterPresenter(this)
+    var listener: CartViewHolder.CartClickListener? = null
     var orders: MutableList<FoodItem>?
         get() = mPresenter.getOrderItem()
         set(orders) {
@@ -40,16 +40,18 @@ class CartAdapter(private var listener: CartViewHolder.CartClickListener) : Recy
         holder.bindView(orders!![position])
         holder.btnPlus?.setOnClickListener {
             mPresenter.increaseOrder(orders!![position], position)
-            listener.onClickIncreaseOrder().invoke(orders!![position], position)
+            listener?.onClickIncreaseOrder()?.invoke(orders!![position], position)
+            notifyDataSetChanged()
 
         }
         holder.btnMinus?.setOnClickListener {
             mPresenter.decreaseOrder(orders!![position], position)
-            listener.onClickDecreaseOrder().invoke(orders!![position], position)
+            listener?.onClickDecreaseOrder()?.invoke(orders!![position], position)
+            notifyDataSetChanged()
 
         }
         holder.btnDelete?.setOnClickListener {
-            listener.onClickDeleteOrder().invoke(orders!![position], position)
+            listener?.onClickDeleteOrder()?.invoke(orders!![position], position)
 
         }
     }
@@ -57,6 +59,8 @@ class CartAdapter(private var listener: CartViewHolder.CartClickListener) : Recy
     fun removeOrder(order: FoodItem, position: Int) {
         Log.d("itemClick", "${order.name} Remove")
         mPresenter.deleteOrder(order, position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, mPresenter.getOrderItem()?.size!!)
 
     }
 

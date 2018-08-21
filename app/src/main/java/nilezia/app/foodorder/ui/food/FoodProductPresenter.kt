@@ -9,7 +9,7 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
 
 
     private lateinit var mRepository: OrderRepository
-    private var orderItems: MutableList<FoodItem>? = null
+    public lateinit var orderItems: MutableList<FoodItem>
 
     override fun registerRepository(repository: OrderRepository) {
         this.mRepository = repository
@@ -29,11 +29,10 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
     }
 
     override fun requestOrders() {
-
-        mRepository.requestOrders(object : CallbackHttp<MutableList<FoodItem>> {
+        orderItems = mutableListOf()
+        mRepository.requestOrderFromFirebase(object : CallbackHttp<MutableList<FoodItem>> {
             override fun onSuccess(response: MutableList<FoodItem>) {
                 mView?.updateOrderItemRequest(response)
-                orderItems = response
             }
 
             override fun onFailed(txt: String) {

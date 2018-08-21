@@ -59,7 +59,7 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
     }
 
     override fun setupInstance() {
-        mPresenter.registerRepository(OrderRepository(context!!))
+        mPresenter.registerRepository(OrderRepository())
         mPresenter.requestHistory()
     }
 

@@ -31,13 +31,9 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     override fun setupLayout(): Int = R.layout.fragment_food
 
     override fun bindView(view: View) {
-
-
     }
 
     override fun setupView() {
-
-
     }
 
     override fun setupInstance() {
@@ -47,7 +43,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mPresenter.registerRepository(OrderRepository(context!!))
+        mPresenter.registerRepository(OrderRepository())
         if (orderAdapter.foodOrders?.size == 0) {
             mPresenter.requestOrders()
         }
@@ -115,11 +111,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
             }
 
     override fun updateOrderItemFromCart() {
-
-
-
         mPresenter.requestOrders()
-
     }
 
     override fun updateOrderItemRequest(orders: MutableList<FoodItem>) {
