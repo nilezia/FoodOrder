@@ -1,4 +1,5 @@
 package nilezia.app.foodorder.ui.repository
+
 //
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
@@ -54,6 +55,7 @@ class OrderRepository : OrderRepositoryContract {
         hisRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.w("FirebaseRead", "Failed to read value.", p0.toException())
+                callbackHttp.onFailed(p0.toException().toString())
 
             }
 

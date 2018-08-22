@@ -18,18 +18,18 @@ class FoodProductPresenterTest {
     @Mock
     private var mockView: FoodProductContract.View = mock(FoodProductContract.View::class.java)
     private var presenter: FoodProductPresenter = FoodProductPresenter()
-    private  var mRepository: OrderRepository = OrderRepository()
+//    private  var mRepository: OrderRepository = OrderRepository()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         presenter.attachView(mockView)
-        presenter.registerRepository(mRepository)
+    //    presenter.registerRepository(mRepository)
     }
 
     @Test
     fun requestOrders() {
-        presenter.requestOrders()
+       // presenter.requestOrders()
 
     }
     @Test

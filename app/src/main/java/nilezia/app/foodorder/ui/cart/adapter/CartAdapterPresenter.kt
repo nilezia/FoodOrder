@@ -2,11 +2,9 @@ package nilezia.app.foodorder.ui.cart.adapter
 
 import nilezia.app.foodorder.model.FoodItem
 
-class CartAdapterPresenter(cartAdapter: CartAdapter) : CartAdapterPresenterImp(), CartAdapterContract.Presenter {
+class CartAdapterPresenter : CartAdapterPresenterImp(), CartAdapterContract.Presenter {
 
     private var items: MutableList<FoodItem>? = null
-    private val mCartAdapter = cartAdapter
-
     override fun increaseOrder(order: FoodItem, position: Int) {
 
         order.apply {
@@ -14,8 +12,6 @@ class CartAdapterPresenter(cartAdapter: CartAdapter) : CartAdapterPresenterImp()
                 amount += 1
             }
         }
-
-//        mCartAdapter.notifyDataSetChanged()
     }
 
     override fun decreaseOrder(order: FoodItem, position: Int) {
@@ -26,7 +22,6 @@ class CartAdapterPresenter(cartAdapter: CartAdapter) : CartAdapterPresenterImp()
             }
         }
 
-       // mCartAdapter.notifyDataSetChanged()
     }
 
     override fun deleteOrder(order: FoodItem, position: Int) {

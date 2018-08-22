@@ -10,7 +10,7 @@ import nilezia.app.foodorder.model.FoodItem
 
 class CartAdapter : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.View {
 
-    private val mPresenter = CartAdapterPresenter(this)
+    private val mPresenter = CartAdapterPresenter()
     var listener: CartViewHolder.CartClickListener? = null
     var orders: MutableList<FoodItem>?
         get() = mPresenter.getOrderItem()
