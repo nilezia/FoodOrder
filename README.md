@@ -4,4 +4,5 @@
 
 Technology
  - use Kotlin Language
+ - use MVP Pattern Design
  - use Firebase Realtime Database to feed data  
