@@ -80,19 +80,16 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     }
 
     override fun onAddOrderToCartEvent(order: FoodItem) {
-        val listener = activity as (MainActivityContract.View)
-        listener.onAddOrderToCartEvent(order)
+        getActivityView().onAddOrderToCartEvent(order)
 
     }
 
     override fun onRemoveOrderFromCartEvent(order: FoodItem) {
-
-        val listener = activity as (MainActivityContract.View)
-        listener.onRemoveOrderFromCartEvent(order)
+        getActivityView().onRemoveOrderFromCartEvent(order)
     }
 
     override fun onShowErrorDialog(message: String?) {
-        DialogManager.showAlertDialog(context!!, message!!).show()
+        DialogManager.showMessageDialog(context!!, message!!)
     }
 
     private fun onOrderItemClick(): ViewHolder.OrderClickListener =
@@ -124,4 +121,6 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
         orderAdapter.notifyDataSetChanged()
 
     }
+
+    private fun getActivityView() = activity as (MainActivityContract.View)
 }

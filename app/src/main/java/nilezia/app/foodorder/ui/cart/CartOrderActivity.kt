@@ -3,6 +3,7 @@ package nilezia.app.foodorder.ui.cart
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -84,22 +85,18 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     override fun onBackPressed() {
 
         if (mAdapter.hasItem()) {
-            DialogManager.showQuestionDialog(this@CartOrderActivity).apply {
-
-                setMessage("Discard shipping?")
-                this.setPositiveButton("ОК") { _, _ ->
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
-                this.setNegativeButton("CANCEL") { dialog, _ -> dialog.dismiss() }
-                show()
-            }
+            DialogManager.showQuestionDialog(this@CartOrderActivity, positiveListener).show()
         } else {
             setResult(Activity.RESULT_OK)
             finish()
         }
 
 
+    }
+
+    private var positiveListener = DialogInterface.OnClickListener { _, _ ->
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     override fun hasItem(): Boolean = mAdapter.hasItem()
