@@ -5,13 +5,9 @@ import android.content.Context
 import android.content.DialogInterface
 
 class DialogManager {
-
-
     init {
 
-
     }
-
     companion object {
 
         fun showQuestionDialog(context: Context, positiveListener: DialogInterface.OnClickListener) = AlertDialog.Builder(context).apply {
@@ -25,10 +21,6 @@ class DialogManager {
         fun showMessageDialog(context: Context, text: String) = AlertDialog.Builder(context).apply {
             setMessage(text)
             setNegativeButton("Close") { dialog, _ -> dialog.dismiss() }
-
-
         }
-
     }
-
 }

@@ -23,14 +23,14 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
 
     override fun getOrders(): MutableList<FoodItem>? = orderItems
 
-    override fun addOrderItemToCart(orderItem: FoodItem, position: Int) {
+    override fun onAddOrderItemToCart(orderItem: FoodItem, position: Int) {
 
-        getView().onAddOrderToCartEvent(orderItem)
+        getView().addOrderToCartEvent(orderItem)
 
     }
 
-    override fun removeOrderFromCart(orderItem: FoodItem, position: Int) {
-        getView().onRemoveOrderFromCartEvent(orderItem)
+    override fun onRemoveOrderFromCart(orderItem: FoodItem, position: Int) {
+        getView().removeOrderFromCartEvent(orderItem)
 
     }
 
@@ -42,7 +42,7 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
             }
 
             override fun onFailed(txt: String) {
-                getView().onShowErrorDialog(txt)
+                getView().showErrorDialog(txt)
             }
         })
     }

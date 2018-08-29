@@ -19,16 +19,18 @@ import org.parceler.Parcels
 
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
-    override fun createPresenter(): MainActivityContract.Presenter =MainActivityPresenter.create()
 
     companion object {
         const val ORDER_INTENT_KEY = "order_to_cart"
+        const val HISTORY_INTENT_KEY = "history_detail"
         const val ORDER_REQUEST_CODE = 100
         const val CURRENT_PAGE = "current_page"
     }
 
-    private lateinit var adapter: MainPagerAdapter
+    private val ORDER_TAB = 0
+    private val HISTORY_TAB = 1
 
+    private lateinit var adapter: MainPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +68,8 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
             getPresenter().onClickMenuCart()
         }
     }
+
+    override fun createPresenter(): MainActivityContract.Presenter = MainActivityPresenter.create()
 
     override fun bindView() {
 
@@ -124,7 +128,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     }, 100)
 
     override fun goToDetail(historyItem: HistoryItem) = startActivity(Intent(this@MainActivity, HistoryDetailActivity::class.java).apply {
-        putExtra("history_detail", Parcels.wrap(historyItem))
+        putExtra(HISTORY_INTENT_KEY, Parcels.wrap(historyItem))
     })
 
     private fun updateCartNotification() {
@@ -139,21 +143,15 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         override fun onTabSelected(tab: TabLayout.Tab) {
             viewPager.currentItem = tab.position
 
-            if (viewPager.currentItem == 1) {
+            if (viewPager.currentItem == HISTORY_TAB) {
                 toolbarCart.visibility = View.GONE
-            } else {
+            } else if (viewPager.currentItem == ORDER_TAB) {
                 toolbarCart.visibility = View.VISIBLE
             }
-
         }
 
-        override fun onTabUnselected(tab: TabLayout.Tab) {
-
-        }
-
-        override fun onTabReselected(tab: TabLayout.Tab) {
-
-        }
+        override fun onTabUnselected(tab: TabLayout.Tab) {}
+        override fun onTabReselected(tab: TabLayout.Tab) {}
     }
 
 

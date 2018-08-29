@@ -1,8 +1,6 @@
 package nilezia.app.foodorder.ui.food
 
 import nilezia.app.foodorder.model.FoodItem
-import nilezia.app.foodorder.ui.repository.OrderRepository
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,12 +32,12 @@ class FoodProductPresenterTest {
     }
     @Test
     fun addOrderItemToCart() {
-        presenter.addOrderItemToCart(FoodItem(), 0)
+        presenter.onAddOrderItemToCart(FoodItem(), 0)
 
     }
 
     @Test
     fun removeOrderFromCart() {
-        presenter.removeOrderFromCart(FoodItem(), 0)
+        presenter.onRemoveOrderFromCart(FoodItem(), 0)
     }
 }

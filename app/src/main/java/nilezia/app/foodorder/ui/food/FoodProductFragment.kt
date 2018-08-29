@@ -79,38 +79,18 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
         orderAdapter = FoodAdapter(onOrderItemClick())
     }
 
-    override fun onAddOrderToCartEvent(order: FoodItem) {
+    override fun addOrderToCartEvent(order: FoodItem) {
         getActivityView().onAddOrderToCartEvent(order)
 
     }
 
-    override fun onRemoveOrderFromCartEvent(order: FoodItem) {
+    override fun removeOrderFromCartEvent(order: FoodItem) {
         getActivityView().onRemoveOrderFromCartEvent(order)
     }
 
-    override fun onShowErrorDialog(message: String?) {
+    override fun showErrorDialog(message: String?) {
         DialogManager.showMessageDialog(context!!, message!!)
     }
-
-    private fun onOrderItemClick(): ViewHolder.OrderClickListener =
-            object : ViewHolder.OrderClickListener {
-
-                override fun onClickAdded(item: FoodItem, position: Int) {
-                    getPresenter().removeOrderFromCart(item, position)
-                }
-
-                override fun onClickOder(item: FoodItem, position: Int) {
-                    Toast.makeText(context, "Item ${item.name}", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onClickOrderToCart(item: FoodItem, position: Int) {
-                    getPresenter().addOrderItemToCart(item, position)
-                }
-
-                override fun onItemEmpty() {
-                    Toast.makeText(context, "Item not enough", Toast.LENGTH_SHORT).show()
-                }
-            }
 
     override fun updateOrderItemFromCart() {
         getPresenter().requestOrders()
@@ -123,4 +103,25 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     }
 
     private fun getActivityView() = activity as (MainActivityContract.View)
+
+    private fun onOrderItemClick(): ViewHolder.OrderClickListener =
+            object : ViewHolder.OrderClickListener {
+
+                override fun onClickAdded(item: FoodItem, position: Int) {
+                    getPresenter().onRemoveOrderFromCart(item, position)
+                }
+
+                override fun onClickOder(item: FoodItem, position: Int) {
+                    Toast.makeText(context, "Item ${item.name}", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onClickOrderToCart(item: FoodItem, position: Int) {
+                    getPresenter().onAddOrderItemToCart(item, position)
+                }
+
+                override fun onItemEmpty() {
+                    Toast.makeText(context, "Item not enough", Toast.LENGTH_SHORT).show()
+                }
+            }
+
 }

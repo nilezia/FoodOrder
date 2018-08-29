@@ -9,15 +9,15 @@ interface FoodProductContract {
 
 
     interface View : BaseMvpView {
-        fun onAddOrderToCartEvent(order: FoodItem)
+        fun addOrderToCartEvent(order: FoodItem)
 
-        fun onRemoveOrderFromCartEvent(order: FoodItem)
+        fun removeOrderFromCartEvent(order: FoodItem)
 
         fun updateOrderItemFromCart()
 
         fun updateOrderItemRequest(orders: MutableList<FoodItem>)
 
-        fun onShowErrorDialog(message: String?)
+        fun showErrorDialog(message: String?)
     }
 
     interface Presenter : BaseMvpPresenter<View> {
@@ -25,9 +25,9 @@ interface FoodProductContract {
 
         fun requestOrders()
 
-        fun addOrderItemToCart(orderItem: FoodItem, position: Int)
+        fun onAddOrderItemToCart(orderItem: FoodItem, position: Int)
 
-        fun removeOrderFromCart(orderItem: FoodItem, position: Int)
+        fun onRemoveOrderFromCart(orderItem: FoodItem, position: Int)
 
         fun getOrders(): MutableList<FoodItem>?
 

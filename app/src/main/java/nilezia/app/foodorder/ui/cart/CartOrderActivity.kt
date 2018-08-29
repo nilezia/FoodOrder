@@ -90,8 +90,6 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
             setResult(Activity.RESULT_OK)
             finish()
         }
-
-
     }
 
     private var positiveListener = DialogInterface.OnClickListener { _, _ ->
