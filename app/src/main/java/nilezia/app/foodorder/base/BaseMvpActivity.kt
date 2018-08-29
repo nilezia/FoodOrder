@@ -21,8 +21,10 @@ abstract class BaseMvpActivity<V : BaseMvpView, T : BaseMvpPresenter<V>> : AppCo
         }
     }
 
-    fun getPresenter(): T = presenter ?: throw Throwable("Presenter has null")
+    //  fun getPresenter(): T = presenter ?: throw Throwable("Presenter has null")
 
+    override fun getPresenter(): T = presenter
+            ?: throw Throwable("Presenter has null")
 
     protected abstract fun initial()
 

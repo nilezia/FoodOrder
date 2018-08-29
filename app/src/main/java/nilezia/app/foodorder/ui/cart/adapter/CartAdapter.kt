@@ -18,6 +18,8 @@ class CartAdapter : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.
             mPresenter.setOrderItem(orders)
         }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_cart, parent, false)

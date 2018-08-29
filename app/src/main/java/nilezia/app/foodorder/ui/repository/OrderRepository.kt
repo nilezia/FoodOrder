@@ -96,7 +96,6 @@ class OrderRepository : OrderRepositoryContract {
     override fun updateCartOrderToFirebase(listener: () -> Unit, cartOrders: MutableList<FoodItem>?) {
         createHistory(cartOrders)
         cartOrders?.forEach {
-            it.isAdded = null
             it.quantity = it.quantity - it.amount
             myRef.child(it._id.toString()).setValue(it)
         }

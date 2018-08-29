@@ -31,7 +31,7 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
         }
     }
 
-    fun getPresenter(): T = presenter ?: throw Throwable("Presenter has null")
+    override fun getPresenter(): T = presenter ?: throw Throwable("Presenter has null")
 
     protected abstract fun setupLayout(): Int
 

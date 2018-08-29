@@ -7,7 +7,7 @@ data class FoodItem(var _id: Int,
                     var amount: Int,
                     var description: String?,
                     var image: String?,
-                    var isAdded: Boolean? = false,
+                    var isAdded: Boolean = false,
                     var name: String?,
                     var price: Double,
                     var quantity: Int) {

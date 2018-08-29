@@ -12,46 +12,49 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.FoodItem
 
 class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-    var tvOrderName: TextView? = null
-    var tvOrderPrice: TextView? = null
-    var tvOrderAmount: TextView? = null
-    var tvOrderDescription: TextView? = null
-    var btnAdd: Button? = null
-    var imgView: ImageView? = null
+    lateinit var tvOrderName: TextView
+    lateinit var tvOrderPrice: TextView
+    lateinit var tvOrderAmount: TextView
+    lateinit var tvOrderDescription: TextView
+    lateinit var btnAdd: Button
+    lateinit var imgView: ImageView
     @SuppressLint("SetTextI18n")
     fun bindView(item: FoodItem?, listener: ViewHolder.OrderClickListener) = with(itemView) {
-        tvOrderName?.text = item?.name
-        tvOrderDescription?.text = item?.description
+        tvOrderName.text = item?.name
+        tvOrderDescription.text = item?.description
 
         if (item?.quantity == 0) {
-            tvOrderAmount?.apply {
+            tvOrderAmount.apply {
                 setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
                 text = "สินค้าหมดแล้ว"
             }
 
         } else {
-            tvOrderAmount?.apply {
+            tvOrderAmount.apply {
+                setTextColor(ContextCompat.getColor(context, R.color.soft_black))
                 text = "มีอยู่ ${item?.quantity.toString()}"
             }
         }
 
 
-        tvOrderPrice?.text = "${item?.price.toString()}฿"
+        tvOrderPrice.text = "${item?.price.toString()}฿"
 
-        Glide.with(this).load(item?.image).into(imgView!!)
+        Glide.with(this).load(item?.image).into(imgView)
 
-        if (item?.isAdded!!) {
-            btnAdd?.apply {
-                text = context.getString(R.string.item_added)
-                setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
-            }
-        } else {
-            btnAdd?.apply {
-                text = context.getString(R.string.item_add)
-                setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+        item?.isAdded?.let {
+            if (it) {
+                btnAdd.apply {
+                    text = context.getString(R.string.item_added)
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+                }
+            } else {
+                btnAdd.apply {
+                    text = context.getString(R.string.item_add)
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                }
             }
         }
-        btnAdd?.setOnClickListener {
+        btnAdd.setOnClickListener {
 
             onItemClick(item, adapterPosition, listener)
         }
@@ -61,7 +64,7 @@ class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         if (!item?.isAdded!!) {
             if (item.quantity > 0) {
-                btnAdd?.apply {
+                btnAdd.apply {
                     text = context.getString(R.string.item_added)
                     setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
                 }
@@ -72,7 +75,7 @@ class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
             }
         } else {
             item.isAdded = false
-            btnAdd?.apply {
+            btnAdd.apply {
                 text = context.getString(R.string.item_add)
                 setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
             }
