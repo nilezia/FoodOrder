@@ -17,8 +17,8 @@ import nilezia.app.foodorder.ui.repository.OrderRepository
 import org.parceler.Parcels
 
 class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProductContract.Presenter>(), FoodProductContract.View {
+
     private lateinit var orderAdapter: FoodAdapter
-    override var mPresenter: FoodProductContract.Presenter = FoodProductPresenter()
 
     companion object {
         fun newInstance() = FoodProductFragment().apply {
@@ -34,6 +34,8 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
     }
 
     override fun setupView() {
+
+
     }
 
     override fun setupInstance() {
@@ -41,11 +43,14 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
         setupRecyclerView()
     }
 
+    override fun createPresenter(): FoodProductContract.Presenter = FoodProductPresenter.create()
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mPresenter.registerRepository(OrderRepository())
+
+        getPresenter().registerRepository(OrderRepository())
         if (orderAdapter.foodOrders?.size == 0) {
-            mPresenter.requestOrders()
+            getPresenter().requestOrders()
         }
     }
 
@@ -94,7 +99,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
             object : ViewHolder.OrderClickListener {
 
                 override fun onClickAdded(item: FoodItem, position: Int) {
-                    mPresenter.removeOrderFromCart(item, position)
+                    getPresenter().removeOrderFromCart(item, position)
                 }
 
                 override fun onClickOder(item: FoodItem, position: Int) {
@@ -102,7 +107,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
                 }
 
                 override fun onClickOrderToCart(item: FoodItem, position: Int) {
-                    mPresenter.addOrderItemToCart(item, position)
+                    getPresenter().addOrderItemToCart(item, position)
                 }
 
                 override fun onItemEmpty() {
@@ -111,7 +116,7 @@ class FoodProductFragment : BaseMvpFragment<FoodProductContract.View, FoodProduc
             }
 
     override fun updateOrderItemFromCart() {
-        mPresenter.requestOrders()
+        getPresenter().requestOrders()
     }
 
     override fun updateOrderItemRequest(orders: MutableList<FoodItem>) {

@@ -6,4 +6,6 @@ interface BaseMvpPresenter<V : BaseMvpView> {
 
     fun detachView()
 
+    fun getView():V
+
 }

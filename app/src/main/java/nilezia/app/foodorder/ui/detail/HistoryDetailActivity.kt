@@ -19,8 +19,7 @@ class HistoryDetailActivity : BaseMvpActivity<HistoryDetailContract.View, Histor
 
     }
 
-    override var mPresenter: HistoryDetailContract.Presenter = HistoryDetailPresenter()
-    lateinit var mAdapter: DetailAdapter
+    private lateinit var mAdapter: DetailAdapter
     private var historyItems: HistoryItem? = null
 
 
@@ -73,6 +72,8 @@ class HistoryDetailActivity : BaseMvpActivity<HistoryDetailContract.View, Histor
     override fun bindView() {
 
     }
+
+    override fun createPresenter(): HistoryDetailContract.Presenter = HistoryDetailPresenter.create()
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)

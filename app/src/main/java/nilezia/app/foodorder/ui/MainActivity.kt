@@ -19,6 +19,7 @@ import org.parceler.Parcels
 
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
+    override fun createPresenter(): MainActivityContract.Presenter =MainActivityPresenter.create()
 
     companion object {
         const val ORDER_INTENT_KEY = "order_to_cart"
@@ -28,7 +29,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     private lateinit var adapter: MainPagerAdapter
 
-    override var mPresenter: MainActivityContract.Presenter = MainActivityPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +63,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
         imgCartMenu.setOnClickListener {
 
-            mPresenter.onClickMenuCart()
+            getPresenter().onClickMenuCart()
         }
     }
 
@@ -77,7 +77,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putParcelable(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
+        outState?.putParcelable(ORDER_INTENT_KEY, Parcels.wrap(getPresenter().getOrderFromCart()))
         outState?.putInt(CURRENT_PAGE, viewPager.currentItem)
 
     }
@@ -86,20 +86,20 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         val cartOrder = Parcels.unwrap<MutableList<FoodItem>>(bundle.getParcelable(ORDER_INTENT_KEY))
         val currentPage = bundle.getInt(CURRENT_PAGE, 0)
         viewPager.currentItem = currentPage
-        mPresenter.updateOrderFromCart(cartOrder)
+        getPresenter().updateOrderFromCart(cartOrder)
 
         updateCartNotification()
     }
 
     override fun onAddOrderToCartEvent(order: FoodItem) {
-        mPresenter.addOrderToCart(order)
+        getPresenter().addOrderToCart(order)
         updateCartNotification()
         Toast.makeText(applicationContext, "${order.name} Add to cart", Toast.LENGTH_SHORT).show()
 
     }
 
     override fun onRemoveOrderFromCartEvent(order: FoodItem) {
-        mPresenter.removeOrderFromCart(order)
+        getPresenter().removeOrderFromCart(order)
         updateCartNotification()
         Toast.makeText(applicationContext, "${order.name} Remove to cart", Toast.LENGTH_SHORT).show()
     }
@@ -108,7 +108,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == ORDER_REQUEST_CODE) {
-            mPresenter.updateOrderFromCart(mutableListOf())
+            getPresenter().updateOrderFromCart(mutableListOf())
             if (resultCode == Activity.RESULT_OK) {
                 val page = supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.currentItem)
                 updateCartNotification()
@@ -120,7 +120,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     }
 
     override fun goToCartActivity() = startActivityForResult(Intent(this@MainActivity, CartOrderActivity::class.java).apply {
-        putExtra(ORDER_INTENT_KEY, Parcels.wrap(mPresenter.getOrderFromCart()))
+        putExtra(ORDER_INTENT_KEY, Parcels.wrap(getPresenter().getOrderFromCart()))
     }, 100)
 
     override fun goToDetail(historyItem: HistoryItem) = startActivity(Intent(this@MainActivity, HistoryDetailActivity::class.java).apply {
@@ -128,7 +128,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     })
 
     private fun updateCartNotification() {
-        val count = mPresenter.getOrderCount()
+        val count = getPresenter().getOrderCount()
         tvOrderCount.apply {
             visibility = if (count == 0) View.GONE else View.VISIBLE
             text = "$count"

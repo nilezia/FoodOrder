@@ -19,10 +19,10 @@ import org.parceler.Parcels
 
 
 class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContract.Presenter>(), CartOrderContract.View {
+
+
     private lateinit var loadingDialog: ProgressDialog
     private lateinit var mAdapter: CartAdapter
-
-    override var mPresenter: CartOrderContract.Presenter = CartOrderPresenter()
 
     override fun initial() {
 
@@ -44,13 +44,16 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     override fun setupInstance() {
         var cardOrders = Parcels.unwrap<MutableList<FoodItem>>(intent.getParcelableExtra(MainActivity.ORDER_INTENT_KEY))
         if (cardOrders.isEmpty()) cardOrders = mutableListOf()
-        mPresenter.registerRepository(cardOrders, OrderRepository())
-        mPresenter.updateCardOrder(mPresenter.getCardOrder())
-        mPresenter.updateCartView()
+        getPresenter().registerRepository(cardOrders, OrderRepository())
+        getPresenter().registerRepository(cardOrders, OrderRepository())
+        getPresenter().updateCardOrder(getPresenter().getCardOrder())
+        getPresenter().updateCartView()
         updateTotalPrice()
     }
 
-    override fun onUpdateCartAdapter(cartOrders: MutableList<FoodItem>?) {
+    override fun createPresenter(): CartOrderContract.Presenter = CartOrderPresenter.create()
+
+    override fun onUpdateCartAdapter(cartOrders: MutableList<FoodItem>) {
         mAdapter.orders = cartOrders
         mAdapter.notifyDataSetChanged()
     }
@@ -124,20 +127,20 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
     private fun onClickCartItem(): CartViewHolder.CartClickListener = object : CartViewHolder.CartClickListener {
         override fun onClickIncreaseOrder(): (FoodItem, Int) -> Unit = { order, _ ->
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
-            mPresenter.updateCartView()
+            getPresenter().updateCartView()
             updateTotalPrice()
 
         }
 
         override fun onClickDecreaseOrder(): (FoodItem, Int) -> Unit = { order, _ ->
             Log.d("itemClick", "${order.name} : ราคารวม ${order.amount * order.price}")
-            mPresenter.updateCartView()
+            getPresenter().updateCartView()
             updateTotalPrice()
         }
 
         override fun onClickDeleteOrder(): (FoodItem, Int) -> Unit = { order, position ->
             mAdapter.removeOrder(order, position)
-            mPresenter.updateCartView()
+            getPresenter().updateCartView()
             updateTotalPrice()
         }
 
@@ -145,7 +148,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
     private fun onConfirmClick() {
         loadingDialog = ProgressDialog.show(this, "", "Loading...", true, false);
-        mPresenter.confirmCartOrder(mAdapter.orders)
+        getPresenter().confirmCartOrder(mAdapter.orders)
 
     }
 }

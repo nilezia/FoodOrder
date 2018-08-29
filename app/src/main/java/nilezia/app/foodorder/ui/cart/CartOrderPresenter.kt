@@ -11,35 +11,42 @@ class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOr
 
     private var mOrderItem: MutableList<FoodItem> = mutableListOf()
 
-    override fun registerRepository(cartOrders: MutableList<FoodItem>?, repository: OrderRepository) {
-        this.mOrderItem = cartOrders!!
+    companion object {
+
+        fun create(): CartOrderContract.Presenter = CartOrderPresenter()
+
+    }
+
+    override fun registerRepository(cartOrders: MutableList<FoodItem>, repository: OrderRepository) {
+        this.mOrderItem = cartOrders
         this.mRepository = repository
     }
 
-    override fun updateCardOrder(cartOrders: MutableList<FoodItem>?) {
-        mView?.onUpdateCartAdapter(cartOrders)
+    override fun updateCardOrder(cartOrders: MutableList<FoodItem>) {
+        getView().onUpdateCartAdapter(cartOrders)
     }
 
-    override fun getCardOrder(): MutableList<FoodItem>? = mOrderItem
+    override fun getCardOrder(): MutableList<FoodItem> = mOrderItem
 
-    override fun confirmCartOrder(cartOrders: MutableList<FoodItem>?) {
+    override fun confirmCartOrder(cartOrders: MutableList<FoodItem>) {
         mRepository.updateCartOrderToFirebase(updateRepo(), cartOrders)
     }
 
     override fun updateCartView() {
 
-        if (mView?.hasItem()!!) {
+        if (getView().hasItem()!!) {
 
-            mView?.showOrderInCart()
+            getView().showOrderInCart()
 
         } else {
-            mView?.hideOrderInCart()
+            getView().hideOrderInCart()
         }
     }
 
     private fun updateRepo(): () -> Unit = {
 
-        mView?.onPaymentSuccess()
+        getView().onPaymentSuccess()
+        getView().onPaymentSuccess()
     }
 
 }

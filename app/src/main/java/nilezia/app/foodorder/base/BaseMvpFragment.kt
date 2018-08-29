@@ -9,11 +9,11 @@ import android.view.ViewGroup
 @Suppress("UNCHECKED_CAST")
 abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragment(), BaseMvpView {
 
-
-    protected abstract var mPresenter: T
+    private var presenter: T? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter.attachView(this as V)
+        presenter = createPresenter()
+        presenter?.attachView(this as V)
 
     }
 
@@ -31,6 +31,8 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
         }
     }
 
+    fun getPresenter(): T = presenter ?: throw Throwable("Presenter has null")
+
     protected abstract fun setupLayout(): Int
 
     protected abstract fun setupView()
@@ -38,6 +40,8 @@ abstract class BaseMvpFragment<V : BaseMvpView, T : BaseMvpPresenter<V>> : Fragm
     protected abstract fun setupInstance()
 
     protected abstract fun bindView(view: View)
+
+    abstract fun createPresenter(): T
 
     abstract fun onRestoreInstanceState(bundle: Bundle)
 

@@ -16,8 +16,8 @@ import org.parceler.Parcels
 
 class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHistoryContract.Presenter>(), OrderHistoryContract.View {
 
-    override var mPresenter: OrderHistoryContract.Presenter = OrderHistoryPresenter()
-    lateinit var mAdapter: OrderHistoryAdapter
+
+    private lateinit var mAdapter: OrderHistoryAdapter
 
     companion object {
         fun newInstance() = OrderHistoryFragment().apply {
@@ -59,16 +59,18 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
     }
 
     override fun setupInstance() {
-        mPresenter.registerRepository(OrderRepository())
-        mPresenter.requestHistory()
+        getPresenter().registerRepository(OrderRepository())
+        getPresenter().requestHistory()
     }
 
     private fun setupSwiftRefresh() {
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = true
-            mPresenter.requestHistory()
+            getPresenter().requestHistory()
         }
     }
+
+    override fun createPresenter(): OrderHistoryContract.Presenter = OrderHistoryPresenter.create()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

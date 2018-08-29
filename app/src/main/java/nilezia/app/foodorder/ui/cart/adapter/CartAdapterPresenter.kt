@@ -4,7 +4,7 @@ import nilezia.app.foodorder.model.FoodItem
 
 class CartAdapterPresenter : CartAdapterPresenterImp(), CartAdapterContract.Presenter {
 
-    private var items: MutableList<FoodItem>? = null
+    private lateinit var items: MutableList<FoodItem>
     override fun increaseOrder(order: FoodItem, position: Int) {
 
         order.apply {
@@ -26,18 +26,18 @@ class CartAdapterPresenter : CartAdapterPresenterImp(), CartAdapterContract.Pres
 
     override fun deleteOrder(order: FoodItem, position: Int) {
         items.apply {
-            this?.remove(order)
+            this.remove(order)
         }
     }
 
-    override fun getOrderItem(): MutableList<FoodItem>? = items
+    override fun getOrderItem(): MutableList<FoodItem> = items
 
-    override fun setOrderItem(orderItems: MutableList<FoodItem>?) {
+    override fun setOrderItem(orderItems: MutableList<FoodItem>) {
         this.items = orderItems
 
     }
 
-    override fun getPriceTotal(): Double = items?.sumByDouble {
+    override fun getPriceTotal(): Double = items.sumByDouble {
         it.price * it.amount
-    }!!
+    }
 }

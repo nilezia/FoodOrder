@@ -5,6 +5,10 @@ import nilezia.app.foodorder.model.FoodItem
 
 class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), MainActivityContract.Presenter {
 
+    companion object {
+        fun create(): MainActivityContract.Presenter = MainActivityPresenter()
+    }
+
     private var cartOrder: MutableList<FoodItem> = mutableListOf()
 
     override fun addOrderToCart(order: FoodItem) {
@@ -20,7 +24,7 @@ class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), 
     override fun getOrderCount(): Int = cartOrder.size
 
     override fun onClickMenuCart() {
-        mView?.goToCartActivity()
+        getView().goToCartActivity()
     }
 
     override fun updateOrderFromCart(orders: MutableList<FoodItem>) {

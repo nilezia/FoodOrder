@@ -4,8 +4,6 @@ import java.lang.ref.WeakReference
 
 open class BaseMvpPresenterImp<V : BaseMvpView> : BaseMvpPresenter<V> {
 
-    protected var mView: V? = null
-        get() = wView?.get()
     private var wView: WeakReference<V>? = null
 
     override fun attachView(view: V) {
@@ -17,6 +15,8 @@ open class BaseMvpPresenterImp<V : BaseMvpView> : BaseMvpPresenter<V> {
     override fun detachView() {
         this.wView = null
     }
+
+    override fun getView(): V = wView?.get() ?: throw(Throwable("View has null"))
 
 
 }

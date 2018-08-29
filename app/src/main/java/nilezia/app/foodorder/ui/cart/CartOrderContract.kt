@@ -10,7 +10,7 @@ interface CartOrderContract {
     interface View : BaseMvpView {
 
 
-        fun onUpdateCartAdapter(cartOrders: MutableList<FoodItem>?)
+        fun onUpdateCartAdapter(cartOrders: MutableList<FoodItem>)
 
         fun onPaymentSuccess()
 
@@ -24,13 +24,13 @@ interface CartOrderContract {
 
     interface Presenter : BaseMvpPresenter<View> {
 
-        fun registerRepository(cartOrders: MutableList<FoodItem>?, repository: OrderRepository)
+        fun registerRepository(cartOrders: MutableList<FoodItem>, repository: OrderRepository)
 
-        fun getCardOrder(): MutableList<FoodItem>?
+        fun getCardOrder(): MutableList<FoodItem>
 
-        fun updateCardOrder(cartOrders: MutableList<FoodItem>?)
+        fun updateCardOrder(cartOrders: MutableList<FoodItem>)
 
-        fun confirmCartOrder(cartOrders: MutableList<FoodItem>?)
+        fun confirmCartOrder(cartOrders: MutableList<FoodItem>)
 
         fun updateCartView()
     }

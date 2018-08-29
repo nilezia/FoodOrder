@@ -6,10 +6,11 @@ import android.support.v7.app.AppCompatActivity
 @Suppress("UNCHECKED_CAST")
 abstract class BaseMvpActivity<V : BaseMvpView, T : BaseMvpPresenter<V>> : AppCompatActivity(), BaseMvpView {
 
-    protected abstract var mPresenter: T
+    private var presenter: T? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter.attachView(this as V)
+        presenter = createPresenter()
+        presenter?.attachView(this as V)
         setContentView(setupLayout())
         setupView()
         setupInstance()
@@ -20,6 +21,9 @@ abstract class BaseMvpActivity<V : BaseMvpView, T : BaseMvpPresenter<V>> : AppCo
         }
     }
 
+    fun getPresenter(): T = presenter ?: throw Throwable("Presenter has null")
+
+
     protected abstract fun initial()
 
     protected abstract fun setupLayout(): Int
@@ -29,6 +33,8 @@ abstract class BaseMvpActivity<V : BaseMvpView, T : BaseMvpPresenter<V>> : AppCo
     protected abstract fun setupView()
 
     protected abstract fun setupInstance()
+
+    abstract fun createPresenter(): T
 
     abstract override fun onRestoreInstanceState(bundle: Bundle)
 

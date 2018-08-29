@@ -12,7 +12,7 @@ class CartAdapter : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.
 
     private val mPresenter = CartAdapterPresenter()
     var listener: CartViewHolder.CartClickListener? = null
-    var orders: MutableList<FoodItem>?
+    var orders: MutableList<FoodItem>
         get() = mPresenter.getOrderItem()
         set(orders) {
             mPresenter.setOrderItem(orders)
@@ -33,25 +33,25 @@ class CartAdapter : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.
         }
     }
 
-    override fun getItemCount(): Int = mPresenter.getOrderItem()?.size!!
+    override fun getItemCount(): Int = mPresenter.getOrderItem().size
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-        holder.bindView(orders!![position])
+        holder.bindView(orders[position])
         holder.btnPlus?.setOnClickListener {
-            mPresenter.increaseOrder(orders!![position], position)
-            listener?.onClickIncreaseOrder()?.invoke(orders!![position], position)
+            mPresenter.increaseOrder(orders[position], position)
+            listener?.onClickIncreaseOrder()?.invoke(orders[position], position)
             notifyDataSetChanged()
 
         }
         holder.btnMinus?.setOnClickListener {
-            mPresenter.decreaseOrder(orders!![position], position)
-            listener?.onClickDecreaseOrder()?.invoke(orders!![position], position)
+            mPresenter.decreaseOrder(orders[position], position)
+            listener?.onClickDecreaseOrder()?.invoke(orders[position], position)
             notifyDataSetChanged()
 
         }
         holder.btnDelete?.setOnClickListener {
-            listener?.onClickDeleteOrder()?.invoke(orders!![position], position)
+            listener?.onClickDeleteOrder()?.invoke(orders[position], position)
 
         }
     }
@@ -60,13 +60,13 @@ class CartAdapter : RecyclerView.Adapter<CartViewHolder>(), CartAdapterContract.
         Log.d("itemClick", "${order.name} Remove")
         mPresenter.deleteOrder(order, position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, mPresenter.getOrderItem()?.size!!)
+        notifyItemRangeChanged(position, mPresenter.getOrderItem().size)
 
     }
 
     fun getPriceTotal(): Double = mPresenter.getPriceTotal()
 
-    fun hasItem(): Boolean = mPresenter.getOrderItem()?.size!! > 0
+    fun hasItem(): Boolean = mPresenter.getOrderItem().size > 0
 
 
 }

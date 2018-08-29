@@ -11,6 +11,12 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
     private lateinit var mRepository: OrderRepository
     private lateinit var orderItems: MutableList<FoodItem>
 
+    companion object {
+
+        fun create(): FoodProductContract.Presenter = FoodProductPresenter()
+
+    }
+
     override fun registerRepository(repository: OrderRepository) {
         this.mRepository = repository
     }
@@ -19,12 +25,12 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
 
     override fun addOrderItemToCart(orderItem: FoodItem, position: Int) {
 
-        mView?.onAddOrderToCartEvent(orderItem)
+        getView().onAddOrderToCartEvent(orderItem)
 
     }
 
     override fun removeOrderFromCart(orderItem: FoodItem, position: Int) {
-        mView?.onRemoveOrderFromCartEvent(orderItem)
+        getView().onRemoveOrderFromCartEvent(orderItem)
 
     }
 
@@ -32,11 +38,11 @@ class FoodProductPresenter : BaseMvpPresenterImp<FoodProductContract.View>(), Fo
         orderItems = mutableListOf()
         mRepository.requestOrderFromFirebase(object : CallbackHttp<MutableList<FoodItem>> {
             override fun onSuccess(response: MutableList<FoodItem>) {
-                mView?.updateOrderItemRequest(response)
+                getView().updateOrderItemRequest(response)
             }
 
             override fun onFailed(txt: String) {
-                mView?.onShowErrorDialog(txt)
+                getView().onShowErrorDialog(txt)
             }
         })
     }

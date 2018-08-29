@@ -9,9 +9,9 @@ interface CartAdapterContract {
 
     interface Presenter {
 
-        fun getOrderItem(): MutableList<FoodItem>?
+        fun getOrderItem(): MutableList<FoodItem>
 
-        fun setOrderItem(orderItems: MutableList<FoodItem>?)
+        fun setOrderItem(orderItems: MutableList<FoodItem>)
 
         fun increaseOrder(order: FoodItem, position: Int)
 
