@@ -35,8 +35,11 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'org.parceler:parceler-api:1.1.11'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.0.2'
+    implementation 'com.github.beigirad:ZigzagView:1.0.6'
+
     kapt 'org.parceler:parceler:1.1.11'
+
 
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

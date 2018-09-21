@@ -31,3 +31,4 @@ class FoodAdapter(private val listener: ViewHolder.OrderClickListener) : Recycle
     }
 
 }
+

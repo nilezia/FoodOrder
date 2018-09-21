@@ -15,7 +15,7 @@ import java.util.*
 class OrderRepository : OrderRepositoryContract {
 
     private var database = FirebaseDatabase.getInstance()
-    private var myRef = database.getReference("food-order")
+    private var myRef = database.getReference("food")
     private var hisRef = database.getReference("order-history")
 
     override fun requestOrderFromServer(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
