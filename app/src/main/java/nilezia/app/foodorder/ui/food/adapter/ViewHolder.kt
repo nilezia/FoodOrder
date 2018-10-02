@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.model.FoodItem
 
-class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
     lateinit var tvOrderName: TextView
     lateinit var tvOrderPrice: TextView
     lateinit var tvOrderAmount: TextView

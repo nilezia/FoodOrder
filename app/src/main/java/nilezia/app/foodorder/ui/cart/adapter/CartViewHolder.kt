@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import nilezia.app.foodorder.model.FoodItem
 
-class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
 
     var tvOrderName: TextView? = null
     var tvOrderPrice: TextView? = null

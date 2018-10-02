@@ -30,7 +30,8 @@ class OrderRepository : OrderRepositoryContract {
     override fun requestOrderFromFirebase(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
+            override fun onDataChange(dataSnapshot: DataSnapshot)
+            {
                 val orders = mutableListOf<FoodItem>()
 
                 dataSnapshot.children.mapNotNullTo(orders) {
