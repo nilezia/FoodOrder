@@ -47,4 +47,5 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
     }
 
     private fun getFirebase() = mFirebaseHelper
+
 }
