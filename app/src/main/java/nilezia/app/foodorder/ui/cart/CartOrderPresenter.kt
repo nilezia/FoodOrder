@@ -1,6 +1,7 @@
 package nilezia.app.foodorder.ui.cart;
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
+import nilezia.app.foodorder.http.CallbackHttp
 import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
@@ -29,7 +30,21 @@ class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOr
     override fun getCardOrder(): MutableList<FoodItem> = mOrderItem
 
     override fun confirmCartOrder(cartOrders: MutableList<FoodItem>) {
-        mRepository.updateCartOrderToFirebase(updateRepo(), cartOrders)
+        cartOrders.forEach {
+           it.isAdded = false
+
+
+        }
+        mRepository.requestOrderFromLocal(object: CallbackHttp<MutableList<FoodItem>> {
+            override fun onSuccess(response: MutableList<FoodItem>) {
+
+
+            }
+
+            override fun onFailed(txt: String) {
+
+        }
+        })
     }
 
     override fun updateCartView() {

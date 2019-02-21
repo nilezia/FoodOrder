@@ -4,4 +4,12 @@
     <string name="item_added">Added</string>
     <string name="item_add">Add</string>
     <string name="cart_total">Total</string>
+    <string name="text_login">Login</string>
+    <string name="txt_login_username">UserName</string>
+    <string name="txt_login_password">Password</string>
+    <string name="txt_register_confirm_password">ConfirmPassword</string>
+    <string name="image_description">description</string>
+    <string name="txt_menu_camera">Camera</string>
+    <string name="txt_menu_gallery">Gallery</string>
+
 </resources>

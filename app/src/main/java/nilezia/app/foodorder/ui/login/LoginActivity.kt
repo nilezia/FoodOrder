@@ -15,6 +15,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
+import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.helper.FirebaseHelper
 import nilezia.app.foodorder.ui.MainActivity
 
@@ -31,7 +32,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     }
 
     override fun setupView() {
-
+        var googleApiClient: GoogleApiClient?
 
     }
 
@@ -62,10 +63,12 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     override fun showLoginSuccess() {
 
+        //TODO:GotoMainActivity
+
     }
 
-    override fun showDialogLoginFail() {
-
+    override fun showDialogLoginFail(msg: String) {
+        DialogManager.showMessageDialog(this@LoginActivity, msg)
     }
 
     override fun showLoadingDialog() {

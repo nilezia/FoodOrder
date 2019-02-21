@@ -13,7 +13,7 @@ interface LoginContract {
 
         fun showLoginSuccess()
 
-        fun showDialogLoginFail()
+        fun showDialogLoginFail(msg: String)
 
         fun showLoadingDialog()
 

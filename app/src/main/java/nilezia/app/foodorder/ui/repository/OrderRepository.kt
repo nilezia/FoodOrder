@@ -74,23 +74,23 @@ class OrderRepository : OrderRepositoryContract {
 
     override fun requestOrderFromLocal(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
-//        val orders = mutableListOf<FoodItem>()
-//        for (i in 0..6) {
-//            val order: FoodItem? = when (i) {
-//                0 -> FoodItem()
-//                1 -> FoodItem()
-//                2 -> FoodItem()
-//                3 -> FoodItem()
-//                4 -> FoodItem()
-//                5 -> FoodItem()
-//                else -> {
-//                    FoodItem()
-//                }
-//
-//            }
-//            orders.add(order!!)
-//        }
-//        callbackHttp.onSuccess(orders)
+        val orders = mutableListOf<FoodItem>()
+        for (i in 0..6) {
+            val order: FoodItem? = when (i) {
+                0 -> FoodItem()
+                1 -> FoodItem()
+                2 -> FoodItem()
+                3 -> FoodItem()
+                4 -> FoodItem()
+                5 -> FoodItem()
+                else -> {
+                    FoodItem()
+                }
+
+            }
+            orders.add(order!!)
+        }
+        callbackHttp.onSuccess(orders)
 
     }
 
