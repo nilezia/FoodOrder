@@ -39,6 +39,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
     implementation 'com.facebook.android:facebook-login:[4,5)'
 
     implementation 'com.github.beigirad:ZigzagView:1.0.6'

@@ -207,15 +207,15 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     private fun setupGoogleSign() {
 
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build()
-//
-//        mGoogleApiClient = GoogleApiClient.Builder(this)
-//                .enableAutoManage(this) { }
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        mGoogleApiClient = GoogleApiClient.Builder(this)
+                .enableAutoManage(this) { }
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build()
 
     }
 }

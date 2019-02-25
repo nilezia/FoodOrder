@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.view.View
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
@@ -67,6 +69,11 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
             getPresenter().onClickMenuCart()
         }
+
+        val imgUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
+
+        Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
+
     }
 
     override fun createPresenter(): MainActivityContract.Presenter = MainActivityPresenter.create()
@@ -145,8 +152,10 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
             if (viewPager.currentItem == HISTORY_TAB) {
                 toolbarCart.visibility = View.GONE
+                imgProfile.visibility = View.GONE
             } else if (viewPager.currentItem == ORDER_TAB) {
                 toolbarCart.visibility = View.VISIBLE
+                imgProfile.visibility = View.VISIBLE
             }
         }
 
