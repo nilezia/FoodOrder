@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -33,16 +35,20 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
     private var mAuth: FirebaseAuth? = null
 
+    var fb: Button? = null
+
     private lateinit var callbackManager: CallbackManager
     private lateinit var auth: FirebaseAuth
+    private var loginButton: LoginButton? = null
 
     companion object {
         private const val RC_SIGN_IN = 1100
     }
 
-    override fun setupView() {
-        var googleApiClient: GoogleApiClient?
 
+    override fun setupView() {
+        fb = findViewById<Button>(R.id.fb)
+        loginButton = findViewById<LoginButton>(R.id.buttonFacebookLogin)
     }
 
     override fun initial() {
@@ -53,6 +59,11 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             getPresenter().onGoogleSignIn()
             startActivityForResult(googleSignIn(), RC_SIGN_IN)
         }
+
+        fb?.setOnClickListener {
+
+            loginButton?.performClick()
+        }
     }
 
     private fun initFacebook() {
@@ -60,8 +71,8 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         // Initialize Facebook Login button
         callbackManager = CallbackManager.Factory.create()
 
-        buttonFacebookLogin.setReadPermissions("email", "public_profile")
-        buttonFacebookLogin.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        loginButton?.setReadPermissions("email", "public_profile")
+        loginButton?.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 Log.d("fbLog", "facebook:onSuccess:$loginResult")
                 handleFacebookAccessToken(loginResult.accessToken)
@@ -98,7 +109,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
                         Log.w("fbLog", "signInWithCredential:failure", task.exception)
                         Toast.makeText(baseContext, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
-                       // updateUI(null)
+                        // updateUI(null)
                     }
 
                     // ...

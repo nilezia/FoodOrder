@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import nilezia.app.foodorder.R
@@ -16,6 +17,7 @@ import nilezia.app.foodorder.model.HistoryItem
 import nilezia.app.foodorder.ui.cart.CartOrderActivity
 import nilezia.app.foodorder.ui.detail.HistoryDetailActivity
 import nilezia.app.foodorder.ui.food.FoodProductFragment
+import nilezia.app.foodorder.ui.login.LoginActivity
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
 
@@ -70,9 +72,23 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
             getPresenter().onClickMenuCart()
         }
 
+        imgProfile.setOnClickListener {
+
+            FirebaseAuth.getInstance().signOut()
+            LoginManager.getInstance().logOut();
+            goToLoginActivity()
+
+        }
+
         val imgUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
 
         Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
+
+    }
+
+    private fun goToLoginActivity() {
+        finish()
+        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
 
     }
 

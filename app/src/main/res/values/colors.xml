@@ -7,4 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="gray">#acacac</color>
     <color name="soft_black">#555555</color>
+    <color name="googleColor">#F44336</color>
+    <color name="facebookColor">#3b5998</color>
 </resources>

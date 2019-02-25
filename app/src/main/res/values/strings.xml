@@ -12,7 +12,8 @@
     <string name="txt_menu_camera">Camera</string>
     <string name="txt_menu_gallery">Gallery</string>
     <string name="facebook_app_id">772709723089791</string> <string name="fb_login_protocol_scheme">fb772709723089791</string>
-
+    <string name="connect_with_google">Connect with Google</string>
+    <string name="connect_with_facebook">Connect with Facebook</string>
 
 
 </resources>
