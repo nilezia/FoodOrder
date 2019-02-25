@@ -2,6 +2,7 @@ package nilezia.app.foodorder.ui.repository
 
 //
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -9,6 +10,9 @@ import com.google.firebase.database.ValueEventListener
 import nilezia.app.foodorder.http.CallbackHttp
 import nilezia.app.foodorder.model.FoodItem
 import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.util.format
+import java.lang.Exception
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -17,6 +21,7 @@ class OrderRepository : OrderRepositoryContract {
     private var database = FirebaseDatabase.getInstance()
     private var myRef = database.getReference("food")
     private var hisRef = database.getReference("order-history")
+    private var userHisRef = database.getReference("user-order")
 
     override fun requestOrderFromServer(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
@@ -30,8 +35,7 @@ class OrderRepository : OrderRepositoryContract {
     override fun requestOrderFromFirebase(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot)
-            {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val orders = mutableListOf<FoodItem>()
 
                 dataSnapshot.children.mapNotNullTo(orders) {
@@ -43,6 +47,7 @@ class OrderRepository : OrderRepositoryContract {
                 }
 
                 callbackHttp.onSuccess(orders)
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -98,15 +103,35 @@ class OrderRepository : OrderRepositoryContract {
         createHistory(cartOrders)
         cartOrders?.forEach {
             it.quantity = it.quantity - it.amount
-            myRef.child(it._id.toString()).setValue(it)
+            myRef.child(it._id.toString()).child("quantity").setValue(it.quantity)
         }
         listener.invoke()
     }
 
-    private fun createHistory(cartOrders: MutableList<FoodItem>?) {
 
-        val hisModel = HistoryItem(Date().toString(), "", cartOrders?.sumBy { it.amount }!!, cartOrders.sumByDouble { it.price * it.amount }, cartOrders)
-        hisRef.push().setValue(hisModel)
+    private fun createHistory(cartOrders: MutableList<FoodItem>?) {
+        try {
+
+            val myDate = Date().format()
+            val receiptNo = getReceiptNo();
+            val hisModel = HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
+                    cartOrders.sumByDouble { it.price * it.amount }, cartOrders,
+                    FirebaseAuth.getInstance().currentUser?.displayName!!)
+            userHisRef.child(FirebaseAuth.getInstance().currentUser?.uid!!).push().setValue(hisModel)
+            hisRef.push().setValue(hisModel)
+        } catch (e: Exception) {
+            Log.e("fblog2", e.toString())
+        }
+
+
+    }
+
+    private fun getReceiptNo(): String {
+        val myDate = Date().format()
+        val outputFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val date = inputFormat.parse(myDate)
+        return outputFormat.format(date)
 
     }
 }

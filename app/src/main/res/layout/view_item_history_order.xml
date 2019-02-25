@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,35 +18,43 @@
         <ImageView
             android:layout_width="@dimen/default_icon_size_extra_large"
             android:layout_height="@dimen/default_icon_size_extra_large"
-            android:layout_marginEnd="@dimen/default_margin_padding_normal"
             android:layout_marginStart="@dimen/default_margin_padding_small"
+            android:layout_marginEnd="@dimen/default_margin_padding_normal"
             android:contentDescription="@string/description"
             android:src="@drawable/ic_wallet_36dp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_margin_padding_small"
             android:layout_marginStart="@dimen/default_margin_padding_small"
+            android:layout_marginEnd="@dimen/default_margin_padding_small"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvReceiptNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin_padding_small"
                 android:layout_marginBottom="@dimen/default_margin_padding_extra_small"
                 android:textStyle="bold"
-                android:text="Ip123456" />
+                tools:text="Ip123456" />
 
             <TextView
                 android:id="@+id/tvDate"
-                android:layout_marginTop="@dimen/default_margin_padding_extra_small"
-                android:layout_marginBottom="@dimen/default_margin_padding_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_padding_extra_small"
+                android:layout_marginBottom="@dimen/default_margin_padding_small"
                 tools:text="10/10/2018 14:00:54" />
+
+            <TextView
+                android:id="@+id/tvOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_padding_extra_small"
+                android:layout_marginBottom="@dimen/default_margin_padding_small"
+                tools:text="Somchai" />
         </LinearLayout>
 
 
@@ -53,8 +62,8 @@
             android:id="@+id/tvTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_margin_padding_small"
             android:layout_marginStart="@dimen/default_margin_padding_small"
+            android:layout_marginEnd="@dimen/default_margin_padding_small"
             tools:text="100฿" />
 
     </LinearLayout>

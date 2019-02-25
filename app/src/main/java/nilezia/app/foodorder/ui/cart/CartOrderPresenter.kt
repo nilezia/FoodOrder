@@ -35,16 +35,11 @@ class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOr
 
 
         }
-        mRepository.requestOrderFromLocal(object: CallbackHttp<MutableList<FoodItem>> {
-            override fun onSuccess(response: MutableList<FoodItem>) {
+        mRepository.updateCartOrderToFirebase({
 
+            getView().onPaymentSuccess()
 
-            }
-
-            override fun onFailed(txt: String) {
-
-        }
-        })
+        },cartOrders)
     }
 
     override fun updateCartView() {
@@ -61,7 +56,7 @@ class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOr
     private fun updateRepo(): () -> Unit = {
 
         getView().onPaymentSuccess()
-        getView().onPaymentSuccess()
+
     }
 
 }

@@ -154,5 +154,9 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         override fun onTabReselected(tab: TabLayout.Tab) {}
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 
 }

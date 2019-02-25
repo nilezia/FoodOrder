@@ -12,8 +12,10 @@ class OrderHistoryAdapter(private val itemSelectListener: (HistoryItem) -> Unit)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_item_history_order, parent, false)
         return ViewHolder(view).apply {
+            tvReceiptNo = view.findViewById(R.id.tvReceiptNo)
             tvDate = view.findViewById(R.id.tvDate)
             tvTotalPrice = view.findViewById(R.id.tvTotalPrice)
+            tvOwner = view.findViewById(R.id.tvOwner)
 
         }
     }
