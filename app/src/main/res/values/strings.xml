@@ -15,6 +15,8 @@
     <string name="connect_with_google">Connect with Google</string>
     <string name="connect_with_facebook">Connect with Facebook</string>
     <string name="action_menu_logout">Logout</string>
+    <string name="txt_sign_up">Sign up!</string>
+    <string name="txt_forget_pass">Forget Password?</string>
 
 
 </resources>
