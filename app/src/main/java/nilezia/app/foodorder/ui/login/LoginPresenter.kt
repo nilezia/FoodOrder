@@ -1,4 +1,4 @@
-package nilezia.app.foodorder.ui.login;
+package nilezia.app.foodorder.ui.login
 
 import android.util.Log
 import com.facebook.AccessToken
@@ -66,8 +66,5 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
         getView().singinWithEmail(userName, password)
 
     }
-
-
-    private fun getFirebase() = mFirebaseHelper
 
 }
