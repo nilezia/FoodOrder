@@ -111,12 +111,21 @@ class OrderRepository : OrderRepositoryContract {
 
     private fun createHistory(cartOrders: MutableList<FoodItem>?) {
         try {
-
+            val hisModel: HistoryItem
             val myDate = Date().format()
-            val receiptNo = getReceiptNo();
-            val hisModel = HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
-                    cartOrders.sumByDouble { it.price * it.amount }, cartOrders,
-                    FirebaseAuth.getInstance().currentUser?.displayName!!)
+            val receiptNo = getReceiptNo()
+            val displayname = FirebaseAuth.getInstance().currentUser?.displayName!!
+
+            hisModel = if (displayname.isEmpty()) {
+                HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
+                        cartOrders.sumByDouble { it.price * it.amount }, cartOrders,FirebaseAuth.getInstance().currentUser?.email
+                )
+            } else {
+                HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
+                        cartOrders.sumByDouble { it.price * it.amount }, cartOrders,displayname
+                )
+            }
+
             userHisRef.child(FirebaseAuth.getInstance().currentUser?.uid!!).push().setValue(hisModel)
             hisRef.push().setValue(hisModel)
         } catch (e: Exception) {

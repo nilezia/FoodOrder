@@ -3,6 +3,6 @@
 
     <item android:drawable="@color/colorPrimary" android:state_pressed="true" />
     <item android:drawable="@color/gray" android:state_enabled="false" />
-    <item android:drawable="@color/colorAccent" />
+    <item android:drawable="@color/com_facebook_blue" />
 
 </selector>

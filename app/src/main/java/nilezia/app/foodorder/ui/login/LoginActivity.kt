@@ -31,6 +31,7 @@ import nilezia.app.foodorder.ui.MainActivity
 
 class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(), LoginContract.View {
 
+
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
     private var mAuth: FirebaseAuth? = null
@@ -38,22 +39,20 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     var fb: Button? = null
 
     private lateinit var callbackManager: CallbackManager
-    private lateinit var auth: FirebaseAuth
     private var loginButton: LoginButton? = null
 
     companion object {
         private const val RC_SIGN_IN = 1100
     }
 
-
     override fun setupView() {
-        fb = findViewById<Button>(R.id.fb)
-        loginButton = findViewById<LoginButton>(R.id.buttonFacebookLogin)
+        fb = findViewById(R.id.fb)
+        loginButton = findViewById(R.id.buttonFacebookLogin)
     }
 
     override fun initial() {
         setupFirebase()
-        initFacebook()
+        setupFacebookLogin()
         getPresenter().registerFirebase(FirebaseHelper(applicationContext))
         btnSignInWithGoogle.setOnClickListener {
             getPresenter().onGoogleSignIn()
@@ -64,57 +63,12 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
             loginButton?.performClick()
         }
-    }
 
-    private fun initFacebook() {
-        auth = FirebaseAuth.getInstance()
-        // Initialize Facebook Login button
-        callbackManager = CallbackManager.Factory.create()
+        btnEmailLogin.setOnClickListener {
 
-        loginButton?.setReadPermissions("email", "public_profile")
-        loginButton?.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Log.d("fbLog", "facebook:onSuccess:$loginResult")
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
+            getPresenter().onEmailLogin(edtUsername.text.toString(), edtPassword.text.toString())
 
-            override fun onCancel() {
-                Log.d("fbLog", "facebook:onCancel")
-                // ...
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d("fbLog", "facebook:onError", error)
-                // ...
-            }
-        })
-        // ...
-
-
-    }
-
-    private fun handleFacebookAccessToken(accessToken: AccessToken?) {
-
-
-        val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("fbLog", "signInWithCredential:success")
-                        val user = auth.currentUser
-                        //updateUI(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("fbLog", "signInWithCredential:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                        // updateUI(null)
-                    }
-
-                    // ...
-                }
-
+        }
     }
 
     override fun setupLayout(): Int = R.layout.activity_login
@@ -133,24 +87,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     }
 
-    override fun showLoginSuccess() {
-
-        //TODO:GotoMainActivity
-
-    }
-
-    override fun showDialogLoginFail(msg: String) {
-        DialogManager.showMessageDialog(this@LoginActivity, msg)
-    }
-
-    override fun showLoadingDialog() {
-        progressLogin.visibility = View.VISIBLE
-    }
-
-    override fun hideLoadingDialog() {
-        progressLogin.visibility = View.GONE
-    }
-
     override fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credential)
@@ -159,6 +95,33 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
                         Log.w("Firebase", "signInWithCredential", task.exception)
                     }
                 }
+    }
+
+    override fun firebaseAuthWithFacebook(accessToken: AccessToken?) {
+
+        val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
+        mAuth?.signInWithCredential(credential)
+                ?.addOnCompleteListener(this) { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("fbLog", "signInWithCredential:failure", task.exception)
+                        Toast.makeText(baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                    }
+                }
+    }
+
+    override fun singinWithEmail(username: String, password: String) {
+        mAuth?.signInWithEmailAndPassword(username, password)
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        finish()
+                    } else {
+
+                        showDialogLoginFail(task.exception?.message!!)
+                    }
+                }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -200,6 +163,24 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         mGoogleApiClient?.disconnect()
     }
 
+    override fun showLoginSuccess() {
+
+        //TODO:GotoMainActivity
+
+    }
+
+    override fun showDialogLoginFail(msg: String) {
+        DialogManager.showMessageDialog(this@LoginActivity, msg)
+    }
+
+    override fun showLoadingDialog() {
+        progressLogin.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingDialog() {
+        progressLogin.visibility = View.GONE
+    }
+
     private fun googleSignIn() = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
 
     private fun setupFirebase() {
@@ -214,6 +195,25 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
                 setupGoogleSign()
             }
         }
+    }
+
+    private fun setupFacebookLogin() {
+        callbackManager = CallbackManager.Factory.create()
+        loginButton?.setReadPermissions("email", "public_profile")
+        loginButton?.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Log.d("fbLog", "facebook:onSuccess:$loginResult")
+                getPresenter().onConnectFacebook(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+                showDialogLoginFail("facebook:onCancel")
+            }
+
+            override fun onError(error: FacebookException) {
+                showDialogLoginFail("facebook:onError")
+            }
+        })
     }
 
     private fun setupGoogleSign() {

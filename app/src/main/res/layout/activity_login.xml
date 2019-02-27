@@ -56,7 +56,7 @@
 
 
         <Button
-            android:id="@+id/btn_email_login"
+            android:id="@+id/btnEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin_padding_normal"
@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
 

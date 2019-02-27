@@ -21,6 +21,7 @@ class DialogManager {
         fun showMessageDialog(context: Context, text: String) = AlertDialog.Builder(context).apply {
             setMessage(text)
             setNegativeButton("Close") { dialog, _ -> dialog.dismiss() }
+            show()
         }
     }
 }

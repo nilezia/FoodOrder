@@ -78,12 +78,13 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         imgProfile.setOnClickListener {
 
 
-
         }
 
         val imgUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
-
-        Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
+        Glide.with(this@MainActivity).load(R.drawable.ic_wallet_36dp).into(imgProfile)
+        imgUrl?.let {
+            Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
+        }
 
     }
 
@@ -161,7 +162,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.action_logout){
+        if (item?.itemId == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut()
             LoginManager.getInstance().logOut();
             goToLoginActivity()

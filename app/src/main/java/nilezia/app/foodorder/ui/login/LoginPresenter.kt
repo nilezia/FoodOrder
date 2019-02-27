@@ -1,6 +1,7 @@
 package nilezia.app.foodorder.ui.login;
 
 import android.util.Log
+import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
@@ -25,18 +26,15 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
 
     override fun login(loginData: LoginData) {
 
-       // getFirebase().login(loginData)
+        // getFirebase().login(loginData)
 
     }
 
     override fun onGoogleSignIn() {
         getView().showLoadingDialog()
-
     }
 
     override fun onConnectGoogleResult(result: GoogleSignInResult?) {
-        getView().hideLoadingDialog()
-
         if (result!!.isSuccess) {
             val acct = result.signInAccount
             getView().firebaseAuthWithGoogle(acct!!)
@@ -45,6 +43,30 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
             Log.d("Test", "handleSignInResult:" + result.isSuccess + " " + result.status)
         }
     }
+
+    override fun onConnectFacebook(accessToken: AccessToken) {
+
+        getView().firebaseAuthWithFacebook(accessToken)
+    }
+
+    override fun isValidateEmptyLogin(userName: String, password: String): Boolean {
+
+        if (userName.isEmpty()) {
+            return false
+        }
+        if (password.isEmpty()) {
+            return false
+        }
+        return true
+
+    }
+
+    override fun onEmailLogin(userName: String, password: String) {
+
+        getView().singinWithEmail(userName, password)
+
+    }
+
 
     private fun getFirebase() = mFirebaseHelper
 

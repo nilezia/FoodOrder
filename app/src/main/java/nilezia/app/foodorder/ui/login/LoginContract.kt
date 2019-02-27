@@ -1,5 +1,6 @@
 package nilezia.app.foodorder.ui.login
 
+import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import nilezia.app.foodorder.base.BaseMvpPresenter
@@ -21,6 +22,10 @@ interface LoginContract {
 
         fun firebaseAuthWithGoogle(acct: GoogleSignInAccount)
 
+        fun firebaseAuthWithFacebook(accessToken: AccessToken?)
+
+        fun singinWithEmail(username: String, password: String)
+
     }
 
     interface Presenter : BaseMvpPresenter<View> {
@@ -32,6 +37,12 @@ interface LoginContract {
         fun onGoogleSignIn()
 
         fun onConnectGoogleResult(result: GoogleSignInResult?)
+
+        fun onConnectFacebook(accessToken: AccessToken)
+
+        fun onEmailLogin(userName: String, password: String)
+
+        fun isValidateEmptyLogin(userName: String, password: String):Boolean
 
     }
 
