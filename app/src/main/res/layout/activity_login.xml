@@ -1,127 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center_vertical|center_horizontal"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="72dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="96dp"
-        android:src="@mipmap/ic_launcher" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/usernameInputLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin_padding_normal"
-        android:layout_marginTop="@dimen/default_margin_padding_normal"
-        android:layout_marginEnd="@dimen/default_margin_padding_normal"
-        android:layout_marginBottom="@dimen/default_margin_padding_small">
+        android:orientation="vertical"
 
-        <EditText
-            android:id="@+id/edtUsername"
+        >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="96dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/usernameInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/txt_login_username" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin_padding_normal"
-        android:layout_marginTop="@dimen/default_margin_padding_small"
-        android:layout_marginEnd="@dimen/default_margin_padding_normal"
-        android:layout_marginBottom="@dimen/default_margin_padding_normal"
-        app:passwordToggleContentDescription="@string/image_description"
-
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/soft_black">
-
-        <EditText
-            android:id="@+id/edtPassword"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/txt_login_password"
-            android:inputType="textPassword" />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <Button
-        android:id="@+id/btn_email_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin_padding_normal"
-        android:layout_marginTop="@dimen/default_margin_padding_large"
-        android:layout_marginEnd="@dimen/default_margin_padding_normal"
-        android:background="@drawable/selector_btn_add"
-        android:text="@string/text_login"
-        android:textColor="#fff"
-
-        />
-
-    <Button
-        android:id="@+id/btnSignInWithGoogle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin_padding_normal"
-        android:layout_marginTop="@dimen/default_margin_padding_large"
-        android:layout_marginEnd="@dimen/default_margin_padding_normal"
-        android:background="@color/googleColor"
-        android:drawableStart="@drawable/ic_google"
-        android:paddingStart="@dimen/default_margin_padding_large"
-        android:paddingEnd="@dimen/default_margin_padding_large"
-        android:text="@string/connect_with_google"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
-
-    <FrameLayout
-        android:id="@+id/FrameLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/buttonFacebookLogin"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_marginStart="@dimen/default_margin_padding_normal"
+            android:layout_marginTop="@dimen/default_margin_padding_normal"
+            android:layout_marginEnd="@dimen/default_margin_padding_normal"
+            android:layout_marginBottom="@dimen/default_margin_padding_small">
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/txt_login_username" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin_padding_normal"
+            android:layout_marginTop="@dimen/default_margin_padding_small"
+            android:layout_marginEnd="@dimen/default_margin_padding_normal"
+            android:layout_marginBottom="@dimen/default_margin_padding_normal"
+            app:passwordToggleContentDescription="@string/image_description"
+
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/soft_black">
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/txt_login_password"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
 
         <Button
-            android:id="@+id/fb"
-            android:layout_width="fill_parent"
+            android:id="@+id/btn_email_login"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin_padding_normal"
             android:layout_marginTop="@dimen/default_margin_padding_large"
             android:layout_marginEnd="@dimen/default_margin_padding_normal"
-            android:background="@color/facebookColor"
-            android:drawableStart="@drawable/ic_facebook_icon_white_logo_png_transparent"
-            android:paddingStart="@dimen/default_margin_padding_normal"
-            android:paddingEnd="@dimen/default_margin_padding_normal"
-            android:text="@string/connect_with_facebook"
+            android:background="@drawable/selector_btn_add"
+            android:text="@string/text_login"
+            android:textColor="#fff"
+
+            />
+
+        <Button
+            android:id="@+id/btnSignInWithGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin_padding_normal"
+            android:layout_marginTop="@dimen/default_margin_padding_large"
+            android:layout_marginEnd="@dimen/default_margin_padding_normal"
+            android:background="@color/googleColor"
+            android:drawableStart="@drawable/ic_google"
+            android:paddingStart="@dimen/default_margin_padding_large"
+            android:paddingEnd="@dimen/default_margin_padding_large"
+            android:text="@string/connect_with_google"
             android:textColor="@color/white"
             android:textStyle="bold" />
-    </FrameLayout>
 
-    <!--<Button-->
-    <!--android:id="@+id/btn_register"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginEnd="@dimen/default_margin_padding_normal"-->
-    <!--android:layout_marginStart="@dimen/default_margin_padding_normal"-->
-    <!--android:layout_marginTop="@dimen/default_margin_padding_large"-->
-    <!--android:background="@drawable/selector_button_blue"-->
-    <!--android:text="Register"-->
-    <!--android:textColor="#fff"-->
+        <FrameLayout
+            android:id="@+id/FrameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <!--/>-->
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/buttonFacebookLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/fb"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin_padding_normal"
+                android:layout_marginTop="@dimen/default_margin_padding_large"
+                android:layout_marginEnd="@dimen/default_margin_padding_normal"
+                android:background="@color/facebookColor"
+                android:drawableStart="@drawable/ic_facebook_icon_white_logo_png_transparent"
+                android:paddingStart="@dimen/default_margin_padding_normal"
+                android:paddingEnd="@dimen/default_margin_padding_normal"
+                android:text="@string/connect_with_facebook"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_register"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="@dimen/default_margin_padding_normal"-->
+        <!--android:layout_marginStart="@dimen/default_margin_padding_normal"-->
+        <!--android:layout_marginTop="@dimen/default_margin_padding_large"-->
+        <!--android:background="@drawable/selector_button_blue"-->
+        <!--android:text="Register"-->
+        <!--android:textColor="#fff"-->
+
+        <!--/>-->
+
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:visibility="gone" />
-</LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        />
+
+
+</RelativeLayout>

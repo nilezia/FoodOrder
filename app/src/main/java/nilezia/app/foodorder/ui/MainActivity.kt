@@ -4,9 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,7 +21,7 @@ import nilezia.app.foodorder.ui.food.FoodProductFragment
 import nilezia.app.foodorder.ui.login.LoginActivity
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
-
+import com.bumptech.glide.Glide
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
 
@@ -61,6 +62,8 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun initial() {
 
+        setSupportActionBar((findViewById(R.id.toolbar)))
+
     }
 
     override fun setupLayout(): Int = R.layout.activity_main
@@ -74,9 +77,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
         imgProfile.setOnClickListener {
 
-            FirebaseAuth.getInstance().signOut()
-            LoginManager.getInstance().logOut();
-            goToLoginActivity()
+
 
         }
 
@@ -153,6 +154,20 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     override fun goToDetail(historyItem: HistoryItem) = startActivity(Intent(this@MainActivity, HistoryDetailActivity::class.java).apply {
         putExtra(HISTORY_INTENT_KEY, Parcels.wrap(historyItem))
     })
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_logout){
+            FirebaseAuth.getInstance().signOut()
+            LoginManager.getInstance().logOut();
+            goToLoginActivity()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun updateCartNotification() {
         val count = getPresenter().getOrderCount()

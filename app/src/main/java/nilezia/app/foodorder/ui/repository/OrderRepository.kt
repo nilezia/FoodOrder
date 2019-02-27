@@ -58,7 +58,8 @@ class OrderRepository : OrderRepositoryContract {
     }
 
     override fun requestHistoryFromFirebase(callbackHttp: CallbackHttp<MutableList<HistoryItem>>) {
-        hisRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        val hisUser = userHisRef.child(FirebaseAuth.getInstance().currentUser?.uid!!)
+        hisUser.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.w("FirebaseRead", "Failed to read value.", p0.toException())
                 callbackHttp.onFailed(p0.toException().toString())
@@ -107,7 +108,6 @@ class OrderRepository : OrderRepositoryContract {
         }
         listener.invoke()
     }
-
 
     private fun createHistory(cartOrders: MutableList<FoodItem>?) {
         try {
