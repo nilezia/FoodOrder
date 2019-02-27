@@ -57,6 +57,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         btnSignInWithGoogle.setOnClickListener {
             getPresenter().onGoogleSignIn()
             startActivityForResult(googleSignIn(), RC_SIGN_IN)
+
         }
 
         fb?.setOnClickListener {
@@ -134,6 +135,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data)
         }
+
     }
 
     override fun onStart() {
