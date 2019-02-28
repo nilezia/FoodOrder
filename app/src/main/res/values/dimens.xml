@@ -31,5 +31,7 @@
 
     <dimen name="height_btn_36">36dp</dimen>
     <dimen name="conner_shape">5dp</dimen>
+    <dimen name="width_height_logo_login">72dp</dimen>
+    <dimen name="extra_margin_padding_login">72dp</dimen>
 
 </resources>

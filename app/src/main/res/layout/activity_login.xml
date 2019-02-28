@@ -11,10 +11,10 @@
         >
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="72dp"
+            android:layout_width="@dimen/width_height_logo_login"
+            android:layout_height="@dimen/width_height_logo_login"
             android:layout_gravity="center"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="@dimen/extra_margin_padding_login"
             android:src="@mipmap/ic_launcher"
             android:contentDescription="@string/description"
             />
@@ -46,7 +46,6 @@
             android:layout_marginBottom="@dimen/default_margin_padding_normal"
             android:theme="@style/TextLabel"
             app:passwordToggleContentDescription="@string/image_description"
-
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/soft_black">
 
@@ -112,7 +111,8 @@
             android:layout_marginStart="@dimen/default_margin_padding_normal"
             android:layout_marginTop="@dimen/default_margin_padding_large"
             android:layout_marginEnd="@dimen/default_margin_padding_normal"
-            android:background="@color/googleColor"
+
+            android:background="@drawable/selector_btn_google"
             android:drawableStart="@drawable/ic_google"
             android:paddingStart="@dimen/default_margin_padding_large"
             android:paddingEnd="@dimen/default_margin_padding_large"
@@ -138,7 +138,7 @@
                 android:layout_marginStart="@dimen/default_margin_padding_normal"
                 android:layout_marginTop="@dimen/default_margin_padding_large"
                 android:layout_marginEnd="@dimen/default_margin_padding_normal"
-                android:background="@color/facebookColor"
+                android:background="@drawable/selector_btn_facebook"
                 android:drawableStart="@drawable/ic_facebook_icon_white_logo_png_transparent"
                 android:paddingStart="@dimen/default_margin_padding_normal"
                 android:paddingEnd="@dimen/default_margin_padding_normal"
@@ -146,19 +146,6 @@
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </FrameLayout>
-
-        <!--<Button-->
-        <!--android:id="@+id/btn_register"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginEnd="@dimen/default_margin_padding_normal"-->
-        <!--android:layout_marginStart="@dimen/default_margin_padding_normal"-->
-        <!--android:layout_marginTop="@dimen/default_margin_padding_large"-->
-        <!--android:background="@drawable/selector_button_blue"-->
-        <!--android:text="Register"-->
-        <!--android:textColor="#fff"-->
-
-        <!--/>-->
 
     </LinearLayout>
 
