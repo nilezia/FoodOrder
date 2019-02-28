@@ -66,8 +66,15 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         }
 
         btnEmailLogin.setOnClickListener {
+            val email = edtUsername.text.toString()
+            val password = edtPassword.text.toString()
 
-            getPresenter().onEmailLogin(edtUsername.text.toString(), edtPassword.text.toString())
+            if (getPresenter().isValidateEmptyLogin(email, password)) {
+                getPresenter().onEmailLogin(email, password)
+            } else {
+
+                showDialogLoginFail("กรุณากรอกข้อมูลให้ครบ")
+            }
 
         }
     }

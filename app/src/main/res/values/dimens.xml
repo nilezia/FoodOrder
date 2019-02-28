@@ -30,5 +30,6 @@
     <dimen name="default_icon_size_extra_extra_large">56dp</dimen>
 
     <dimen name="height_btn_36">36dp</dimen>
+    <dimen name="conner_shape">5dp</dimen>
 
 </resources>
