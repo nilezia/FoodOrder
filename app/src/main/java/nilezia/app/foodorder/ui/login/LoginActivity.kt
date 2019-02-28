@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -33,13 +32,11 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
 
     private var mGoogleApiClient: GoogleApiClient? = null
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
-    private var mAuth: FirebaseAuth? = null
-
-    var fb: Button? = null
-
+    private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var fb: Button
+    private lateinit var loginButton: LoginButton
     private lateinit var callbackManager: CallbackManager
-    private var loginButton: LoginButton? = null
 
     companion object {
         private const val RC_SIGN_IN = 1100
@@ -60,9 +57,9 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
         }
 
-        fb?.setOnClickListener {
+        fb.setOnClickListener {
 
-            loginButton?.performClick()
+            loginButton.performClick()
         }
 
         btnEmailLogin.setOnClickListener {
@@ -118,17 +115,15 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     override fun firebaseAuthWithFacebook(accessToken: AccessToken?) {
 
         val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
-        mAuth?.signInWithCredential(credential)
-                ?.addOnCompleteListener(this) { task ->
-                    getPresenter().onCompleteFacebook(task)
-                }
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            getPresenter().onCompleteFacebook(task)
+        }
     }
 
     override fun signinWithEmail(username: String, password: String) {
-        mAuth?.signInWithEmailAndPassword(username, password)
-                ?.addOnCompleteListener { task ->
-                    getPresenter().onCompleteSigninWithEmail(task)
-                }
+        mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener { task ->
+            getPresenter().onCompleteSigninWithEmail(task)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -147,7 +142,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     override fun onStart() {
         super.onStart()
         mGoogleApiClient?.connect()
-        mAuth!!.addAuthStateListener(mAuthListener!!)
+        mAuth.addAuthStateListener(mAuthListener)
     }
 
     override fun onStop() {
@@ -157,7 +152,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             mGoogleApiClient?.stopAutoManage(this@LoginActivity)
             mGoogleApiClient?.disconnect()
         }
-        mAuth!!.removeAuthStateListener(mAuthListener!!)
+        mAuth.removeAuthStateListener(mAuthListener)
     }
 
     override fun onPause() {
@@ -205,8 +200,8 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     private fun setupFacebookLogin() {
         callbackManager = CallbackManager.Factory.create()
-        loginButton?.setReadPermissions("email", "public_profile")
-        loginButton?.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        loginButton.setReadPermissions("email", "public_profile")
+        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 Log.d("fbLog", "facebook:onSuccess:$loginResult")
                 getPresenter().onConnectFacebook(loginResult.accessToken)
