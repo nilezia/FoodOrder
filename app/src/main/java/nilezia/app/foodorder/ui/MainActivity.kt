@@ -77,15 +77,18 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
         imgProfile.setOnClickListener {
 
-
         }
 
         val imgUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
-        Glide.with(this@MainActivity).load(R.drawable.ic_wallet_36dp).into(imgProfile)
-        imgUrl?.let {
-            Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
+        if (imgUrl != null) {
+            loadImage(imgUrl)
+        } else {
+            loadImage(R.drawable.ic_wallet_36dp)
         }
+    }
 
+    private fun loadImage(imgUrl: Any?) {
+        Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
     }
 
     private fun goToLoginActivity() {

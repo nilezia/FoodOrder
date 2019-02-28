@@ -3,11 +3,11 @@ package nilezia.app.foodorder.ui.login
 import android.util.Log
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
-
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
 import nilezia.app.foodorder.helper.FirebaseHelper
-import nilezia.app.foodorder.ui.login.model.LoginData
-
 
 class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.Presenter {
 
@@ -21,12 +21,6 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
 
     override fun registerFirebase(firebaseHelper: FirebaseHelper) {
         this.mFirebaseHelper = firebaseHelper
-
-    }
-
-    override fun login(loginData: LoginData) {
-
-        // getFirebase().login(loginData)
 
     }
 
@@ -49,6 +43,43 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
         getView().firebaseAuthWithFacebook(accessToken)
     }
 
+    override fun onSinginWithEmail(userName: String, password: String) {
+        getView().showLoadingDialog()
+        getView().signinWithEmail(userName, password)
+
+    }
+
+    override fun onCompleteFacebook(task: Task<AuthResult>) {
+        if (!task.isSuccessful) {
+            getView().showDialogLoginFail(task.exception?.message!!)
+        }
+    }
+
+    override fun onCompleteGoogle(task: Task<AuthResult>) {
+        if (!task.isSuccessful) {
+            getView().showDialogLoginFail(task.exception?.message!!)
+        }
+    }
+
+    override fun onCompleteSigninWithEmail(task: Task<AuthResult>) {
+        if (task.isSuccessful) {
+            getView().goToMainActivity()
+        } else {
+            getView().showDialogLoginFail(task.exception?.message!!)
+        }
+    }
+
+    override fun onAuthStateListener(firebaseAuth: FirebaseAuth) {
+
+        val user = firebaseAuth.currentUser
+        if (user != null) {
+            getView().goToMainActivity()
+        } else {
+            getView().setupGoogleSignIn()
+        }
+
+    }
+
     override fun isValidateEmptyLogin(userName: String, password: String): Boolean {
 
         if (userName.isEmpty()) {
@@ -61,10 +92,5 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
 
     }
 
-    override fun onEmailLogin(userName: String, password: String) {
-
-        getView().singinWithEmail(userName, password)
-
-    }
 
 }

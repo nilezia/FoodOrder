@@ -31,7 +31,7 @@ class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
 
         } else {
             tvOrderAmount.apply {
-                setTextColor(ContextCompat.getColor(context, R.color.soft_black))
+                setTextColor(ContextCompat.getColor(context, R.color.softBlack))
                 text = "มีอยู่ ${item?.quantity.toString()}"
             }
         }

@@ -70,7 +70,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             val password = edtPassword.text.toString()
 
             if (getPresenter().isValidateEmptyLogin(email, password)) {
-                getPresenter().onEmailLogin(email, password)
+                getPresenter().onSinginWithEmail(email, password)
             } else {
 
                 showDialogLoginFail("กรุณากรอกข้อมูลให้ครบ")
@@ -89,6 +89,18 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     }
 
+    override fun setupGoogleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        mGoogleApiClient = GoogleApiClient.Builder(this)
+                .enableAutoManage(this) { }
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build()
+    }
+
     override fun createPresenter(): LoginContract.Presenter = LoginPresenter.create()
 
     override fun onRestoreInstanceState(bundle: Bundle) {
@@ -99,9 +111,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
-                    if (!task.isSuccessful) {
-                        Log.w("Firebase", "signInWithCredential", task.exception)
-                    }
+                    getPresenter().onCompleteGoogle(task)
                 }
     }
 
@@ -110,26 +120,15 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
         mAuth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(this) { task ->
-                    if (!task.isSuccessful) {
-                        Log.w("fbLog", "signInWithCredential:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                    }
+                    getPresenter().onCompleteFacebook(task)
                 }
     }
 
-    override fun singinWithEmail(username: String, password: String) {
+    override fun signinWithEmail(username: String, password: String) {
         mAuth?.signInWithEmailAndPassword(username, password)
                 ?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                        finish()
-                    } else {
-
-                        showDialogLoginFail(task.exception?.message!!)
-                    }
+                    getPresenter().onCompleteSigninWithEmail(task)
                 }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -190,19 +189,17 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         progressLogin.visibility = View.GONE
     }
 
+    override fun goToMainActivity() {
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
+    }
+
     private fun googleSignIn() = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
 
     private fun setupFirebase() {
         mAuth = FirebaseAuth.getInstance()
         mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            val user = firebaseAuth.currentUser
-            // hideProgressDialog();
-            if (user != null) {
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                finish()
-            } else {
-                setupGoogleSign()
-            }
+            getPresenter().onAuthStateListener(firebaseAuth)
         }
     }
 
@@ -225,17 +222,4 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         })
     }
 
-    private fun setupGoogleSign() {
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-                .enableAutoManage(this) { }
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build()
-
-    }
 }
