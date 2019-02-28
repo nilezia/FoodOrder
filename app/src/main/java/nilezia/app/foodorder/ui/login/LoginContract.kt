@@ -32,7 +32,6 @@ interface LoginContract {
 
         fun goToMainActivity()
 
-
     }
 
     interface Presenter : BaseMvpPresenter<View> {

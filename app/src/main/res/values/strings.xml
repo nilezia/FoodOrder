@@ -17,6 +17,7 @@
     <string name="action_menu_logout">Logout</string>
     <string name="txt_sign_up">Sign up!</string>
     <string name="txt_forget_pass">Forget Password?</string>
+    <string name="warning_please_enter_data">กรุณากรอกข้อมูลให้ครบ</string>
 
 
 </resources>

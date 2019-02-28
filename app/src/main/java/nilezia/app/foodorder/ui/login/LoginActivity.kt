@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -28,14 +26,12 @@ import nilezia.app.foodorder.helper.FirebaseHelper
 import nilezia.app.foodorder.ui.MainActivity
 
 
-class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(), LoginContract.View {
+class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(), LoginContract.View, View.OnClickListener {
 
 
     private var mGoogleApiClient: GoogleApiClient? = null
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var fb: Button
-    private lateinit var loginButton: LoginButton
     private lateinit var callbackManager: CallbackManager
 
     companion object {
@@ -43,8 +39,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     }
 
     override fun setupView() {
-        fb = findViewById(R.id.fb)
-        loginButton = findViewById(R.id.buttonFacebookLogin)
+
     }
 
     override fun initial() {
@@ -57,22 +52,19 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
         }
 
-        fb.setOnClickListener {
+        fb.setOnClickListener(this)
 
-            loginButton.performClick()
-        }
+        btnEmailLogin.setOnClickListener(this)
+    }
 
-        btnEmailLogin.setOnClickListener {
-            val email = edtUsername.text.toString()
-            val password = edtPassword.text.toString()
+    private fun emailLogin() {
+        val email = edtUsername.text.toString()
+        val password = edtPassword.text.toString()
 
-            if (getPresenter().isValidateEmptyLogin(email, password)) {
-                getPresenter().onSinginWithEmail(email, password)
-            } else {
-
-                showDialogLoginFail("กรุณากรอกข้อมูลให้ครบ")
-            }
-
+        if (getPresenter().isValidateEmptyLogin(email, password)) {
+            getPresenter().onSinginWithEmail(email, password)
+        } else {
+            showDialogLoginFail(getString(R.string.warning_please_enter_data))
         }
     }
 
@@ -139,6 +131,18 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     }
 
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+
+            R.id.fb -> {
+                buttonFacebookLogin.performClick()
+            }
+            R.id.btnEmailLogin -> {
+                emailLogin()
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         mGoogleApiClient?.connect()
@@ -200,8 +204,8 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     private fun setupFacebookLogin() {
         callbackManager = CallbackManager.Factory.create()
-        loginButton.setReadPermissions("email", "public_profile")
-        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        buttonFacebookLogin.setReadPermissions("email", "public_profile")
+        buttonFacebookLogin.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 Log.d("fbLog", "facebook:onSuccess:$loginResult")
                 getPresenter().onConnectFacebook(loginResult.accessToken)
