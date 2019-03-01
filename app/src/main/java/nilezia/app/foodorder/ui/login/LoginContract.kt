@@ -14,8 +14,6 @@ interface LoginContract {
 
     interface View : BaseMvpView {
 
-        fun showLoginSuccess()
-
         fun showDialogLoginFail(msg: String)
 
         fun showLoadingDialog()
@@ -29,6 +27,10 @@ interface LoginContract {
         fun firebaseAuthWithFacebook(accessToken: AccessToken?)
 
         fun signinWithEmail(username: String, password: String)
+
+        fun showForgotPasswordDialog()
+
+        fun showSendForgotPasswordSuccess()
 
         fun goToMainActivity()
 
@@ -52,9 +54,13 @@ interface LoginContract {
 
         fun onCompleteSigninWithEmail(task: Task<AuthResult>)
 
+        fun onCompleteChangePassword(task: Task<Void>)
+
         fun onAuthStateListener(firebaseAuth: FirebaseAuth)
 
         fun isValidateEmptyLogin(userName: String, password: String): Boolean
+
+        fun onClickForgotPassword()
 
     }
 

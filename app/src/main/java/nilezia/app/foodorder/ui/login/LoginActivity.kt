@@ -22,17 +22,20 @@ import kotlinx.android.synthetic.main.activity_login.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
+import nilezia.app.foodorder.dialog.ForgetPasswordDialog
 import nilezia.app.foodorder.helper.FirebaseHelper
 import nilezia.app.foodorder.ui.MainActivity
 
 
-class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(), LoginContract.View, View.OnClickListener {
-
+class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(),
+        LoginContract.View, View.OnClickListener,
+        ForgetPasswordDialog.OnDialogListener {
 
     private var mGoogleApiClient: GoogleApiClient? = null
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     private lateinit var mAuth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
+    private lateinit var forgotDialog: ForgetPasswordDialog
 
     companion object {
         private const val RC_SIGN_IN = 1100
@@ -53,8 +56,8 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         }
 
         fb.setOnClickListener(this)
-
         btnEmailLogin.setOnClickListener(this)
+        tvForgetPassword.setOnClickListener(this)
     }
 
     private fun emailLogin() {
@@ -140,7 +143,24 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             R.id.btnEmailLogin -> {
                 emailLogin()
             }
+            R.id.tvForgetPassword -> {
+                getPresenter().onClickForgotPassword()
+            }
         }
+    }
+
+    override fun onNegativeButtonClick() {
+        forgotDialog.dismiss()
+    }
+
+    override fun onPositiveButtonClick() {
+
+        mAuth.sendPasswordResetEmail("")
+                .addOnCompleteListener { task ->
+
+                    getPresenter().onCompleteChangePassword(task)
+
+                }
     }
 
     override fun onStart() {
@@ -170,14 +190,24 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         mGoogleApiClient?.disconnect()
     }
 
-    override fun showLoginSuccess() {
+    override fun showForgotPasswordDialog() {
 
-        //TODO:GotoMainActivity
-
+        forgotDialog = ForgetPasswordDialog.Builder().apply {
+            this.setPositive(R.string.txt_btn_reset_password)
+            this.setNegative(R.string.txt_btn_cancel)
+        }.run {
+            build()
+        }
     }
 
     override fun showDialogLoginFail(msg: String) {
         DialogManager.showMessageDialog(this@LoginActivity, msg)
+    }
+
+    override fun showSendForgotPasswordSuccess() {
+
+        DialogManager.showMessageDialog(this@LoginActivity, "Please validate Email!!")
+
     }
 
     override fun showLoadingDialog() {
