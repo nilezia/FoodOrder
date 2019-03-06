@@ -198,6 +198,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         }.run {
             build()
         }
+        forgotDialog.show(fragmentManager, "")
     }
 
     override fun showDialogLoginFail(msg: String) {
