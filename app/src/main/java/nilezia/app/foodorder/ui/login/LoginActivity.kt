@@ -26,6 +26,7 @@ import nilezia.app.foodorder.dialog.ForgetPasswordDialog
 import nilezia.app.foodorder.dialog.ForgetPasswordDialog.OnDialogListener
 import nilezia.app.foodorder.helper.FirebaseHelper
 import nilezia.app.foodorder.ui.MainActivity
+import nilezia.app.foodorder.ui.register.RegisterActivity
 
 
 class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(),
@@ -58,6 +59,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         fb.setOnClickListener(this)
         btnEmailLogin.setOnClickListener(this)
         tvForgetPassword.setOnClickListener(this)
+        tvSignUp.setOnClickListener(this)
     }
 
     private fun emailLogin() {
@@ -146,6 +148,10 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             R.id.tvForgetPassword -> {
                 getPresenter().onClickForgotPassword()
             }
+            R.id.tvSignUp -> {
+
+                getPresenter().onClickSignup()
+            }
         }
     }
 
@@ -210,6 +216,14 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         finish()
     }
+
+    override fun goToRegisterActivity() {
+
+        startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+        finish()
+
+    }
+
 
     private fun googleSignIn() = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
 

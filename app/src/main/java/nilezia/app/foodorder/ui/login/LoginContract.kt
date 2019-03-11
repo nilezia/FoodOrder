@@ -34,6 +34,8 @@ interface LoginContract {
 
         fun goToMainActivity()
 
+        fun goToRegisterActivity()
+
     }
 
     interface Presenter : BaseMvpPresenter<View> {
@@ -62,6 +64,7 @@ interface LoginContract {
 
         fun onClickForgotPassword()
 
+        fun onClickSignup()
     }
 
 }

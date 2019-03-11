@@ -96,6 +96,11 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
 
     }
 
+    override fun onClickSignup() {
+
+        getView().goToRegisterActivity()
+    }
+
     override fun isValidateEmptyLogin(userName: String, password: String): Boolean {
 
         if (userName.isEmpty()) {
