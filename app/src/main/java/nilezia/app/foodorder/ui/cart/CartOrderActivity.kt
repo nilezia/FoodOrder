@@ -7,7 +7,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import kotlinx.android.synthetic.main.cart_order_activity.*
+import kotlinx.android.synthetic.main.activity_cart_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
@@ -29,7 +29,7 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
     }
 
-    override fun setupLayout(): Int = R.layout.cart_order_activity
+    override fun setupLayout(): Int = R.layout.activity_cart_order
 
     override fun bindView() {
 

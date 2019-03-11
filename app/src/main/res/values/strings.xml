@@ -20,6 +20,7 @@
     <string name="warning_please_enter_data">Please Enter data</string>
     <string name="txt_btn_reset_password">Reset Password</string>
     <string name="txt_btn_cancel">Cancel</string>
+    <string name="txt_displayname">DisplayName</string>
 
 
 </resources>

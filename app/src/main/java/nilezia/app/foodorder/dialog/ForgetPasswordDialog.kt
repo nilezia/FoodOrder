@@ -14,18 +14,20 @@ class ForgetPasswordDialog : DialogFragment() {
     private var message: Int = 0
     private var positive: Int = 0
     private var negative: Int = 0
+    private var mListener: OnDialogListener? = null
 
     companion object {
         private const val KEY_MESSAGE = "key_message"
         private const val KEY_POSITIVE = "key_positive"
         private const val KEY_NEGATIVE = "key_negative"
 
-        private fun newInstance(@StringRes positive: Int, @StringRes negative: Int) =
+        private fun newInstance(@StringRes positive: Int, @StringRes negative: Int, listener: OnDialogListener?) =
                 ForgetPasswordDialog().apply {
                     arguments = Bundle().apply {
                         putInt(KEY_NEGATIVE, negative)
                         putInt(KEY_POSITIVE, positive)
                     }
+                    mListener = listener
                 }
     }
 
@@ -48,15 +50,15 @@ class ForgetPasswordDialog : DialogFragment() {
     }
 
     private fun setupView() {
-//        btnChangePassword.setOnClickListener {
-//            getOnDialogListener()?.onPositiveButtonClick()
-//        }
-//
-//        btnCancel.setOnClickListener{
-//
-//            getOnDialogListener()?.onNegativeButtonClick()
-//
-//        }
+        btnSendEmail.setOnClickListener {
+            mListener?.onPositiveButtonClick()
+        }
+
+        btnCancel.setOnClickListener {
+
+            mListener?.onNegativeButtonClick()
+
+        }
 
     }
 
@@ -78,6 +80,8 @@ class ForgetPasswordDialog : DialogFragment() {
     }
 
     private fun getOnDialogListener(): OnDialogListener? {
+
+
         val fragment = parentFragment
         try {
             return if (fragment != null) {
@@ -90,12 +94,25 @@ class ForgetPasswordDialog : DialogFragment() {
         return null
     }
 
+    fun getEmail(): String {
+
+        val email = edtUsername.text.toString()
+
+        if (email.isEmpty()) {
+
+            usernameInputLayout.error = "กรุณากรอกอีเมลล์"
+        } else {
+            return email
+        }
+
+        return ""
+    }
 
 
     class Builder {
         private var positive: Int = 0
         private var negative: Int = 0
-
+        private var mListener: OnDialogListener? = null
         fun Builder() {
 
         }
@@ -112,7 +129,11 @@ class ForgetPasswordDialog : DialogFragment() {
 
 
         fun build(): ForgetPasswordDialog {
-            return ForgetPasswordDialog.newInstance(positive, negative)
+            return ForgetPasswordDialog.newInstance(positive, negative, mListener)
+        }
+
+        fun setListener(listener: OnDialogListener) {
+            this.mListener = listener
         }
     }
 

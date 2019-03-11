@@ -84,6 +84,7 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
     }
 
     override fun onCompleteChangePassword(task: Task<Void>) {
+        getView().hideLoadingDialog()
         if (!task.isSuccessful) {
             getView().showDialogLoginFail(task.exception?.message!!)
         }

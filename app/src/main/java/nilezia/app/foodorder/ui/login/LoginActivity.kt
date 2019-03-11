@@ -23,13 +23,13 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.dialog.ForgetPasswordDialog
+import nilezia.app.foodorder.dialog.ForgetPasswordDialog.OnDialogListener
 import nilezia.app.foodorder.helper.FirebaseHelper
 import nilezia.app.foodorder.ui.MainActivity
 
 
 class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(),
-        LoginContract.View, View.OnClickListener,
-        ForgetPasswordDialog.OnDialogListener {
+        LoginContract.View, View.OnClickListener {
 
     private var mGoogleApiClient: GoogleApiClient? = null
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
@@ -149,20 +149,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         }
     }
 
-    override fun onNegativeButtonClick() {
-        forgotDialog.dismiss()
-    }
-
-    override fun onPositiveButtonClick() {
-
-        mAuth.sendPasswordResetEmail("")
-                .addOnCompleteListener { task ->
-
-                    getPresenter().onCompleteChangePassword(task)
-
-                }
-    }
-
     override fun onStart() {
         super.onStart()
         mGoogleApiClient?.connect()
@@ -195,6 +181,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         forgotDialog = ForgetPasswordDialog.Builder().apply {
             this.setPositive(R.string.txt_btn_reset_password)
             this.setNegative(R.string.txt_btn_cancel)
+            this.setListener(forgotListener)
         }.run {
             build()
         }
@@ -251,5 +238,25 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             }
         })
     }
+
+    private var forgotListener: ForgetPasswordDialog.OnDialogListener = object : OnDialogListener {
+        override fun onPositiveButtonClick() {
+            showLoadingDialog()
+            if (!forgotDialog.getEmail().isEmpty()) {
+                mAuth.sendPasswordResetEmail(forgotDialog.getEmail())
+                        .addOnCompleteListener { task ->
+                            getPresenter().onCompleteChangePassword(task)
+
+                        }
+                forgotDialog.dismiss()
+            }
+
+        }
+
+        override fun onNegativeButtonClick() {
+            forgotDialog.dismiss()
+        }
+    }
+
 
 }

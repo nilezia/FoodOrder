@@ -24,11 +24,11 @@
 
             <ImageView
                 android:id="@+id/imgClose"
-                android:layout_margin="@dimen/default_margin_padding_normal"
                 android:layout_gravity="center_vertical"
-                android:layout_width="@dimen/default_icon_size"
-                android:layout_height="@dimen/default_icon_size"
-                android:src="@drawable/ic_baseline_black_close_24px"
+                android:padding="@dimen/default_margin_padding_normal"
+                android:layout_width="@dimen/default_icon_size_extra_large"
+                android:layout_height="@dimen/default_icon_size_extra_large"
+                android:src="@drawable/selector_img_default"
                 android:contentDescription="@string/description" />
 
         </LinearLayout>
