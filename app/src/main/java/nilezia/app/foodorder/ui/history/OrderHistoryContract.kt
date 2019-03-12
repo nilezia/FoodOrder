@@ -2,7 +2,7 @@ package nilezia.app.foodorder.ui.history
 
 import nilezia.app.foodorder.base.BaseMvpPresenter
 import nilezia.app.foodorder.base.BaseMvpView
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.HistoryItem
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 interface OrderHistoryContract {

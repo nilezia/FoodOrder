@@ -55,7 +55,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
             startActivityForResult(googleSignIn(), RC_SIGN_IN)
 
         }
-
         fb.setOnClickListener(this)
         btnEmailLogin.setOnClickListener(this)
         tvForgetPassword.setOnClickListener(this)
@@ -220,10 +219,9 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     override fun goToRegisterActivity() {
 
         startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
-        finish()
+
 
     }
-
 
     private fun googleSignIn() = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
 

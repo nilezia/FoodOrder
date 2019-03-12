@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import nilezia.app.foodorder.R
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 
 
 class DetailAdapter : RecyclerView.Adapter<ViewHolder>() {

@@ -2,8 +2,8 @@ package nilezia.app.foodorder.ui
 
 import nilezia.app.foodorder.base.BaseMvpPresenter
 import nilezia.app.foodorder.base.BaseMvpView
-import nilezia.app.foodorder.model.FoodItem
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.FoodItem
+import nilezia.app.foodorder.data.HistoryItem
 
 interface MainActivityContract {
 

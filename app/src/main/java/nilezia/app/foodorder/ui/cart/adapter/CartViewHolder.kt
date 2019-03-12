@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 
 class CartViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
 

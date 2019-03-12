@@ -17,19 +17,19 @@
                 android:id="@+id/tvTotalPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1
-"
+                android:layout_weight="1"
                 android:padding="@dimen/default_margin_padding_large"
                 android:textSize="@dimen/default_text_body_large" />
 
             <ImageView
                 android:id="@+id/imgClose"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/default_margin_padding_normal"
                 android:layout_width="@dimen/default_icon_size_extra_large"
                 android:layout_height="@dimen/default_icon_size_extra_large"
-                android:src="@drawable/selector_img_default"
-                android:contentDescription="@string/description" />
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/description"
+                android:padding="@dimen/default_margin_padding_normal"
+                android:src="@drawable/ic_baseline_black_close_24px" />
 
         </LinearLayout>
 

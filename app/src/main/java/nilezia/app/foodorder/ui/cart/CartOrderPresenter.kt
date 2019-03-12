@@ -1,8 +1,7 @@
 package nilezia.app.foodorder.ui.cart;
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
-import nilezia.app.foodorder.http.CallbackHttp
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 
@@ -51,12 +50,6 @@ class CartOrderPresenter : BaseMvpPresenterImp<CartOrderContract.View>(), CartOr
         } else {
             getView().hideOrderInCart()
         }
-    }
-
-    private fun updateRepo(): () -> Unit = {
-
-        getView().onPaymentSuccess()
-
     }
 
 }

@@ -1,7 +1,6 @@
-package nilezia.app.foodorder.model
+package nilezia.app.foodorder.data
 
 import org.parceler.Parcel
-import org.parceler.ParcelConstructor
 
 @Parcel(Parcel.Serialization.BEAN)
 data class HistoryItem(

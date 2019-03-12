@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import nilezia.app.foodorder.R
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 
 class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
     lateinit var tvOrderName: TextView

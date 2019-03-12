@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.fragment_food.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
 import nilezia.app.foodorder.dialog.DialogManager
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.food.adapter.ViewHolder

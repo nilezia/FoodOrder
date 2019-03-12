@@ -52,9 +52,6 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
     override fun onCompleteFacebook(task: Task<AuthResult>) {
         if (!task.isSuccessful) {
             getView().showDialogLoginFail(task.exception?.message!!)
-        }else{
-
-            getView().showSendForgotPasswordSuccess()
         }
     }
 

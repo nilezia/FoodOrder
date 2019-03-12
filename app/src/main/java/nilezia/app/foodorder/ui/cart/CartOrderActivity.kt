@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_cart_order.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.cart.adapter.CartAdapter
 import nilezia.app.foodorder.ui.cart.adapter.CartViewHolder

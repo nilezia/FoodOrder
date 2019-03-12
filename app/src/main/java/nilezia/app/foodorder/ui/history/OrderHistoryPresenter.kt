@@ -2,7 +2,7 @@ package nilezia.app.foodorder.ui.history
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
 import nilezia.app.foodorder.http.CallbackHttp
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.HistoryItem
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 

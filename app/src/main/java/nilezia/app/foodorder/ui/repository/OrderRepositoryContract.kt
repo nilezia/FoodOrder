@@ -1,8 +1,8 @@
 package nilezia.app.foodorder.ui.repository
 
 import nilezia.app.foodorder.http.CallbackHttp
-import nilezia.app.foodorder.model.FoodItem
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.FoodItem
+import nilezia.app.foodorder.data.HistoryItem
 
 interface OrderRepositoryContract {
 
@@ -17,6 +17,8 @@ interface OrderRepositoryContract {
     fun requestOrderFromLocal(callbackHttp: CallbackHttp<MutableList<FoodItem>>)
 
     fun updateCartOrderToFirebase(listener: () -> Unit, cartOrders: MutableList<FoodItem>?)
+
+    fun addAccountToFirebase(listener: () -> Unit)
 
 
 }

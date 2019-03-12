@@ -1,7 +1,7 @@
 package nilezia.app.foodorder.ui
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 
 class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), MainActivityContract.Presenter {
 

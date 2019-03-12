@@ -13,8 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
-import nilezia.app.foodorder.model.FoodItem
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.FoodItem
+import nilezia.app.foodorder.data.HistoryItem
 import nilezia.app.foodorder.ui.cart.CartOrderActivity
 import nilezia.app.foodorder.ui.detail.HistoryDetailActivity
 import nilezia.app.foodorder.ui.food.FoodProductFragment

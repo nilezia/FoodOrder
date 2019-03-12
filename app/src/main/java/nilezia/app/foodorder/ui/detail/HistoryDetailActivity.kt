@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_detail.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
-import nilezia.app.foodorder.model.FoodItem
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.FoodItem
+import nilezia.app.foodorder.data.HistoryItem
 import nilezia.app.foodorder.ui.detail.adapter.DetailAdapter
 import org.parceler.Parcels
 

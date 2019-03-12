@@ -1,8 +1,7 @@
 package nilezia.app.foodorder.ui.cart.adapter
 
-import nilezia.app.foodorder.base.BaseMvpView
 import nilezia.app.foodorder.base.adapter.BaseMvpAdapterView
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 
 interface CartAdapterContract {
 

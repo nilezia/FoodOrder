@@ -1,6 +1,6 @@
 package nilezia.app.foodorder.ui.cart.adapter
 
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 
 class CartAdapterPresenter : CartAdapterPresenterImp(), CartAdapterContract.Presenter {
 

@@ -6,7 +6,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.fragment_history.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.HistoryItem
 import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.detail.HistoryDetailActivity.Companion.HISTORY_DETAIL_KEY
 import nilezia.app.foodorder.ui.history.adapter.OrderHistoryAdapter

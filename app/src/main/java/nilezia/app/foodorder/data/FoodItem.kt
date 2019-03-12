@@ -1,4 +1,4 @@
-package nilezia.app.foodorder.model
+package nilezia.app.foodorder.data
 
 import org.parceler.Parcel
 

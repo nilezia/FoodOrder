@@ -8,8 +8,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import nilezia.app.foodorder.http.CallbackHttp
-import nilezia.app.foodorder.model.FoodItem
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.FoodItem
+import nilezia.app.foodorder.data.HistoryItem
 import nilezia.app.foodorder.util.format
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -18,10 +18,13 @@ import java.util.*
 
 class OrderRepository : OrderRepositoryContract {
 
+
+
     private var database = FirebaseDatabase.getInstance()
     private var myRef = database.getReference("food")
     private var hisRef = database.getReference("order-history")
     private var userHisRef = database.getReference("user-order")
+    private var userRef = database.getReference("users")
 
     override fun requestOrderFromServer(callbackHttp: CallbackHttp<MutableList<FoodItem>>) {
 
@@ -109,6 +112,12 @@ class OrderRepository : OrderRepositoryContract {
         listener.invoke()
     }
 
+    override fun addAccountToFirebase(listener: () -> Unit) {
+
+
+
+
+    }
     private fun createHistory(cartOrders: MutableList<FoodItem>?) {
         try {
             val hisModel: HistoryItem
@@ -118,11 +127,11 @@ class OrderRepository : OrderRepositoryContract {
 
             hisModel = if (displayname.isEmpty()) {
                 HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
-                        cartOrders.sumByDouble { it.price * it.amount }, cartOrders,FirebaseAuth.getInstance().currentUser?.email
+                        cartOrders.sumByDouble { it.price * it.amount }, cartOrders, FirebaseAuth.getInstance().currentUser?.email
                 )
             } else {
                 HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
-                        cartOrders.sumByDouble { it.price * it.amount }, cartOrders,displayname
+                        cartOrders.sumByDouble { it.price * it.amount }, cartOrders, displayname
                 )
             }
 
@@ -143,4 +152,6 @@ class OrderRepository : OrderRepositoryContract {
         return outputFormat.format(date)
 
     }
+
+
 }

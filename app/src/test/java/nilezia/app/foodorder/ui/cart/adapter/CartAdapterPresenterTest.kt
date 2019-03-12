@@ -1,6 +1,6 @@
 package nilezia.app.foodorder.ui.cart.adapter
 
-import nilezia.app.foodorder.model.FoodItem
+import nilezia.app.foodorder.data.FoodItem
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

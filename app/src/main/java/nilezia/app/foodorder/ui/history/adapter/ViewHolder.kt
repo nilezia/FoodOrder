@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import nilezia.app.foodorder.model.HistoryItem
+import nilezia.app.foodorder.data.HistoryItem
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
