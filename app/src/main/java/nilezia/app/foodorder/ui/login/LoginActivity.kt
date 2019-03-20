@@ -24,9 +24,9 @@ import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.dialog.ForgetPasswordDialog
 import nilezia.app.foodorder.dialog.ForgetPasswordDialog.OnDialogListener
-import nilezia.app.foodorder.helper.FirebaseHelper
 import nilezia.app.foodorder.ui.MainActivity
 import nilezia.app.foodorder.ui.register.RegisterActivity
+import nilezia.app.foodorder.ui.repository.OrderRepository
 
 
 class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presenter>(),
@@ -49,7 +49,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     override fun initial() {
         setupFirebase()
         setupFacebookLogin()
-        getPresenter().registerFirebase(FirebaseHelper(applicationContext))
+        getPresenter().registerFirebase(OrderRepository())
         btnSignInWithGoogle.setOnClickListener {
             getPresenter().onGoogleSignIn()
             startActivityForResult(googleSignIn(), RC_SIGN_IN)
@@ -62,7 +62,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     }
 
     private fun emailLogin() {
-        val email = edtUsername.text.toString()
+        val email = edtEmailName.text.toString()
         val password = edtPassword.text.toString()
 
         if (getPresenter().isValidateEmptyLogin(email, password)) {
@@ -73,10 +73,6 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     }
 
     override fun setupLayout(): Int = R.layout.activity_login
-
-    override fun bindView() {
-
-    }
 
     override fun setupInstance() {
 

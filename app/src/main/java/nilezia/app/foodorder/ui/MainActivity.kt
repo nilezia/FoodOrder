@@ -22,6 +22,8 @@ import nilezia.app.foodorder.ui.login.LoginActivity
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
 import com.bumptech.glide.Glide
+import nilezia.app.foodorder.model.UserAuth
+import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
 
@@ -78,12 +80,18 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         imgProfile.setOnClickListener {
 
         }
+        getPresenter().registerRepository(OrderRepository())
+
+    }
+
+    override fun updateProfile() {
 
         val imgUrl = FirebaseAuth.getInstance().currentUser?.photoUrl
         if (imgUrl != null) {
             loadImage(imgUrl)
         } else {
-            loadImage(R.drawable.ic_wallet_36dp)
+            val userInfo = UserAuth.instance.getUserInfo()
+            loadImage(userInfo?.avatar)
         }
     }
 
@@ -99,9 +107,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun createPresenter(): MainActivityContract.Presenter = MainActivityPresenter.create()
 
-    override fun bindView() {
-
-    }
 
     override fun setupInstance() {
 

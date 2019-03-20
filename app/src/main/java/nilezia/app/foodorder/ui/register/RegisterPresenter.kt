@@ -3,11 +3,14 @@ package nilezia.app.foodorder.ui.register
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
+import nilezia.app.foodorder.ui.register.model.RegisterModel
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), RegisterContract.Presenter {
 
+
     private lateinit var mRepository: OrderRepository
+    private lateinit var mRegisterModel: RegisterModel
 
     companion object {
 
@@ -18,6 +21,7 @@ class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), Register
     override fun registerRepository(repository: OrderRepository) {
 
         this.mRepository = repository
+        this.mRegisterModel = RegisterModel()
     }
 
     override fun onCompleteListener(task: Task<AuthResult>) {
@@ -26,10 +30,11 @@ class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), Register
             getView().showDialogFail(task.exception?.message!!)
         } else {
 
-            mRepository.addAccountToFirebase {
+            mRepository.addAccountToFirebase({
 
                 getView().showSuccessToast(getView().getSuccessText())
-            }
+
+            }, getRegister())
         }
     }
 
@@ -50,9 +55,11 @@ class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), Register
                 getView().showDialogFail("Password not match!!")
 
             } else {
-
+getView().showLoadingDialog()
                 getView().createUserWithEmail()
             }
         }
     }
+
+    override fun getRegister(): RegisterModel = mRegisterModel
 }

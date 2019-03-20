@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import nilezia.app.foodorder.base.BaseMvpPresenter
 import nilezia.app.foodorder.base.BaseMvpView
 import nilezia.app.foodorder.helper.FirebaseHelper
+import nilezia.app.foodorder.ui.repository.OrderRepository
 
 interface LoginContract {
 
@@ -40,7 +41,7 @@ interface LoginContract {
 
     interface Presenter : BaseMvpPresenter<View> {
 
-        fun registerFirebase(firebaseHelper: FirebaseHelper)
+        fun registerFirebase(repository: OrderRepository)
 
         fun onGoogleSignIn()
 

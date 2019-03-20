@@ -96,11 +96,11 @@ class ForgetPasswordDialog : DialogFragment() {
 
     fun getEmail(): String {
 
-        val email = edtUsername.text.toString()
+        val email = edtEmailName.text.toString()
 
         if (email.isEmpty()) {
 
-            usernameInputLayout.error = "กรุณากรอกอีเมลล์"
+            emailInputLayout.error = "กรุณากรอกอีเมลล์"
         } else {
             return email
         }

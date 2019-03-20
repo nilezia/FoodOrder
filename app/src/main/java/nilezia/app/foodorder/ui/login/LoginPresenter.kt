@@ -7,11 +7,13 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
-import nilezia.app.foodorder.helper.FirebaseHelper
+import nilezia.app.foodorder.data.UserInfo
+import nilezia.app.foodorder.model.UserAuth
+import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.Presenter {
 
-    private lateinit var mFirebaseHelper: FirebaseHelper
+    private lateinit var mRepository: OrderRepository
 
     companion object {
 
@@ -19,8 +21,8 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
 
     }
 
-    override fun registerFirebase(firebaseHelper: FirebaseHelper) {
-        this.mFirebaseHelper = firebaseHelper
+    override fun registerFirebase(repository: OrderRepository) {
+        this.mRepository = repository
 
     }
 
@@ -52,19 +54,25 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
     override fun onCompleteFacebook(task: Task<AuthResult>) {
         if (!task.isSuccessful) {
             getView().showDialogLoginFail(task.exception?.message!!)
+        } else {
+            addUserFromFirebaseAuth()
         }
+    }
+
+    private fun addUserFromFirebaseAuth() {
+        mRepository.createAccountFromSocialToDatabase()
     }
 
     override fun onCompleteGoogle(task: Task<AuthResult>) {
         if (!task.isSuccessful) {
             getView().showDialogLoginFail(task.exception?.message!!)
+        } else {
+            addUserFromFirebaseAuth()
         }
     }
 
     override fun onCompleteSigninWithEmail(task: Task<AuthResult>) {
-        if (task.isSuccessful) {
-            getView().goToMainActivity()
-        } else {
+        if (!task.isSuccessful) {
             getView().showDialogLoginFail(task.exception?.message!!)
         }
     }

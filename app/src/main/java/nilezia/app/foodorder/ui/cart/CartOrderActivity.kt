@@ -31,10 +31,6 @@ class CartOrderActivity : BaseMvpActivity<CartOrderContract.View, CartOrderContr
 
     override fun setupLayout(): Int = R.layout.activity_cart_order
 
-    override fun bindView() {
-
-    }
-
     override fun setupView() {
         setupAdapter()
         btnConfirm.setOnClickListener {

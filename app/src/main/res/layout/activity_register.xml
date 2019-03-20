@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,9 +13,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin_padding_normal"
-            android:orientation="vertical"
-            android:padding="@dimen/default_margin_padding_normal">
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
@@ -35,94 +33,116 @@
                 android:contentDescription="@string/description"
                 android:src="@drawable/ic_round_person_add_24px" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/usernameInputLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin_padding_normal"
-                android:layout_marginTop="@dimen/default_margin_padding_normal"
-                android:layout_marginEnd="@dimen/default_margin_padding_normal"
-                android:layout_marginBottom="@dimen/default_margin_padding_small"
-                android:theme="@style/TextLabel">
+                android:layout_margin="@dimen/default_margin_padding_normal"
+                android:orientation="vertical"
+                android:padding="@dimen/default_margin_padding_normal">
 
-                <EditText
-                    android:id="@+id/edtUsername"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/emailInputLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/txt_login_username" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin_padding_normal"
+                    android:layout_marginTop="@dimen/default_margin_padding_normal"
+                    android:layout_marginEnd="@dimen/default_margin_padding_normal"
+                    android:layout_marginBottom="@dimen/default_margin_padding_small"
+                    android:theme="@style/TextLabel">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/displayInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin_padding_normal"
-                android:layout_marginTop="@dimen/default_margin_padding_normal"
-                android:layout_marginEnd="@dimen/default_margin_padding_normal"
-                android:layout_marginBottom="@dimen/default_margin_padding_small"
-                android:theme="@style/TextLabel">
+                    <EditText
+                        android:id="@+id/edtEmailName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/txt_login_email"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/edtDisplayName"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/displayInputLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/txt_displayname" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin_padding_normal"
+                    android:layout_marginTop="@dimen/default_margin_padding_normal"
+                    android:layout_marginEnd="@dimen/default_margin_padding_normal"
+                    android:layout_marginBottom="@dimen/default_margin_padding_small"
+                    android:theme="@style/TextLabel">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin_padding_normal"
-                android:layout_marginTop="@dimen/default_margin_padding_small"
-                android:layout_marginEnd="@dimen/default_margin_padding_normal"
-                android:layout_marginBottom="@dimen/default_margin_padding_normal"
-                android:theme="@style/TextLabel"
-                app:passwordToggleContentDescription="@string/image_description"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/softBlack">
+                    <EditText
+                        android:id="@+id/edtDisplayName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/txt_displayname"
+                        android:inputType="text"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/edtPassword"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/txt_login_password"
-                    android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin_padding_normal"
+                    android:layout_marginTop="@dimen/default_margin_padding_small"
+                    android:layout_marginEnd="@dimen/default_margin_padding_normal"
+                    android:layout_marginBottom="@dimen/default_margin_padding_normal"
+                    android:theme="@style/TextLabel"
+                    app:passwordToggleContentDescription="@string/image_description"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/softBlack">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin_padding_normal"
-                android:layout_marginTop="@dimen/default_margin_padding_small"
-                android:layout_marginEnd="@dimen/default_margin_padding_normal"
-                android:layout_marginBottom="@dimen/default_margin_padding_normal"
-                android:theme="@style/TextLabel"
-                app:passwordToggleContentDescription="@string/image_description"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/softBlack">
+                    <EditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/txt_login_password"
+                        android:inputType="textPassword" />
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/edtConfirmPassword"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/txt_register_confirm_password"
-                    android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin_padding_normal"
+                    android:layout_marginTop="@dimen/default_margin_padding_small"
+                    android:layout_marginEnd="@dimen/default_margin_padding_normal"
+                    android:layout_marginBottom="@dimen/default_margin_padding_normal"
+                    android:theme="@style/TextLabel"
+                    app:passwordToggleContentDescription="@string/image_description"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/softBlack">
 
-            <Button
-                android:id="@+id/btnCreateAccount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin_padding_normal"
-                android:layout_marginTop="@dimen/default_margin_padding_large"
-                android:layout_marginEnd="@dimen/default_margin_padding_normal"
-                android:background="@drawable/selector_btn_default"
-                android:text="Create Account"
-                android:textColor="#fff"
+                    <EditText
+                        android:id="@+id/edtConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/txt_register_confirm_password"
+                        android:inputType="textPassword" />
+                </android.support.design.widget.TextInputLayout>
 
-                />
+                <Button
+                    android:id="@+id/btnCreateAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin_padding_normal"
+                    android:layout_marginTop="@dimen/default_margin_padding_large"
+                    android:layout_marginEnd="@dimen/default_margin_padding_normal"
+                    android:background="@drawable/selector_btn_default"
+                    android:text="Create Account"
+                    android:textColor="#fff"
+
+                    />
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -69,10 +69,6 @@ class HistoryDetailActivity : BaseMvpActivity<HistoryDetailContract.View, Histor
 
     }
 
-    override fun bindView() {
-
-    }
-
     override fun createPresenter(): HistoryDetailContract.Presenter = HistoryDetailPresenter.create()
 
     override fun onSaveInstanceState(outState: Bundle?) {

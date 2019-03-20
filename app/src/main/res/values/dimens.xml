@@ -33,5 +33,6 @@
     <dimen name="conner_shape">5dp</dimen>
     <dimen name="width_height_logo_login">72dp</dimen>
     <dimen name="extra_margin_padding_login">48dp</dimen>
+    <dimen name="height_txt_bottom_sheet">60dp</dimen>
 
 </resources>

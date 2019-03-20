@@ -3,6 +3,8 @@ package nilezia.app.foodorder.ui.repository
 import nilezia.app.foodorder.http.CallbackHttp
 import nilezia.app.foodorder.data.FoodItem
 import nilezia.app.foodorder.data.HistoryItem
+import nilezia.app.foodorder.data.UserInfo
+import nilezia.app.foodorder.ui.register.model.RegisterModel
 
 interface OrderRepositoryContract {
 
@@ -18,7 +20,11 @@ interface OrderRepositoryContract {
 
     fun updateCartOrderToFirebase(listener: () -> Unit, cartOrders: MutableList<FoodItem>?)
 
-    fun addAccountToFirebase(listener: () -> Unit)
+    fun addAccountToFirebase(listener: () -> Unit, registerModel: RegisterModel)
 
+    fun createAccountToDatabase(registerModel: RegisterModel)
 
+    fun createAccountFromSocialToDatabase()
+
+    fun getUserInfo(listener: () -> Unit)
 }

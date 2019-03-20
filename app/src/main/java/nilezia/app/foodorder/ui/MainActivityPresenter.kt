@@ -2,6 +2,7 @@ package nilezia.app.foodorder.ui
 
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
 import nilezia.app.foodorder.data.FoodItem
+import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), MainActivityContract.Presenter {
 
@@ -10,6 +11,16 @@ class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), 
     }
 
     private var cartOrder: MutableList<FoodItem> = mutableListOf()
+
+
+    override fun registerRepository(orderRepository: OrderRepository) {
+        orderRepository.getUserInfo {
+
+            getView().updateProfile()
+
+        }
+    }
+
 
     override fun addOrderToCart(order: FoodItem) {
         cartOrder.add(order)
@@ -31,5 +42,5 @@ class MainActivityPresenter : BaseMvpPresenterImp<MainActivityContract.View>(), 
         this.cartOrder = orders
     }
 
-
 }
+
