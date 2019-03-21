@@ -25,7 +25,7 @@ class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), Register
     }
 
     override fun onCompleteListener(task: Task<AuthResult>) {
-
+        getView().hideLoadingDialog()
         if (!task.isSuccessful) {
             getView().showDialogFail(task.exception?.message!!)
         } else {
@@ -55,7 +55,7 @@ class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), Register
                 getView().showDialogFail("Password not match!!")
 
             } else {
-getView().showLoadingDialog()
+                getView().showLoadingDialog()
                 getView().createUserWithEmail()
             }
         }

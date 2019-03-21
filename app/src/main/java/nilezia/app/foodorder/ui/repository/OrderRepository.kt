@@ -29,7 +29,6 @@ import kotlin.collections.HashMap
 
 class OrderRepository : OrderRepositoryContract {
 
-
     private var database = FirebaseDatabase.getInstance()
     private var mStorageRef: StorageReference? = FirebaseStorage.getInstance().reference
     private var myRef = database.getReference("food")
@@ -205,8 +204,11 @@ class OrderRepository : OrderRepositoryContract {
             val myDate = Date().format()
             val receiptNo = getReceiptNo()
             val displayname = FirebaseAuth.getInstance().currentUser?.displayName
+            val result = if (UserAuth.instance.getUserInfo()?.DisplayName == null)
+                UserAuth.instance.getUserInfo()?.email
+            else UserAuth.instance.getUserInfo()?.DisplayName
 
-            var result = if (UserAuth.instance.getUserInfo()?.DisplayName == null) UserAuth.instance.getUserInfo()?.email else UserAuth.instance.getUserInfo()?.DisplayName //74 chars
+
             hisModel = if (displayname == null || displayname.isEmpty()) {
                 HistoryItem(receiptNo, myDate, "", cartOrders?.sumBy { it.amount }!!,
                         cartOrders.sumByDouble { it.price * it.amount }, cartOrders, result
@@ -220,7 +222,7 @@ class OrderRepository : OrderRepositoryContract {
             userHisRef.child(FirebaseAuth.getInstance().currentUser?.uid!!).push().setValue(hisModel)
             hisRef.push().setValue(hisModel)
         } catch (e: Exception) {
-            Log.e("fblog2", e.toString())
+            Log.e("Exception", e.toString())
         }
 
 

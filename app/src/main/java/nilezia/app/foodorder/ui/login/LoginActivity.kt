@@ -47,8 +47,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     }
 
     override fun initial() {
-        setupFirebase()
-        setupFacebookLogin()
+
         getPresenter().registerFirebase(OrderRepository())
         btnSignInWithGoogle.setOnClickListener {
             getPresenter().onGoogleSignIn()
@@ -75,7 +74,8 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     override fun setupLayout(): Int = R.layout.activity_login
 
     override fun setupInstance() {
-
+        setupFirebase()
+        setupFacebookLogin()
     }
 
     override fun setupGoogleSignIn() {

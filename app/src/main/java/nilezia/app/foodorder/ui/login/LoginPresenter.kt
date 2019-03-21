@@ -7,8 +7,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import nilezia.app.foodorder.base.BaseMvpPresenterImp
-import nilezia.app.foodorder.data.UserInfo
-import nilezia.app.foodorder.model.UserAuth
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.Presenter {
@@ -72,6 +70,7 @@ class LoginPresenter : BaseMvpPresenterImp<LoginContract.View>(), LoginContract.
     }
 
     override fun onCompleteSigninWithEmail(task: Task<AuthResult>) {
+        getView().hideLoadingDialog()
         if (!task.isSuccessful) {
             getView().showDialogLoginFail(task.exception?.message!!)
         }

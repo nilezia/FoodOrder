@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
+import nilezia.app.foodorder.dialog.DialogManager
 import nilezia.app.foodorder.ui.repository.OrderRepository
 import siclo.com.ezphotopicker.api.EZPhotoPick
 import siclo.com.ezphotopicker.api.EZPhotoPickStorage
@@ -26,7 +27,7 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
     private lateinit var mAuth: FirebaseAuth
     private lateinit var bottomSheetView: View
     private lateinit var bottomSheetDialog: BottomSheetDialog
-
+    private val prefix = "IMG_PF"
     override fun initial() {
 
         setupFirebase()
@@ -88,6 +89,8 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
     }
 
     override fun showDialogFail(msg: String) {
+
+        DialogManager.showMessageDialog(this@RegisterActivity, msg)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -97,7 +100,7 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
         return super.onOptionsItemSelected(item)
     }
 
-    override fun getSuccessText(): String = "Create Account Success!"
+    override fun getSuccessText(): String = getString(R.string.txt_create_account_success)
 
     override fun showLoadingDialog() {
         progressLogin.visibility = View.VISIBLE
@@ -106,7 +109,6 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
     override fun hideLoadingDialog() {
         progressLogin.visibility = View.GONE
     }
-
 
     private fun showBottomSheet() {
         bottomSheetView.findViewById<TextView>(R.id.menu_bottom_sheet_camera).setOnClickListener {
@@ -123,18 +125,21 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
         bottomSheetDialog.show()
     }
 
-    private fun chooseImage() = EZPhotoPickConfig().apply {
-        photoSource = PhotoSource.GALLERY
-        exportingSize = 900
-        exportedPhotoName = "IMG_" + System.currentTimeMillis().toString()
+    private fun chooseImage(): EZPhotoPickConfig {
 
+        return EZPhotoPickConfig().apply {
+            photoSource = PhotoSource.GALLERY
+            exportingSize = 900
+            exportedPhotoName = prefix + "_" + System.currentTimeMillis().toString()
+
+        }
     }
 
     private fun chooseCamera() = EZPhotoPickConfig().apply {
 
         photoSource = PhotoSource.CAMERA
         exportingSize = 900
-        exportedPhotoName = "IMG_PF" + System.currentTimeMillis().toString()
+        exportedPhotoName = prefix + "_" + System.currentTimeMillis().toString()
 
     }
 
@@ -159,8 +164,8 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE ||
-                requestCode == EZPhotoPick.PHOTO_PICK_CAMERA_REQUEST_CODE &&
+        if ((requestCode == EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE ||
+                        requestCode == EZPhotoPick.PHOTO_PICK_CAMERA_REQUEST_CODE) &&
                 resultCode == RESULT_OK) {
             try {
                 val pickedPhoto: Bitmap = EZPhotoPickStorage(this).loadLatestStoredPhotoBitmap()

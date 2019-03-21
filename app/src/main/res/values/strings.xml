@@ -21,6 +21,7 @@
     <string name="txt_btn_reset_password">Reset Password</string>
     <string name="txt_btn_cancel">Cancel</string>
     <string name="txt_displayname">DisplayName</string>
+    <string name="txt_create_account_success">Create Account Success!</string>
 
 
 </resources>
