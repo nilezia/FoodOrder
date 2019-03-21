@@ -26,6 +26,8 @@ interface RegisterContract {
 
     interface Presenter : BaseMvpPresenter<View> {
 
+        var mRegisterModel:RegisterModel
+
         fun registerRepository(repository: OrderRepository)
 
         fun onClickCreateAccount(userName: String, password: String, confirmPassword: String)
@@ -33,6 +35,7 @@ interface RegisterContract {
         fun onCompleteListener(task: Task<AuthResult>)
 
         fun getRegister(): RegisterModel
+
     }
 
 

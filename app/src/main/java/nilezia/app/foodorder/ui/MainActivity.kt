@@ -64,7 +64,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun initial() {
 
-        setSupportActionBar((findViewById(R.id.toolbar)))
+
 
     }
 
@@ -107,9 +107,8 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
 
     override fun createPresenter(): MainActivityContract.Presenter = MainActivityPresenter.create()
 
-
     override fun setupInstance() {
-
+        setSupportActionBar((findViewById(R.id.toolbar)))
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -172,7 +171,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut()
-            LoginManager.getInstance().logOut();
+            LoginManager.getInstance().logOut()
             goToLoginActivity()
         }
         return super.onOptionsItemSelected(item)

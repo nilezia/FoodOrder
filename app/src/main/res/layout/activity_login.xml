@@ -33,11 +33,12 @@
                 android:theme="@style/TextLabel">
 
                 <EditText
-                    android:id="@+id/edtEmailName"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
+                    android:freezesText="true"
                     android:hint="@string/txt_login_email" />
             </android.support.design.widget.TextInputLayout>
 
@@ -58,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/txt_login_password"
+                    android:freezesText="true"
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 

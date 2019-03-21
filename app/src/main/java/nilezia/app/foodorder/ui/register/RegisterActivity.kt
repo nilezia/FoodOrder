@@ -3,6 +3,7 @@ package nilezia.app.foodorder.ui.register
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.view.MenuItem
@@ -14,7 +15,9 @@ import kotlinx.android.synthetic.main.activity_register.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpActivity
 import nilezia.app.foodorder.dialog.DialogManager
+import nilezia.app.foodorder.ui.register.model.RegisterModel
 import nilezia.app.foodorder.ui.repository.OrderRepository
+import org.parceler.Parcels
 import siclo.com.ezphotopicker.api.EZPhotoPick
 import siclo.com.ezphotopicker.api.EZPhotoPickStorage
 import siclo.com.ezphotopicker.api.models.EZPhotoPickConfig
@@ -24,12 +27,33 @@ import java.io.IOException
 
 class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract.Presenter>(), RegisterContract.View {
 
+    private val EMAIL_BUNDLE_KEY = "email_key"
+    private val PASSWORD_BUNDLE_KEY = "password_key"
+    private val CONFIRM_PASSWORD_BUNDLE_KEY = "confirm_password_key"
+    private val DISPLAY_BUNDLE_KEY = "display_key"
+    private val REGISTER_OBJECT_BUNDLE_KEY = "register_object_key"
+    private val PATH_PHOTO_BUNDLE_KEY = "path_photo_key"
+    private val prefix = "IMG_PF"
     private lateinit var mAuth: FirebaseAuth
     private lateinit var bottomSheetView: View
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private val prefix = "IMG_PF"
+
+    private var mPathPhoto: String? = null
     override fun initial() {
 
+
+    }
+
+    override fun setupLayout(): Int = R.layout.activity_register
+
+    override fun setupView() {
+        setSupportActionBar((findViewById(R.id.toolbar)))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = ""
+    }
+
+    override fun setupInstance() {
         setupFirebase()
         setupBottomSheet()
         getPresenter().registerRepository(OrderRepository())
@@ -52,25 +76,39 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
             showBottomSheet()
 
         }
-
-    }
-
-    override fun setupLayout(): Int = R.layout.activity_register
-
-    override fun setupView() {
-        setSupportActionBar((findViewById(R.id.toolbar)))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = ""
-    }
-
-    override fun setupInstance() {
-
     }
 
     override fun createPresenter(): RegisterContract.Presenter = RegisterPresenter()
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putString(DISPLAY_BUNDLE_KEY, edtDisplayName.text.toString())
+        outState?.putString(EMAIL_BUNDLE_KEY, edtEmailName.text.toString())
+        outState?.putString(PASSWORD_BUNDLE_KEY, edtPassword.text.toString())
+        outState?.putString(CONFIRM_PASSWORD_BUNDLE_KEY, edtConfirmPassword.text.toString())
+        outState?.putParcelable(REGISTER_OBJECT_BUNDLE_KEY, Parcels.wrap(getPresenter().getRegister()))
+        outState?.putString(PATH_PHOTO_BUNDLE_KEY, mPathPhoto)
+    }
+
     override fun onRestoreInstanceState(bundle: Bundle) {
+        val registerObject = Parcels.unwrap<RegisterModel>(bundle.getParcelable(REGISTER_OBJECT_BUNDLE_KEY))
+        val pathPhoto = bundle.getString(PATH_PHOTO_BUNDLE_KEY)
+        edtDisplayName.setText(bundle.getString(DISPLAY_BUNDLE_KEY))
+        edtEmailName.setText(bundle.getString(EMAIL_BUNDLE_KEY))
+        edtPassword.setText(bundle.getString(PASSWORD_BUNDLE_KEY))
+        edtConfirmPassword.setText(bundle.getString(CONFIRM_PASSWORD_BUNDLE_KEY))
+        getPresenter().mRegisterModel = registerObject
+        pathPhoto?.let {
+            setPhotoOnImageView(createBitmap(pathPhoto))
+        }
+
+    }
+
+    private fun createBitmap(pathPhoto: String): Bitmap {
+        mPathPhoto = pathPhoto
+        val bmOptions = BitmapFactory.Options()
+        val bitmap = BitmapFactory.decodeFile(pathPhoto, bmOptions)
+        return Bitmap.createBitmap(bitmap)
 
     }
 
@@ -171,7 +209,8 @@ class RegisterActivity : BaseMvpActivity<RegisterContract.View, RegisterContract
                 val pickedPhoto: Bitmap = EZPhotoPickStorage(this).loadLatestStoredPhotoBitmap()
                 val photoName = data?.getStringExtra(EZPhotoPick.PICKED_PHOTO_NAME_KEY)!!
                 setPhotoOnImageView(pickedPhoto)
-                getPresenter().getRegister().imgPath = EZPhotoPickStorage(this).getAbsolutePathOfStoredPhoto("", photoName)
+                mPathPhoto = EZPhotoPickStorage(this).getAbsolutePathOfStoredPhoto("", photoName)
+                getPresenter().getRegister().imgPath = mPathPhoto
 
             } catch (e: IOException) {
                 e.printStackTrace()

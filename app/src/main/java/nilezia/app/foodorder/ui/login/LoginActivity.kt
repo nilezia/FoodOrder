@@ -3,6 +3,7 @@ package nilezia.app.foodorder.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -37,9 +38,13 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     private lateinit var mAuth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
     private lateinit var forgotDialog: ForgetPasswordDialog
+    private val EMAIL_BUNDLE_KEY = "email_key"
+    private val PASSWORD_BUNDLE_KEY = "password_key"
+
 
     companion object {
         private const val RC_SIGN_IN = 1100
+
     }
 
     override fun setupView() {
@@ -48,20 +53,11 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     override fun initial() {
 
-        getPresenter().registerFirebase(OrderRepository())
-        btnSignInWithGoogle.setOnClickListener {
-            getPresenter().onGoogleSignIn()
-            startActivityForResult(googleSignIn(), RC_SIGN_IN)
 
-        }
-        fb.setOnClickListener(this)
-        btnEmailLogin.setOnClickListener(this)
-        tvForgetPassword.setOnClickListener(this)
-        tvSignUp.setOnClickListener(this)
     }
 
     private fun emailLogin() {
-        val email = edtEmailName.text.toString()
+        val email = edtEmail.text.toString()
         val password = edtPassword.text.toString()
 
         if (getPresenter().isValidateEmptyLogin(email, password)) {
@@ -76,6 +72,16 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
     override fun setupInstance() {
         setupFirebase()
         setupFacebookLogin()
+        getPresenter().registerFirebase(OrderRepository())
+        btnSignInWithGoogle.setOnClickListener {
+            getPresenter().onGoogleSignIn()
+            startActivityForResult(googleSignIn(), RC_SIGN_IN)
+
+        }
+        fb.setOnClickListener(this)
+        btnEmailLogin.setOnClickListener(this)
+        tvForgetPassword.setOnClickListener(this)
+        tvSignUp.setOnClickListener(this)
     }
 
     override fun setupGoogleSignIn() {
@@ -92,7 +98,16 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
 
     override fun createPresenter(): LoginContract.Presenter = LoginPresenter.create()
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putString(EMAIL_BUNDLE_KEY, edtEmail.text.toString())
+        outState?.putString(PASSWORD_BUNDLE_KEY, edtPassword.text.toString())
+    }
+
     override fun onRestoreInstanceState(bundle: Bundle) {
+
+        edtEmail.setText(bundle.getString(EMAIL_BUNDLE_KEY))
+        edtPassword.setText(bundle.getString(PASSWORD_BUNDLE_KEY))
 
     }
 

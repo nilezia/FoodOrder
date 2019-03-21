@@ -9,8 +9,8 @@ import nilezia.app.foodorder.ui.repository.OrderRepository
 class RegisterPresenter : BaseMvpPresenterImp<RegisterContract.View>(), RegisterContract.Presenter {
 
 
+    override lateinit var mRegisterModel: RegisterModel
     private lateinit var mRepository: OrderRepository
-    private lateinit var mRegisterModel: RegisterModel
 
     companion object {
 
