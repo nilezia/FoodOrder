@@ -50,6 +50,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         tabLayout.apply {
             addTab(tabLayout.newTab().setText("Order"))
             addTab(tabLayout.newTab().setText("History"))
+            addTab(tabLayout.newTab().setText("User"))
             tabGravity = TabLayout.GRAVITY_FILL
         }
     }
