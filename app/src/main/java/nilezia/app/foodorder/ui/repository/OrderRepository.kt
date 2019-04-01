@@ -191,6 +191,7 @@ class OrderRepository : OrderRepositoryContract {
             override fun onDataChange(p0: DataSnapshot) {
 
                 val myUser = p0.getValue(UserInfo::class.java)
+                myUser?._id = p0.key!!
                 UserAuth.instance.setUserInfo(myUser!!)
                 listener.invoke()
             }

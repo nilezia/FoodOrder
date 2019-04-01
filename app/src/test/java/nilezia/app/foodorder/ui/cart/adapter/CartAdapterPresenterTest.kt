@@ -17,6 +17,7 @@ class CartAdapterPresenterTest {
     fun setup() {
         mPresenter.attachView(mView)
         foodList.add(FoodItem(1, 1, "", "", false, "", 2.0, 5))
+        foodList.add(FoodItem(1, 1, "", "", false, "", 2.0, 5))
 
         mPresenter.setOrderItem(foodList)
 
@@ -38,6 +39,7 @@ class CartAdapterPresenterTest {
     @Test
     fun removeOrder() {
 
+        mPresenter.deleteOrder(foodList[0], 0)
         mPresenter.deleteOrder(foodList[0], 0)
         Assert.assertEquals(0, mPresenter.getOrderItem()?.size)
     }

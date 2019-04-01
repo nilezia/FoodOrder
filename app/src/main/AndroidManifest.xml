@@ -47,6 +47,7 @@
         <activity android:name=".ui.cart.CartOrderActivity" />
         <activity android:name=".ui.detail.HistoryDetailActivity" />
         <activity android:name=".ui.register.RegisterActivity" />
+        <activity android:name=".ui.chat.ChatActivity" />
     </application>
 
 </manifest>

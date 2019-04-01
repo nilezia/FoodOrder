@@ -22,7 +22,9 @@ import nilezia.app.foodorder.ui.login.LoginActivity
 import nilezia.app.foodorder.ui.pager.MainPagerAdapter
 import org.parceler.Parcels
 import com.bumptech.glide.Glide
+import nilezia.app.foodorder.data.UserInfo
 import nilezia.app.foodorder.model.UserAuth
+import nilezia.app.foodorder.ui.chat.ChatActivity
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityContract.Presenter>(), MainActivityContract.View {
@@ -30,6 +32,7 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
     companion object {
         const val ORDER_INTENT_KEY = "order_to_cart"
         const val HISTORY_INTENT_KEY = "history_detail"
+        const val USER_INTENT_KEY = "user-info"
         const val ORDER_REQUEST_CODE = 100
         const val CURRENT_PAGE = "current_page"
     }
@@ -100,12 +103,6 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         Glide.with(this@MainActivity).load(imgUrl).into(imgProfile)
     }
 
-    private fun goToLoginActivity() {
-        finish()
-        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-
-    }
-
     override fun createPresenter(): MainActivityContract.Presenter = MainActivityPresenter.create()
 
     override fun setupInstance() {
@@ -160,6 +157,10 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
         putExtra(ORDER_INTENT_KEY, Parcels.wrap(getPresenter().getOrderFromCart()))
     }, 100)
 
+    override fun goToChatActivity(user: UserInfo) = startActivity(Intent(this@MainActivity, ChatActivity::class.java).apply {
+        putExtra(USER_INTENT_KEY, Parcels.wrap(user))
+    })
+
     override fun goToDetail(historyItem: HistoryItem) = startActivity(Intent(this@MainActivity, HistoryDetailActivity::class.java).apply {
         putExtra(HISTORY_INTENT_KEY, Parcels.wrap(historyItem))
     })
@@ -184,6 +185,12 @@ class MainActivity : BaseMvpActivity<MainActivityContract.View, MainActivityCont
             visibility = if (count == 0) View.GONE else View.VISIBLE
             text = "$count"
         }
+    }
+
+    private fun goToLoginActivity() {
+        finish()
+        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+
     }
 
     private var tabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {

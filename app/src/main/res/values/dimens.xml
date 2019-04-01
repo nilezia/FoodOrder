@@ -34,5 +34,14 @@
     <dimen name="width_height_logo_login">72dp</dimen>
     <dimen name="extra_margin_padding_login">48dp</dimen>
     <dimen name="height_txt_bottom_sheet">60dp</dimen>
+    <dimen name="corner_radius">5dp</dimen>
+    <dimen name="shadow_height1">6dp</dimen>
+
+    <dimen name="login_title_margin_top">40dp</dimen>
+    <dimen name="profile_image_size">40dp</dimen>
+    <dimen name="message_image_size">180dp</dimen>
+    <dimen name="add_photo_button_size">60dp</dimen>
+    <dimen name="add_photo_button_padding">10dp</dimen>
+    <dimen name="send_message_button_padding">10dp</dimen>
 
 </resources>

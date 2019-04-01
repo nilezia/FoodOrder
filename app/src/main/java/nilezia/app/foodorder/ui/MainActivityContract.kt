@@ -4,6 +4,7 @@ import nilezia.app.foodorder.base.BaseMvpPresenter
 import nilezia.app.foodorder.base.BaseMvpView
 import nilezia.app.foodorder.data.FoodItem
 import nilezia.app.foodorder.data.HistoryItem
+import nilezia.app.foodorder.data.UserInfo
 import nilezia.app.foodorder.ui.repository.OrderRepository
 
 interface MainActivityContract {
@@ -19,6 +20,8 @@ interface MainActivityContract {
         fun goToDetail(historyItem: HistoryItem)
 
         fun updateProfile()
+
+        fun goToChatActivity(user: UserInfo)
 
     }
 

@@ -89,10 +89,10 @@ class OrderHistoryFragment : BaseMvpFragment<OrderHistoryContract.View, OrderHis
         mAdapter.notifyDataSetChanged()
     }
 
-    private fun onItemOrderHistorySelect(): (HistoryItem) -> Unit = {
+    private fun onItemOrderHistorySelect(): (HistoryItem) -> Unit = { item->
 
         val listener = activity as MainActivityContract.View
-        listener.goToDetail(it)
+        listener.goToDetail(item)
 
 
     }

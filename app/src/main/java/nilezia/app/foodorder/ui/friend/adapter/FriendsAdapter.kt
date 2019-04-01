@@ -7,7 +7,7 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.data.UserInfo
 
 
-class FriendsAdapter() : RecyclerView.Adapter<ViewHolder>() {
+class FriendsAdapter(var listener: (UserInfo) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     var users: MutableList<UserInfo>? = mutableListOf()
 
@@ -17,12 +17,15 @@ class FriendsAdapter() : RecyclerView.Adapter<ViewHolder>() {
             tvDisplay = view.findViewById(R.id.tvDisplay)
             imgProfile = view.findViewById(R.id.imgProfile)
 
+
         }
     }
 
     override fun getItemCount(): Int = users?.size!!
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(users?.get(position)!!)
+        holder.bindView(users?.get(position)!!, listener)
+
     }
+
 }

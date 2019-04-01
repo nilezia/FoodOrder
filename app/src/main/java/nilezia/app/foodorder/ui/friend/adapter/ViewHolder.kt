@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import nilezia.app.foodorder.data.UserInfo
 import com.bumptech.glide.Glide
+
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     var imgProfile: ImageView? = null
@@ -14,10 +15,13 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
     @SuppressLint("SetTextI18n")
-    fun bindView(item: UserInfo) = with(itemView) {
+    fun bindView(item: UserInfo, listener: (UserInfo) -> Unit) = with(itemView) {
         tvDisplay?.text = "${item.DisplayName}"
         Glide.with(itemView.context).load(item.avatar).into(imgProfile!!)
+        setOnClickListener {
 
+            listener.invoke(item)
+        }
     }
 
 

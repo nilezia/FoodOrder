@@ -26,13 +26,13 @@ class FriendsPresenter : BaseMvpPresenterImp<FriendsContract.View>(), FriendsCon
 
         mRepository.getAllUsers(object : CallbackHttp<MutableList<UserInfo>> {
             override fun onSuccess(response: MutableList<UserInfo>) {
-                var index = 0;
-                response.forEach {
-                    if (UserAuth.instance.getUserInfo()?.DisplayName == it.DisplayName) {
-                        index = response.indexOf(it)
-                    }
-                }
-                response.removeAt(index)
+//                var index = 0;
+//                response.forEach {
+//                    if (UserAuth.instance.getUserInfo()?.DisplayName == it.DisplayName) {
+//                        index = response.indexOf(it)
+//                    }
+//                }
+//                response.removeAt(index)
                 getView().onUpdateUsersList(response)
 
             }

@@ -1,12 +1,16 @@
 package nilezia.app.foodorder.ui.friend
 
+
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_friends.*
 import nilezia.app.foodorder.R
 import nilezia.app.foodorder.base.BaseMvpFragment
+
 import nilezia.app.foodorder.data.UserInfo
+import nilezia.app.foodorder.ui.MainActivityContract
 import nilezia.app.foodorder.ui.friend.adapter.FriendsAdapter
 import nilezia.app.foodorder.ui.repository.UserRepository
 
@@ -39,8 +43,7 @@ class FriendsFragment : BaseMvpFragment<FriendsContract.View, FriendsContract.Pr
     }
 
     private fun setupRecyclerView() {
-        mAdapter = FriendsAdapter()
-
+        mAdapter = FriendsAdapter(onFriendItemClick())
     }
 
     private fun setupAdapter() {
@@ -70,6 +73,7 @@ class FriendsFragment : BaseMvpFragment<FriendsContract.View, FriendsContract.Pr
         mAdapter.users = items
         mAdapter.notifyDataSetChanged()
 
+
     }
 
     private fun setupSwiftRefresh() {
@@ -78,5 +82,14 @@ class FriendsFragment : BaseMvpFragment<FriendsContract.View, FriendsContract.Pr
             getPresenter().requestUsers()
         }
     }
+
+    private fun onFriendItemClick(): (UserInfo) -> Unit = { item ->
+
+        val listener = activity as MainActivityContract.View
+        listener.goToChatActivity(item)
+        Log.d("DisplayName", "${item.DisplayName}")
+    }
+
+
 
 }
