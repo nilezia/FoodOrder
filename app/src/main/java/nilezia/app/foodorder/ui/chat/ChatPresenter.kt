@@ -27,9 +27,8 @@ class ChatPresenter : BaseMvpPresenterImp<ChatContract.View>(), ChatContract.Pre
 
     override fun loadChat() {
 
-        mRepository.getChatByUser(getOldMessage(), getUserChat()._id) { item->
-            getView().updateMessage(item)
-        }
+        getView().showOldMessageByUser(getOldMessage(), getUserChat()._id)
+
     }
 
     override fun sendMessage(text: String, type: String) {

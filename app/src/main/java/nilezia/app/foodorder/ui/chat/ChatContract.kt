@@ -14,6 +14,7 @@ interface ChatContract {
         fun updateMessage(messages: MutableList<Message>)
 
 
+        fun showOldMessageByUser(oldMessage: MutableList<Message>, receiver: String)
     }
 
 
