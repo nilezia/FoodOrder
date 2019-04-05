@@ -1,8 +1,13 @@
 package nilezia.app.foodorder.ui.chat
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat_room.*
 import nilezia.app.foodorder.R
@@ -14,12 +19,19 @@ import nilezia.app.foodorder.ui.MainActivity.Companion.USER_INTENT_KEY
 import nilezia.app.foodorder.ui.chat.adapter.ChatAdapter
 import nilezia.app.foodorder.ui.repository.UserRepository
 import org.parceler.Parcels
+import siclo.com.ezphotopicker.api.EZPhotoPick
+import siclo.com.ezphotopicker.api.EZPhotoPickStorage
+import siclo.com.ezphotopicker.api.models.EZPhotoPickConfig
+import siclo.com.ezphotopicker.api.models.PhotoSource
+import java.io.IOException
 
 class ChatActivity : BaseMvpActivity<ChatContract.View, ChatContract.Presenter>(), ChatContract.View {
 
     private var database = FirebaseDatabase.getInstance()
     private var mUserMessageDatabase: DatabaseReference = database.getReference("user-post")
     private var chatAdapter: ChatAdapter? = null
+    private lateinit var bottomSheetView: View
+    private lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun initial() {
 
@@ -38,7 +50,7 @@ class ChatActivity : BaseMvpActivity<ChatContract.View, ChatContract.Presenter>(
 
         btnAddPhoto?.setOnClickListener {
 
-            // showBottomSheet()
+             showBottomSheet()
 
         }
     }
@@ -48,6 +60,7 @@ class ChatActivity : BaseMvpActivity<ChatContract.View, ChatContract.Presenter>(
         val userChat = Parcels.unwrap(intent.getParcelableExtra(USER_INTENT_KEY)) as UserInfo
         setupToolbar(userChat)
         setupRecyclerView()
+        setupBottomSheet()
         setupAdapter(UserAuth.instance.getUserInfo()?._id)
         getPresenter().registerUserRepository(UserRepository(), userChat)
         getPresenter().loadChat()
@@ -82,8 +95,53 @@ class ChatActivity : BaseMvpActivity<ChatContract.View, ChatContract.Presenter>(
     }
 
     private fun setupAdapter(uid: String?) {
-        chatAdapter = ChatAdapter(uid!!)
+        chatAdapter = ChatAdapter(uid!!,applicationContext)
         rvChat?.adapter = chatAdapter
+
+    }
+
+    private fun setupBottomSheet() {
+        bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
+        bottomSheetDialog = BottomSheetDialog(this@ChatActivity)
+
+        bottomSheetDialog.apply {
+
+            bottomSheetDialog.setContentView(bottomSheetView)
+        }
+
+    }
+
+
+
+    private fun showBottomSheet() {
+
+
+        bottomSheetView.findViewById<TextView>(R.id.menu_bottom_sheet_camera).setOnClickListener {
+            EZPhotoPick.startPhotoPickActivity(this, chooseCamera())
+            bottomSheetDialog.cancel()
+
+        }
+
+        bottomSheetView.findViewById<TextView>(R.id.menu_bottom_sheet_gallery).setOnClickListener {
+            EZPhotoPick.startPhotoPickActivity(this, chooseImage())
+            bottomSheetDialog.cancel()
+        }
+
+        bottomSheetDialog.show()
+    }
+
+    private fun chooseImage() = EZPhotoPickConfig().apply {
+        photoSource = PhotoSource.GALLERY
+        exportingSize = 900
+        exportedPhotoName = "IMG_" + System.currentTimeMillis().toString()
+
+    }
+
+    private fun chooseCamera() = EZPhotoPickConfig().apply {
+
+        photoSource = PhotoSource.CAMERA
+        exportingSize = 900
+        exportedPhotoName = "IMG_" + System.currentTimeMillis().toString()
 
     }
 
@@ -136,6 +194,29 @@ class ChatActivity : BaseMvpActivity<ChatContract.View, ChatContract.Presenter>(
     override fun onDestroy() {
         super.onDestroy()
         Log.d("onDestroy", "Activity has onDestroy")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EZPhotoPick.PHOTO_PICK_GALLERY_REQUEST_CODE ||
+                requestCode == EZPhotoPick.PHOTO_PICK_CAMERA_REQUEST_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            try {
+
+                //   val pickedPhoto: Bitmap = EZPhotoPickStorage(this).loadLatestStoredPhotoBitmap()
+
+
+                var photoName = data?.getStringExtra(EZPhotoPick.PICKED_PHOTO_NAME_KEY)!!
+                var photoPath = EZPhotoPickStorage(this).getAbsolutePathOfStoredPhoto("", photoName)
+
+               // showProgressDialog()
+                getPresenter().uploadFromFile(photoPath)
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+                // onChoosePhotoFailure(e.toString())
+            }
+        }
     }
 
 }

@@ -29,6 +29,8 @@ interface ChatContract {
         fun getUserChat(): UserInfo
 
         fun getOldMessage(): MutableList<Message>
+
+        fun uploadFromFile(photoPath: String)
     }
 
 

@@ -8,6 +8,16 @@ import nilezia.app.foodorder.data.Message
 import nilezia.app.foodorder.data.UserInfo
 import nilezia.app.foodorder.http.CallbackHttp
 import nilezia.app.foodorder.model.UserAuth
+import android.R
+import android.net.Uri
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.UploadTask
+import java.io.File
+
 
 class UserRepository : UserRepositoryContract {
 
@@ -47,45 +57,23 @@ class UserRepository : UserRepositoryContract {
         })
     }
 
-/*    override fun getUserInfo(listener: () -> Unit) {
-        val userNode = userRef.child(FirebaseAuth.getInstance().currentUser?.uid!!)
-        userNode.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.d("Exception", p0.message)
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-
-                val myUser = p0.getValue(UserInfo::class.java)
-                myUser?._id = p0.key!!
-                UserAuth.instance.setUserInfo(myUser!!)
-                listener.invoke()
-            }
-        })
-    }*/
-
-    override fun sendMessageToFirebase(text: String, type: String, receiver: String, currentUser: UserInfo) {
-
-        val databaseReference = messageReference.push()
-        val mUserMessage = mUserMessageDatabase.child(currentUser._id)
-        val message = Message(avatar = currentUser.avatar, message = text,
-                type = type, senderId = currentUser._id,
-                userName = currentUser.DisplayName,
-                receiverId = receiver)
-
-        mUserMessage.push().setValue(message)
-        databaseReference.setValue(message)
-
-
-        val mUserMessage2 = mUserMessageDatabase.child(receiver)
-        mUserMessage2.push().setValue(message)
-
-
-    }
-
     override fun getChatByUser(oldMessage: MutableList<Message>, receiver: String, messageCall: (MutableList<Message>) -> Unit) {
 
+
         val messageNode = mUserMessageDatabase.child(UserAuth.instance.getUserInfo()?._id!!)
+
+        messageReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                dataSnapshot.ref.removeEventListener(this)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
+
         messageNode.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -117,5 +105,45 @@ class UserRepository : UserRepositoryContract {
 
     }
 
+    override fun sendMessageToFirebase(text: String, type: String, receiver: String, currentUser: UserInfo) {
 
+        val databaseReference = messageReference.push()
+        val mUserMessage = mUserMessageDatabase.child(currentUser._id)
+        val message = Message(avatar = currentUser.avatar, message = text,
+                type = type, senderId = currentUser._id,
+                userName = currentUser.DisplayName,
+                receiverId = receiver)
+
+        mUserMessage.push().setValue(message)
+        databaseReference.setValue(message)
+
+
+        val mUserMessage2 = mUserMessageDatabase.child(receiver)
+        mUserMessage2.push().setValue(message)
+
+
+    }
+
+    override fun sendImageToFirebase(path: String, receiver: String, currentUser: UserInfo) {
+
+        val file = Uri.fromFile(File(path))
+        storageReference = FirebaseStorage.getInstance().reference
+        val imageRef = storageReference.child(file.lastPathSegment)
+        val storageRef = storageReference.child("image-chat/" + imageRef.name)
+        val mUploadTask = storageRef.putFile(file)
+
+        mUploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            return@Continuation storageRef.downloadUrl
+        }).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                sendMessageToFirebase(downloadUri.toString(), Message.TYPE_IMAGE, receiver, currentUser)
+            }
+        }
+    }
 }

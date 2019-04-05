@@ -11,4 +11,6 @@ interface UserRepositoryContract {
     fun sendMessageToFirebase(text: String, type: String, receiver: String, currentUser: UserInfo)
 
     fun getChatByUser(oldMessage: MutableList<Message>, receiver: String, messageCall: (MutableList<Message>) -> Unit)
+
+    fun sendImageToFirebase(path: String, receiver: String, currentUser: UserInfo)
 }

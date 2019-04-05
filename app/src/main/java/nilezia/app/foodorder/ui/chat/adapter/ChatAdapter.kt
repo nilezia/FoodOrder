@@ -1,5 +1,6 @@
 package nilezia.app.foodorder.ui.chat.adapter
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,12 @@ import nilezia.app.foodorder.R
 import nilezia.app.foodorder.data.Message
 
 
-class ChatAdapter(uid: String) : RecyclerView.Adapter<MessageViewHolder>() {
-
+class ChatAdapter(uid: String, context: Context) : RecyclerView.Adapter<MessageViewHolder>() {
 
 
     private var messageList: MutableList<Message>? = mutableListOf()
     private val mUid: String = uid
+    private val mContext = context
 
     companion object {
         private val TYPE_YOUR_MESSAGE = 0
@@ -42,7 +43,7 @@ class ChatAdapter(uid: String) : RecyclerView.Adapter<MessageViewHolder>() {
 
         val message = messageList!![position]
         if (holder is MessageViewHolder) {
-            Glide.with(holder.itemView.context).load(message.avatar).into(holder.ivProfile!!)
+            Glide.with(mContext).load(message.avatar).into(holder.ivProfile!!)
             holder.tvName!!.text = message.userName
             holder.tvMessage!!.visibility = View.GONE
             holder.ivMessage!!.visibility = View.GONE

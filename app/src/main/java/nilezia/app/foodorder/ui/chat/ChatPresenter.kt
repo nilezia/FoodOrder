@@ -43,5 +43,12 @@ class ChatPresenter : BaseMvpPresenterImp<ChatContract.View>(), ChatContract.Pre
 
     override fun getOldMessage(): MutableList<Message> = mOldMessage
 
+    override fun uploadFromFile(photoPath: String) {
+
+        mRepository.sendImageToFirebase( photoPath, getUserChat()._id, UserAuth.instance.getUserInfo()!!)
+
+    }
+
+
 
 }
