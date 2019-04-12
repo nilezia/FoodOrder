@@ -57,54 +57,6 @@ class UserRepository : UserRepositoryContract {
         })
     }
 
-    override fun getChatByUser(oldMessage: MutableList<Message>, receiver: String, messageCall: (MutableList<Message>) -> Unit) {
-
-
-        val messageNode = mUserMessageDatabase.child(UserAuth.instance.getUserInfo()?._id!!)
-
-        messageReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                dataSnapshot.ref.removeEventListener(this)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-
-
-        messageNode.addChildEventListener(object : ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-            }
-
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-
-            }
-
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val messages = p0.getValue(Message::class.java)
-
-                if (messages?.receiverId == receiver || messages?.senderId == receiver) {
-                    oldMessage.add(messages)
-                }
-                messageCall.invoke(oldMessage)
-
-            }
-
-            override fun onChildRemoved(p0: DataSnapshot) {
-
-            }
-        })
-
-
-    }
-
     override fun sendMessageToFirebase(text: String, type: String, receiver: String, currentUser: UserInfo) {
 
         val databaseReference = messageReference.push()

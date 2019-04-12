@@ -261,7 +261,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.View, LoginContract.Presente
         })
     }
 
-    private var forgotListener: ForgetPasswordDialog.OnDialogListener = object : OnDialogListener {
+    private var forgotListener: OnDialogListener = object : OnDialogListener {
         override fun onPositiveButtonClick() {
             showLoadingDialog()
             if (!forgotDialog.getEmail().isEmpty()) {

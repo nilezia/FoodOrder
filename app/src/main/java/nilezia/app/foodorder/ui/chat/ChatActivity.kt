@@ -111,8 +111,6 @@ class ChatActivity : BaseMvpActivity<ChatContract.View, ChatContract.Presenter>(
 
     }
 
-
-
     private fun showBottomSheet() {
 
 

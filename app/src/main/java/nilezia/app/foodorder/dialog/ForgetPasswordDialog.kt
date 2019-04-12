@@ -113,6 +113,7 @@ class ForgetPasswordDialog : DialogFragment() {
         private var positive: Int = 0
         private var negative: Int = 0
         private var mListener: OnDialogListener? = null
+
         fun Builder() {
 
         }
